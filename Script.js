@@ -1,3 +1,8 @@
+(function initializeThemeFromSystem() {
+      const media = window.matchMedia('(prefers-color-scheme: dark)');
+      document.documentElement.setAttribute('data-theme', media.matches ? 'dark' : 'light');
+    })();
+
 (function scheduleNonCriticalInit() {
       const initialize = function() {
         (function() {
@@ -19,6 +24,64 @@
         throw lastError;
       }
 
+      // ----- BACKEND API CLIENT -----
+      // All application API calls are same-origin and credentialed. Authentication,
+      // plan eligibility and final pricing must always be enforced by the backend.
+      function getCsrfToken() {
+        const meta = document.querySelector('meta[name="csrf-token"]');
+        return meta ? meta.getAttribute('content') || '' : '';
+      }
+
+      async function apiRequest(url, data, options = {}) {
+        const method = (options.method || (data == null ? 'GET' : 'POST')).toUpperCase();
+        const timeoutMs = Number(options.timeoutMs) > 0 ? Number(options.timeoutMs) : 10000;
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+        const headers = new Headers(options.headers || {});
+        headers.set('Accept', 'application/json');
+
+        if (data != null && method !== 'GET' && method !== 'HEAD') {
+          headers.set('Content-Type', 'application/json');
+        }
+
+        const csrfToken = getCsrfToken();
+        if (csrfToken && method !== 'GET' && method !== 'HEAD') {
+          headers.set('X-CSRF-Token', csrfToken);
+        }
+
+        const requestInit = {
+          method,
+          headers,
+          credentials: 'same-origin',
+          cache: options.cache || 'no-store',
+          signal: controller.signal
+        };
+
+        if (data != null && method !== 'GET' && method !== 'HEAD') {
+          requestInit.body = JSON.stringify(data);
+        }
+
+        try {
+          const response = await fetch(url, requestInit);
+          const contentType = response.headers.get('content-type') || '';
+          const payload = contentType.includes('application/json')
+            ? await response.json()
+            : await response.text();
+
+          if (!response.ok) {
+            const detail = typeof payload === 'string' ? payload : (payload && (payload.message || payload.error));
+            const error = new Error(detail || `API request failed with HTTP ${response.status}`);
+            error.status = response.status;
+            error.payload = payload;
+            throw error;
+          }
+
+          return payload;
+        } finally {
+          clearTimeout(timeoutId);
+        }
+      }
+
       // ----- THEME -----
       const html = document.documentElement;
       const themeBtn = document.getElementById('themeToggleFloating');
@@ -38,8 +101,14 @@
           moon.style.opacity = '0';
         }
       }
-      setTheme(html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+      let themeManuallySet = false;
+      const systemThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      setTheme(systemThemeMedia.matches ? 'dark' : 'light');
+      systemThemeMedia.addEventListener?.('change', function(event) {
+        if (!themeManuallySet) setTheme(event.matches ? 'dark' : 'light');
+      });
       themeBtn.addEventListener('click', function() {
+        themeManuallySet = true;
         const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         setTheme(next);
       });
@@ -54,14 +123,13 @@
       const progressBar = document.getElementById('progressBar');
       window.addEventListener('scroll', function() {
         const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = (scrollTop / docHeight) * 100;
+        const docHeight = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        const progress = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
         progressBar.style.width = progress + '%';
       });
 
       // ----- STICKY CTA -----
       const stickyCta = document.getElementById('stickyCta');
-      let lastScrollY = 0;
       window.addEventListener('scroll', function() {
         const currentScrollY = window.scrollY;
         const heroHeight = document.querySelector('.hero').offsetHeight;
@@ -70,124 +138,114 @@
         } else {
           stickyCta.classList.remove('visible');
         }
-        lastScrollY = currentScrollY;
       });
 
-      // ----- CURRENCY DETECTION -----
+      // ----- CURRENCY / PRICING -----
+      // Currency and exchange rates are server-controlled. The browser only sends
+      // its locale as a hint; the backend decides the actual currency/rate.
       const defaultCurrency = { currency: 'USD', symbol: '$', rate: 1, locale: 'en-US' };
-      const currencySymbols = {
-        USD: '$', EUR: '€', GBP: '£', NGN: '₦', CAD: 'C$', AUD: 'A$', JPY: '¥', INR: '₹',
-        BRL: 'R$', ZAR: 'R', GHS: '₵', KES: 'KSh', UGX: 'USh', TZS: 'TSh', XOF: 'CFA', XAF: 'FCFA',
-        CHF: 'CHF', CNY: '¥', HKD: 'HK$', SGD: 'S$', AED: 'د.إ', SAR: '﷼', QAR: '﷼', NGN: '₦'
-      };
-      const countryCurrencies = { NG: 'NGN', US: 'USD', CA: 'CAD', GB: 'GBP', AU: 'AUD', NZ: 'NZD', IE: 'EUR', DE: 'EUR',
-        FR: 'EUR', ES: 'EUR', IT: 'EUR', PT: 'EUR', NL: 'EUR', BE: 'EUR', AT: 'EUR', CH: 'CHF', IN: 'INR', JP: 'JPY',
-        CN: 'CNY', HK: 'HKD', SG: 'SGD', AE: 'AED', SA: 'SAR', QA: 'QAR', BR: 'BRL', ZA: 'ZAR', GH: 'GHS', KE: 'KES',
-        UG: 'UGX', TZ: 'TZS', SN: 'XOF', CI: 'XOF', CM: 'XAF' };
       let detectedCurrency = defaultCurrency;
-      let selectedBillingPeriod = 'monthly';
+      const pricingEndpoint = '/api/pricing';
 
       function getCurrencySymbol(code, locale) {
-        if (currencySymbols[code]) return currencySymbols[code];
         try {
-          const parts = new Intl.NumberFormat(locale || undefined, { style: 'currency', currency: code, currencyDisplay: 'narrowSymbol' }).formatToParts(0);
+          const parts = new Intl.NumberFormat(locale || undefined, {
+            style: 'currency',
+            currency: code,
+            currencyDisplay: 'narrowSymbol'
+          }).formatToParts(0);
           const symbolPart = parts.find(part => part.type === 'currency');
           if (symbolPart && symbolPart.value) return symbolPart.value;
         } catch (e) {}
         return code || '$';
       }
 
-      function getBrowserCurrency() {
-        try {
-          const locale = navigator.language || 'en-US';
-          const regionMatch = locale.match(/[-_]([A-Z]{2})$/i);
-          const region = regionMatch ? regionMatch[1].toUpperCase() : '';
-          const code = countryCurrencies[region] || 'USD';
-          return { currency: code, symbol: getCurrencySymbol(code, locale), rate: 1, locale };
-        } catch (e) {
-          return defaultCurrency;
-        }
-      }
-
       function formatAmount(amount, symbol) {
-        if (amount >= 1000) return symbol + Math.round(amount).toLocaleString();
-        if (amount >= 1) return symbol + amount.toFixed(2);
-        return symbol + amount.toFixed(4);
+        const numericAmount = Number(amount);
+        if (!Number.isFinite(numericAmount)) return symbol + '—';
+        if (numericAmount >= 1000) return symbol + Math.round(numericAmount).toLocaleString();
+        if (numericAmount >= 1) return symbol + numericAmount.toFixed(2);
+        return symbol + numericAmount.toFixed(4);
       }
 
       function applyCurrency(info) {
-        const safeRate = Number(info && info.rate);
+        const safeCurrency = info && info.currency ? String(info.currency).toUpperCase() : 'USD';
+        const safeLocale = info && info.locale ? String(info.locale) : (navigator.language || 'en-US');
+        const safeRate = safeCurrency === 'USD' ? 1 : Number(info && info.rate);
+
+        // Never display a non-USD symbol with an unconverted USD rate.
+        if (!Number.isFinite(safeRate) || safeRate <= 0) {
+          detectedCurrency = defaultCurrency;
+          setBilling('monthly', defaultCurrency.symbol, defaultCurrency.rate);
+          updatePaygPrices(defaultCurrency.symbol, defaultCurrency.rate);
+          return;
+        }
+
         detectedCurrency = {
-          currency: (info && info.currency) || 'USD',
-          symbol: (info && info.symbol) || '$',
-          rate: Number.isFinite(safeRate) && safeRate > 0 ? safeRate : 1,
-          locale: (info && info.locale) || navigator.language || 'en-US'
+          currency: safeCurrency,
+          symbol: info.symbol || getCurrencySymbol(safeCurrency, safeLocale),
+          rate: safeRate,
+          locale: safeLocale
         };
         setBilling(selectedBillingPeriod, detectedCurrency.symbol, detectedCurrency.rate);
+        updatePaygPrices(detectedCurrency.symbol, detectedCurrency.rate);
+      }
+
+      function updatePaygPrices(symbol, rate) {
+        const safeRate = Number(rate);
+        const effectiveRate = Number.isFinite(safeRate) && safeRate > 0 ? safeRate : 1;
         const paygEl = document.getElementById('paygPrice');
-        if (paygEl) paygEl.textContent = formatAmount(0.01 * detectedCurrency.rate, detectedCurrency.symbol) + ' per conversation';
+        if (paygEl) paygEl.textContent = formatAmount(0.01 * effectiveRate, symbol) + ' per conversation';
         document.querySelectorAll('.payg-expand-content .rate').forEach(function(el) {
-          el.textContent = formatAmount(0.01 * detectedCurrency.rate, detectedCurrency.symbol) + ' per conversation';
+          el.textContent = formatAmount(0.01 * effectiveRate, symbol) + ' per conversation';
         });
         document.querySelectorAll('.payg-expand-content .examples').forEach(function(el) {
-          const rate = 0.01 * detectedCurrency.rate;
-          el.textContent = '100 conv. = ' + formatAmount(rate * 100, detectedCurrency.symbol) + '  ·  1,000 conv. = ' + formatAmount(rate * 1000, detectedCurrency.symbol);
+          const rate = 0.01 * effectiveRate;
+          el.textContent = '100 conv. = ' + formatAmount(rate * 100, symbol) + '  ·  1,000 conv. = ' + formatAmount(rate * 1000, symbol);
         });
       }
 
-      async function loadPricingFromBackend() {
-        const browserCurrency = getBrowserCurrency();
-        const fallback = { ...browserCurrency, rate: 1 };
+      async function detectCurrency() {
+        const locale = navigator.language || 'en-US';
+        const url = new URL(pricingEndpoint, window.location.origin);
+        url.searchParams.set('locale', locale);
+
         try {
-          const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 5000);
-          try {
-            const locale = encodeURIComponent(browserCurrency.locale || 'en-US');
-            const response = await fetch('/api/pricing?locale=' + locale, {
-              method: 'GET',
-              credentials: 'same-origin',
-              cache: 'no-store',
-              headers: { Accept: 'application/json' },
-              signal: controller.signal
-            });
-            if (!response.ok) throw new Error('Pricing API HTTP ' + response.status);
-            const data = await response.json();
-            const code = String(data.currency || browserCurrency.currency || 'USD').toUpperCase();
-            const localeValue = data.locale || browserCurrency.locale;
-            const symbol = data.symbol || getCurrencySymbol(code, localeValue);
-            const rate = Number(data.rate);
-            if (!Number.isFinite(rate) || rate <= 0) throw new Error('Invalid pricing rate');
-            applyCurrency({ currency: code, symbol, rate, locale: localeValue });
-          } finally {
-            clearTimeout(timeout);
-          }
+          const response = await apiRequest(url.toString(), null, {
+            method: 'GET',
+            timeoutMs: 5000,
+            cache: 'no-store'
+          });
+          const code = String(response && response.currency || 'USD').toUpperCase();
+          const rate = Number(response && response.rate);
+          applyCurrency({
+            currency: code,
+            symbol: response && response.symbol ? response.symbol : getCurrencySymbol(code, response && response.locale || locale),
+            rate: code === 'USD' ? 1 : rate,
+            locale: response && response.locale ? response.locale : locale
+          });
         } catch (error) {
-          console.warn('Pricing API unavailable; using USD-safe fallback.', error);
-          applyCurrency({ ...fallback, currency: 'USD', symbol: '$', rate: 1 });
+          console.warn('Pricing API unavailable; displaying USD pricing.', error);
+          applyCurrency(defaultCurrency);
         }
+      }
+
+      // The pricing request is non-blocking and never prevents the page from rendering.
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(detectCurrency, { timeout: 2500 });
+      } else {
+        setTimeout(detectCurrency, 500);
       }
 
       // ----- AUTH UI -----
       let currentAuthState = 'guest';
-      async function getAuthState() {
-        try {
-          const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 5000);
-          try {
-            const response = await fetch('/api/session', { credentials: 'same-origin', headers: { Accept: 'application/json' }, cache: 'no-store', signal: controller.signal });
-            if (!response.ok) return 'guest';
-            const data = await response.json();
-            if (data && data.authenticated === true) return data.state || (data.user && data.user.state) || 'active';
-            return 'guest';
-          } finally { clearTimeout(timeout); }
-        } catch (e) { return 'guest'; }
-      }
-
       function renderAuthUI(state) {
+        currentAuthState = state;
         const authActions = document.getElementById('authActions');
         const heroCta = document.getElementById('heroCta');
         const finalCta = document.getElementById('finalCta');
         const pricingButtons = document.querySelectorAll('[data-plan]');
+        if (!authActions || !heroCta || !finalCta) return;
         if (state === 'guest') {
           authActions.innerHTML = '<div class="auth-buttons"><a href="login.html" class="btn btn-ghost">Log in</a><a href="signup.html" class="btn btn-primary">Sign up</a></div>';
           heroCta.textContent = 'Start your 3-day free trial';
@@ -209,7 +267,7 @@
             btn.href = 'business-registration-page.html';
           });
         } else if (state === 'active') {
-          authActions.innerHTML = '<div class="user-menu"><button class="user-chip" id="userChip" aria-expanded="false" aria-haspopup="true"><span class="avatar">CB</span>Dashboard<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="userDropdown" class="user-dropdown" hidden><a href="#" class="user-dropdown-link">Account settings</a><a href="#" class="user-dropdown-link">Billing & plan</a><div class="user-dropdown-divider"></div><button id="logoutBtn" class="user-dropdown-btn">Log out</button></div></div>';
+          authActions.innerHTML = '<div class="user-menu"><button class="user-chip" id="userChip" aria-expanded="false" aria-haspopup="true"><span class="avatar">CB</span>Dashboard<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="userDropdown" class="user-dropdown" hidden><a href="dashboard.html#account" class="user-dropdown-link">Account settings</a><a href="dashboard.html#billing" class="user-dropdown-link">Billing &amp; plan</a><div class="user-dropdown-divider"></div><button id="logoutBtn" class="user-dropdown-btn">Log out</button></div></div>';
           heroCta.textContent = 'Go to dashboard';
           heroCta.href = 'dashboard.html';
           finalCta.textContent = 'Go to dashboard';
@@ -260,32 +318,127 @@
                   document.removeEventListener('keydown', trapFocus);
                 }
               });
-              document.getElementById('logoutBtn').addEventListener('click', function() {
-                fetch('/api/logout', { method: 'POST', credentials: 'same-origin', headers: { Accept: 'application/json' } })
-                  .catch(function(error) { console.warn('Logout request failed:', error); })
-                  .finally(function() { currentAuthState = 'guest'; renderAuthUI('guest'); });
+              document.getElementById('logoutBtn').addEventListener('click', async function() {
+                const button = this;
+                button.disabled = true;
+                try {
+                  await apiRequest('/api/logout', {}, { method: 'POST', timeoutMs: 8000 });
+                } catch (error) {
+                  console.error('Logout failed:', error);
+                } finally {
+                  button.disabled = false;
+                  await refreshAuthUI();
+                }
               });
             }
           }, 0);
         }
       }
-      getAuthState().then(function(state) { currentAuthState = state; renderAuthUI(state); });
+      // ----- SIGNUP / CHECKOUT API HANDLERS -----
+      const pendingApiElements = new WeakSet();
+
+      function getPlanFromElement(el) {
+        if (el.dataset.plan) return el.dataset.plan.toLowerCase();
+        const href = el.getAttribute('href') || '';
+        try {
+          const url = new URL(href, window.location.origin);
+          return (url.searchParams.get('plan') || 'trial').toLowerCase();
+        } catch (e) {
+          return 'trial';
+        }
+      }
+
+      async function handlePlanSelection(event) {
+        const el = event.currentTarget;
+        const isCheckout = el.hasAttribute('data-api-checkout');
+
+        // Authenticated/registered users should follow the server-rendered route
+        // rather than starting a new signup flow from the landing page.
+        if (!isCheckout && currentAuthState !== 'guest') return;
+        if (pendingApiElements.has(el)) {
+          event.preventDefault();
+          return;
+        }
+
+        const endpoint = isCheckout
+          ? el.getAttribute('data-api-checkout')
+          : el.getAttribute('data-api-signup');
+        if (!endpoint) return;
+
+        event.preventDefault();
+        pendingApiElements.add(el);
+
+        const plan = getPlanFromElement(el);
+        const originalText = el.textContent;
+        el.textContent = 'Processing…';
+        el.setAttribute('aria-busy', 'true');
+        el.setAttribute('aria-disabled', 'true');
+
+        try {
+          const response = await apiRequest(endpoint, { plan }, { method: 'POST', timeoutMs: 10000 });
+
+          if (response && response.redirect) {
+            window.location.assign(response.redirect);
+            return;
+          }
+
+          const fallbackPage = isCheckout ? 'checkout.html' : 'signup.html';
+          const safeUrl = new URL(fallbackPage, window.location.origin);
+          safeUrl.searchParams.set('plan', plan);
+          window.location.assign(safeUrl.href);
+        } catch (error) {
+          console.error('API request failed:', error);
+          const message = error && error.payload && typeof error.payload === 'object' && error.payload.message
+            ? error.payload.message
+            : 'Something went wrong while processing your request. Please try again.';
+          alert(message);
+        } finally {
+          pendingApiElements.delete(el);
+          el.textContent = originalText;
+          el.removeAttribute('aria-busy');
+          el.removeAttribute('aria-disabled');
+        }
+      }
+
+      function initApiIntegration() {
+        document.querySelectorAll('[data-api-signup], [data-api-checkout]').forEach(function(btn) {
+          btn.addEventListener('click', handlePlanSelection);
+        });
+      }
+
+      async function refreshAuthUI() {
+        try {
+          const session = await apiRequest('/api/session', null, { method: 'GET', timeoutMs: 5000, cache: 'no-store' });
+          const state = session && (session.state || (session.user && session.user.state));
+          renderAuthUI(['guest', 'registered', 'active'].includes(state) ? state : (session && session.authenticated ? 'active' : 'guest'));
+        } catch (error) {
+          console.warn('Session API unavailable; rendering signed-out navigation.', error);
+          renderAuthUI('guest');
+        }
+      }
+
+      refreshAuthUI();
+      initApiIntegration();
 
       // ----- BILLING -----
       const billMonthly = document.getElementById('billMonthly');
       const billYearly = document.getElementById('billYearly');
       const priceCards = document.querySelectorAll('.price-card[data-monthly]');
+      let selectedBillingPeriod = 'monthly';
 
       function setBilling(period, symbol, rate) {
         selectedBillingPeriod = period === 'yearly' ? 'yearly' : 'monthly';
-        const isYearly = period === 'yearly';
+        if (!billMonthly || !billYearly) return;
+        const isYearly = selectedBillingPeriod === 'yearly';
+        const safeRate = Number.isFinite(Number(rate)) && Number(rate) > 0 ? Number(rate) : 1;
+        const safeSymbol = symbol || '$';
         billMonthly.classList.toggle('is-active', !isYearly);
         billYearly.classList.toggle('is-active', isYearly);
         billMonthly.setAttribute('aria-selected', String(!isYearly));
         billYearly.setAttribute('aria-selected', String(isYearly));
         priceCards.forEach(function(card) {
           const monthlyUSD = Number(card.dataset.monthly);
-          const monthly = monthlyUSD * rate;
+          const monthly = monthlyUSD * safeRate;
           const oldFigure = card.querySelector('.amount-old');
           const figure = card.querySelector('.amount-figure');
           const suffix = card.querySelector('.amount-suffix');
@@ -295,30 +448,22 @@
             const savings = yearlyTotal * 0.2;
             const finalYearly = yearlyTotal - savings;
             const effectiveMonthly = finalYearly / 12;
-            oldFigure.textContent = formatAmount(monthly, symbol);
+            oldFigure.textContent = formatAmount(monthly, safeSymbol);
             oldFigure.hidden = false;
-            figure.textContent = formatAmount(effectiveMonthly, symbol);
+            figure.textContent = formatAmount(effectiveMonthly, safeSymbol);
             suffix.textContent = '/month';
-            note.textContent = 'Billed ' + formatAmount(finalYearly, symbol) + '/year · Save ' + formatAmount(savings, symbol);
+            note.textContent = 'Billed ' + formatAmount(finalYearly, safeSymbol) + '/year · Save ' + formatAmount(savings, safeSymbol);
           } else {
             oldFigure.hidden = true;
-            figure.textContent = formatAmount(monthly, symbol);
+            figure.textContent = formatAmount(monthly, safeSymbol);
             suffix.textContent = '/month';
             note.innerHTML = '&nbsp;';
           }
         });
       }
 
-      billMonthly.addEventListener('click', function() { setBilling('monthly', detectedCurrency.symbol, detectedCurrency.rate); });
-      billYearly.addEventListener('click', function() { setBilling('yearly', detectedCurrency.symbol, detectedCurrency.rate); });
-
-      // Render pricing immediately with a safe USD fallback, then enhance it from the backend.
-      applyCurrency(defaultCurrency);
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadPricingFromBackend, { timeout: 2500 });
-      } else {
-        setTimeout(loadPricingFromBackend, 0);
-      }
+      billMonthly?.addEventListener('click', function() { setBilling('monthly', detectedCurrency.symbol, detectedCurrency.rate); });
+      billYearly?.addEventListener('click', function() { setBilling('yearly', detectedCurrency.symbol, detectedCurrency.rate); });
 
       // ===== BUSINESS BENEFITS CAROUSEL (CENTERED DOTS, VIEW ALL BOTTOM-RIGHT) =====
       const testimonialsData = [
@@ -343,7 +488,7 @@
       let tCurrent = 0;
       const totalSlides = testimonialsData.length;
       let autoSlideInterval = null;
-      let isPaused = false;
+      let isPaused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       function buildTestimonialSlide(t, i) {
         const slide = document.createElement('div');
@@ -540,7 +685,7 @@
       let howCurrent = 0;
       const howTotal = howSteps.length;
       let howAutoInterval = null;
-      let howPaused = false;
+      let howPaused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       function buildHowSlide(step, i) {
         const slide = document.createElement('div');
@@ -840,14 +985,6 @@
         updatePaygUI(false);
       })();
 
-      // Cookie preference is intentionally backend-managed; no client-side persistence is used.
-      const cookieConsent = document.getElementById('cookieConsent');
-      const acceptBtn = document.getElementById('acceptCookies');
-      const declineBtn = document.getElementById('declineCookies');
-      if (cookieConsent) cookieConsent.classList.remove('show');
-      if (acceptBtn) acceptBtn.addEventListener('click', function() { cookieConsent.classList.add('hidden'); });
-      if (declineBtn) declineBtn.addEventListener('click', function() { cookieConsent.classList.add('hidden'); });
-
         })(); // end CBS initialization IIFE
       };
 
@@ -857,121 +994,3 @@
         setTimeout(initialize, 0);
       }
     })(); // end scheduler
-/* ===== BACKEND API INTEGRATION ===== */
-(function initBackendIntegration() {
-  'use strict';
-
-  const pending = new WeakSet();
-
-  async function apiRequest(url, data, options) {
-    const opts = options || {};
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), opts.timeoutMs || 10000);
-    const headers = {
-      Accept: 'application/json',
-      ...(data ? { 'Content-Type': 'application/json' } : {}),
-      ...(opts.headers || {})
-    };
-
-    try {
-      const response = await fetch(url, {
-        method: opts.method || (data ? 'POST' : 'GET'),
-        credentials: 'same-origin',
-        cache: 'no-store',
-        headers,
-        body: data ? JSON.stringify(data) : undefined,
-        signal: controller.signal
-      });
-
-      const contentType = response.headers.get('content-type') || '';
-      const payload = contentType.includes('application/json')
-        ? await response.json().catch(() => ({}))
-        : await response.text().catch(() => '');
-
-      if (!response.ok) {
-        const error = new Error('API request failed with HTTP ' + response.status);
-        error.status = response.status;
-        error.payload = payload;
-        throw error;
-      }
-
-      return payload;
-    } finally {
-      clearTimeout(timeout);
-    }
-  }
-
-  function getPlan(el) {
-    if (el.dataset.plan) return el.dataset.plan.toLowerCase();
-    try {
-      const url = new URL(el.getAttribute('href') || '', window.location.origin);
-      return (url.searchParams.get('plan') || 'trial').toLowerCase();
-    } catch (e) {
-      return 'trial';
-    }
-  }
-
-  async function handlePlan(event) {
-    const el = event.currentTarget;
-    if (pending.has(el)) {
-      event.preventDefault();
-      return;
-    }
-
-    const isCheckout = el.hasAttribute('data-api-checkout');
-    const endpoint = isCheckout ? el.getAttribute('data-api-checkout') : el.getAttribute('data-api-signup');
-    if (!endpoint) return;
-
-    // Authenticated users should use the server-selected account flow.
-    if (!isCheckout && typeof window.currentAuthState !== 'undefined' && window.currentAuthState !== 'guest') {
-      return;
-    }
-
-    event.preventDefault();
-    pending.add(el);
-    const plan = getPlan(el);
-    const originalText = el.textContent;
-    el.textContent = 'Processing…';
-    el.setAttribute('aria-busy', 'true');
-    el.setAttribute('aria-disabled', 'true');
-
-    try {
-      const response = await apiRequest(endpoint, { plan }, { method: 'POST', timeoutMs: 10000 });
-      if (response && typeof response.redirect === 'string') {
-        const redirect = new URL(response.redirect, window.location.origin);
-        if (redirect.origin !== window.location.origin) throw new Error('Unsafe redirect returned by backend.');
-        window.location.assign(redirect.href);
-        return;
-      }
-
-      const target = isCheckout ? 'checkout.html' : 'signup.html';
-      const url = new URL(target, window.location.origin);
-      url.searchParams.set('plan', plan);
-      window.location.assign(url.href);
-    } catch (error) {
-      console.error('Backend request failed:', error);
-      const payload = error && error.payload;
-      const message = payload && typeof payload === 'object' && payload.message
-        ? payload.message
-        : 'We could not complete that request right now. Please try again.';
-      window.alert(message);
-    } finally {
-      pending.delete(el);
-      el.textContent = originalText;
-      el.removeAttribute('aria-busy');
-      el.removeAttribute('aria-disabled');
-    }
-  }
-
-  function attach() {
-    document.querySelectorAll('[data-api-signup], [data-api-checkout]').forEach(function (el) {
-      el.addEventListener('click', handlePlan);
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', attach, { once: true });
-  } else {
-    attach();
-  }
-})();

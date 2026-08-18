@@ -1876,3 +1876,103 @@
     transition: none;
   }
 }
+
+
+
+/* ===== DESKTOP-MODE / INTERMEDIATE VIEWPORT STABILITY =====
+   Some mobile browsers use a desktop-style CSS viewport when
+   "Desktop site" is enabled. Keep the full navigation usable
+   and prevent wide components from forcing horizontal overflow. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  nav .wrap {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .nav-logo {
+    width: clamp(155px, 19vw, 190px);
+    max-width: 28%;
+  }
+
+  .navlinks {
+    min-width: 0;
+    flex: 1 1 auto;
+    justify-content: center;
+    gap: clamp(10px, 1.5vw, 18px);
+    overflow: hidden;
+  }
+
+  .navlinks a {
+    min-width: 0;
+    flex: 0 1 auto;
+    font-size: clamp(.68rem, .9vw, .78rem);
+    white-space: nowrap;
+  }
+
+  .nav-actions {
+    min-width: 0;
+    flex: 0 0 auto;
+  }
+
+  .auth-buttons {
+    gap: 6px;
+  }
+
+  .auth-buttons .btn {
+    min-width: 0;
+    padding: 8px 12px;
+    font-size: .76rem;
+  }
+
+  .product-demo-grid,
+  .pricing-grid,
+  .roadmap-grid,
+  .industry-grid,
+  .automation-grid {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .product-demo-card,
+  .price-card,
+  .roadmap-grid .price-card,
+  .industry-card,
+  .automation-card {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .product-demo-media {
+    min-width: 0;
+  }
+}
+
+/* Never allow a grid/flex child with long content to widen its parent. */
+.product-demo-card,
+.price-card,
+.roadmap-grid .price-card,
+.industry-card,
+.automation-card,
+.platform-strip-item,
+.pricing-cta-card,
+.links-column {
+  min-width: 0;
+}

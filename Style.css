@@ -1130,6 +1130,23 @@
     .sticky-cta .sticky-text { font-size: 0.9rem; font-weight: 500; color: var(--ink); }
     .sticky-cta .btn { font-size: 0.85rem; padding: 10px 24px; white-space: nowrap; flex-shrink: 0; }
 
+    /* ===== COOKIE CONSENT ===== */
+    #cookieConsent {
+      position: fixed; bottom: 0; left: 0; width: 100%; z-index: 80;
+      background: var(--surface); border-top: 2px solid var(--line);
+      padding: 16px 24px; box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      display: none; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 16px; transition: transform 0.4s ease;
+    }
+    #cookieConsent.show { display: flex; transform: translateY(0); }
+    #cookieConsent.hidden { transform: translateY(100%); }
+    #cookieConsent p { font-size: 0.9rem; color: var(--sub); margin: 0; }
+    #cookieConsent .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+    #cookieConsent .btn-cookie { background: var(--blue-bright); color: #fff; border: none; padding: 8px 20px; border-radius: 30px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: background 0.15s; min-height: 40px; }
+    #cookieConsent .btn-cookie:hover { background: var(--blue); }
+    #cookieConsent .btn-cookie.decline { background: transparent; border: 1px solid var(--line); color: var(--sub); }
+    #cookieConsent .btn-cookie.decline:hover { background: var(--blue-soft); color: var(--ink); }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       .hero-grid { grid-template-columns: 1fr; }
@@ -1551,36 +1568,74 @@
   box-shadow: 0 0 0 3px rgba(224, 167, 43, 0.15);
 }
 
-/* ===== HARDENED / NON-INLINE PRESENTATION ===== */
-.noscript-warning {
-  background: #ffdddd;
-  padding: 16px;
-  text-align: center;
-  border-bottom: 2px solid #cc0000;
-  font-family: sans-serif;
+/* ===== PRODUCT AVAILABILITY ROADMAP ===== */
+.availability-roadmap {
+  margin: 34px 0 0;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
 }
-.secured-by-icon {
-  flex-shrink: 0;
-  vertical-align: middle;
-  margin-right: 4px;
+.availability-roadmap-head {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:24px;
 }
-.cookie-policy-link {
-  color: var(--blue-bright);
-  text-decoration: underline;
+.availability-roadmap-head .eyebrow { margin-bottom: 8px; }
+.availability-roadmap h3 {
+  font-family:'Sora',sans-serif;
+  font-size:1.25rem;
+  margin:0;
 }
-.how-progress-fill,
-.testimonial-progress-fill {
-  width: 25%;
+.availability-roadmap-head p {
+  margin-top:8px;
+  color:var(--sub);
+  font-size:.88rem;
+  line-height:1.55;
+  max-width:68ch;
 }
-.ftt-moon {
-  opacity: 0;
-  transition: opacity .2s ease;
+.roadmap-badge {
+  flex-shrink:0;
+  padding:7px 11px;
+  border-radius:999px;
+  background:rgba(224,167,43,.12);
+  color:#b8891f;
+  border:1px solid rgba(224,167,43,.2);
+  font:700 .62rem 'JetBrains Mono',monospace;
+  text-transform:uppercase;
+  letter-spacing:.04em;
 }
-
-
-.btn[aria-busy="true"],
-button:disabled {
-  cursor: wait;
-  opacity: .7;
-  pointer-events: none;
+[data-theme="dark"] .roadmap-badge {
+  background:rgba(224,167,43,.18);
+  color:#e0a72b;
+  border-color:rgba(224,167,43,.25);
+}
+.availability-roadmap-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:22px;
+}
+.roadmap-item {
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:13px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--bg);
+}
+.roadmap-dot {
+  width:7px; height:7px; margin-top:6px; flex:0 0 7px;
+  border-radius:50%;
+  background:var(--star-color);
+  box-shadow:0 0 0 3px rgba(224,167,43,.12);
+}
+.roadmap-item strong, .roadmap-item span { display:block; }
+.roadmap-item strong { font-size:.82rem; }
+.roadmap-item div > span { margin-top:3px; color:var(--sub); font-size:.7rem; line-height:1.35; }
+@media (max-width:760px) {
+  .availability-roadmap-head { flex-direction:column; gap:14px; }
+  .availability-roadmap-grid { grid-template-columns:1fr; }
 }

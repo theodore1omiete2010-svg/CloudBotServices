@@ -3,6 +3,44 @@
       document.documentElement.setAttribute('data-theme', media.matches ? 'dark' : 'light');
     })();
 
+/*
+ * Android desktop-site mode can expose a desktop-sized layout viewport while
+ * the physical touch display remains phone-sized. In that state CSS media
+ * queries see the wider layout viewport, so ordinary mobile breakpoints do not
+ * activate. Detect the mismatch before the loader disappears and give the
+ * stylesheet the actual device width to work with. Normal mobile mode and
+ * desktop/laptop touchscreens are left alone.
+ */
+(function syncTouchDesktopMode() {
+      const root = document.documentElement;
+
+      function update() {
+        const touchCapable = window.matchMedia('(pointer: coarse)').matches ||
+          ('ontouchstart' in window) ||
+          (navigator.maxTouchPoints || 0) > 0;
+        const screenWidth = Number(screen && screen.width) || 0;
+        const screenHeight = Number(screen && screen.height) || 0;
+        const physicalCssWidth = screenWidth || window.innerWidth;
+        const layoutWidth = Number(window.innerWidth) || 0;
+        const desktopSiteMismatch = touchCapable && physicalCssWidth > 0 && layoutWidth > physicalCssWidth * 1.35;
+
+        root.classList.toggle('cbs-desktop-touch-mode', desktopSiteMismatch);
+        root.classList.toggle('cbs-touch-compact', desktopSiteMismatch && physicalCssWidth <= 600);
+        if (desktopSiteMismatch) {
+          root.style.setProperty('--cbs-device-width', physicalCssWidth + 'px');
+          root.style.setProperty('--cbs-device-height', Math.max(screenWidth, screenHeight) + 'px');
+        } else {
+          root.style.removeProperty('--cbs-device-width');
+          root.style.removeProperty('--cbs-device-height');
+        }
+      }
+
+      update();
+      window.addEventListener('resize', update, { passive: true });
+      window.addEventListener('orientationchange', update, { passive: true });
+      window.visualViewport?.addEventListener('resize', update, { passive: true });
+    })();
+
 (function initializeCloudBotServices() {
       const initialize = async function() {
         await (async function() {
@@ -638,11 +676,14 @@
 
       const howCarousel = document.getElementById('howCarousel');
 
-      // Keep both carousels visually balanced without forcing the tutorial
-      // content into the testimonial card's height. Tutorial steps can now be
-      // longer and include a CTA, so the tutorial owns its natural height.
+      // Keep the tutorial card exactly aligned with its original companion
+      // card. The testimonial carousel remains the size reference so the
+      // tutorial does not grow taller just because its copy has been improved.
       function syncCarouselCardHeights() {
-        howCarousel.style.height = '';
+        const testimonialHeight = tCarousel.getBoundingClientRect().height;
+        if (testimonialHeight > 0) {
+          howCarousel.style.height = testimonialHeight + 'px';
+        }
       }
 
       renderTestimonials();
@@ -660,13 +701,13 @@
 
       // ===== ENHANCED HOW IT WORKS (COMPACT, CENTERED DOTS, VIEW ALL BOTTOM-RIGHT) =====
       const howSteps = [
-        { icon: '✍️', title: 'Sign up', desc: 'Create your CloudBotServices account with your email and password. No credit card is required to get started.', takeaway: '✅ Your account is ready', time: '~1 minute', ctaLabel: 'Sign up', ctaHref: 'signup.html' },
-        { icon: '🎁', title: 'Start your free trial', desc: 'Choose the 3-day free trial during signup and get access to the core toolkit before committing to a paid plan.', takeaway: '✅ 3 days to test the full experience', time: '~1 minute', ctaLabel: 'Start free trial', ctaHref: 'signup.html?plan=trial' },
-        { icon: '🏢', title: 'Register your business', desc: 'Complete your business profile so your bot has the information it needs to answer customers accurately and represent your brand.', takeaway: '✅ Give your bot the right business context', time: '~3 minutes', ctaLabel: 'Business registration', ctaHref: 'business-registration-page.html' },
-        { icon: '📊', title: 'Open your dashboard', desc: 'Use the dashboard as your control center for your bot, conversations, orders, settings, billing, and available analytics.', takeaway: '✅ Everything in one place', time: 'Instant', ctaLabel: 'Go to dashboard', ctaHref: 'dashboard.html' },
-        { icon: '🔗', title: 'Connect your customer platforms', desc: 'Connect the channels your customers already use. Start with WhatsApp, Telegram, or Bubble-Webchat, then add future channels as they become available.', takeaway: '✅ Meet customers where they already are', time: '~2 minutes', ctaLabel: 'See supported platforms', ctaHref: '#platforms' },
-        { icon: '▶️', title: 'Watch your bot in action', desc: 'Test the bot, review conversations, confirm your automated replies, and make adjustments before sending real customers through the experience.', takeaway: '✅ Test before you go live', time: '~2 minutes', ctaLabel: 'See the product demo', ctaHref: '#product-demo' },
-        { icon: '💳', title: 'Choose a plan after your trial', desc: 'When the 3-day trial ends, choose the plan that fits your usage. Nothing should be charged automatically just because the trial ended; the account can pause until a paid plan is selected.', takeaway: '✅ Upgrade when you are ready', time: 'After trial', ctaLabel: 'View pricing', ctaHref: '#pricing' }
+        { icon: '✍️', title: 'Sign up', short: 'Create your account with your email and password. No card is required.', desc: 'Create your CloudBotServices account with your email and password. No credit card is required to get started.', takeaway: '✅ Your account is ready', time: '~1 minute', ctaLabel: 'Sign up', ctaHref: 'signup.html' },
+        { icon: '🎁', title: 'Start your free trial', short: 'Activate the 3-day trial and explore the core toolkit before choosing a plan.', desc: 'Choose the 3-day free trial during signup and get access to the core toolkit before committing to a paid plan.', takeaway: '✅ 3 days to test the full experience', time: '~1 minute', ctaLabel: 'Start free trial', ctaHref: 'signup.html?plan=trial' },
+        { icon: '🏢', title: 'Register your business', short: 'Add your business details, brand information, offerings and support details.', desc: 'Complete your business profile so your bot has the information it needs to answer customers accurately and represent your brand.', takeaway: '✅ Give your bot the right business context', time: '~3 minutes', ctaLabel: 'Business registration', ctaHref: 'business-registration-page.html' },
+        { icon: '📊', title: 'Open your dashboard', short: 'Manage your bot, conversations, orders, settings, billing and analytics from one place.', desc: 'Use the dashboard as your control center for your bot, conversations, orders, settings, billing, and available analytics.', takeaway: '✅ Everything in one place', time: 'Instant', ctaLabel: 'Go to dashboard', ctaHref: 'dashboard.html' },
+        { icon: '🔗', title: 'Connect your customer platforms', short: 'Connect WhatsApp, Telegram or Bubble-Webchat where customers already reach you.', desc: 'Connect the channels your customers already use. Start with WhatsApp, Telegram, or Bubble-Webchat, then add future channels as they become available.', takeaway: '✅ Meet customers where they already are', time: '~2 minutes', ctaLabel: 'See supported platforms', ctaHref: '#platforms' },
+        { icon: '▶️', title: 'Watch your bot in action', short: 'Run a test conversation, review replies and make final changes before going live.', desc: 'Test the bot, review conversations, confirm your automated replies, and make adjustments before sending real customers through the experience.', takeaway: '✅ Test before you go live', time: '~2 minutes', ctaLabel: 'See the product demo', ctaHref: '#product-demo' },
+        { icon: '💳', title: 'Choose a plan after your trial', short: 'When the trial ends, choose a paid plan to keep your bot active.', desc: 'When the 3-day trial ends, choose the plan that fits your usage. Nothing should be charged automatically just because the trial ended; the account can pause until a paid plan is selected.', takeaway: '✅ Upgrade when you are ready', time: 'After trial', ctaLabel: 'View pricing', ctaHref: '#pricing' }
       ];
 
       const howTrack = document.getElementById('howTrack');
@@ -698,7 +739,7 @@
           <span class="step-icon" aria-hidden="true">${step.icon}</span>
           <div class="step-number">Step ${i + 1}</div>
           <h3>${step.title}</h3>
-          <p>${step.desc}</p>
+          <p>${step.short || step.desc}</p>
           ${step.takeaway ? `<div class="how-takeaway">${step.takeaway}</div>` : ''}
           <div class="how-time">⏱️ ${step.time}</div>
           ${step.ctaLabel && step.ctaHref ? `<a class="btn btn-ghost how-cta" href="${step.ctaHref}">${step.ctaLabel}</a>` : ''}

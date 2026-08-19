@@ -130,10 +130,15 @@
 
       // ----- STICKY CTA -----
       const stickyCta = document.getElementById('stickyCta');
+      const stickyCtaFooter = document.querySelector('footer');
       window.addEventListener('scroll', function() {
         const currentScrollY = window.scrollY;
         const heroHeight = document.querySelector('.hero').offsetHeight;
-        if (currentScrollY > heroHeight - 100) {
+        const pastHero = currentScrollY > heroHeight - 100;
+        const nearFooter = stickyCtaFooter
+          ? stickyCtaFooter.getBoundingClientRect().top <= window.innerHeight
+          : false;
+        if (pastHero && !nearFooter) {
           stickyCta.classList.add('visible');
         } else {
           stickyCta.classList.remove('visible');

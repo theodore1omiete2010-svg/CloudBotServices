@@ -100,6 +100,36 @@
       display: flex; align-items: center; justify-content: center;
       font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 600;
     }
+    .user-chip svg { transition: transform .2s ease; flex-shrink: 0; }
+    .user-chip[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+    /* ===== USER MENU / DROPDOWN (logged-in nav) ===== */
+    .user-menu { position: relative; }
+    .user-dropdown {
+      position: absolute; top: calc(100% + 8px); right: 0;
+      min-width: 200px; background: var(--surface);
+      border: 1px solid var(--line); border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(14, 27, 44, 0.12);
+      padding: 6px; z-index: 60;
+      opacity: 0; transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity .15s ease, transform .15s ease;
+    }
+    .user-dropdown[hidden] { display: none; }
+    .user-dropdown.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .user-dropdown-link,
+    .user-dropdown-btn {
+      display: block; width: 100%; text-align: left;
+      padding: 9px 12px; border-radius: 8px;
+      font-size: 0.85rem; color: var(--ink);
+      background: none; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .user-dropdown-link:hover, .user-dropdown-link:focus-visible,
+    .user-dropdown-btn:hover, .user-dropdown-btn:focus-visible {
+      background: var(--blue-soft); color: var(--blue-bright);
+    }
+    .user-dropdown-divider { height: 1px; background: var(--line); margin: 6px 4px; }
 
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
@@ -868,21 +898,12 @@
       font-size: 0.85rem;
     }
 
-    /* ===== INDUSTRY GRID ===== */
-    .industry-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .industry-card { border: 1px solid var(--line); border-radius: 14px; padding: 24px 20px; background: var(--surface); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-    .industry-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(14, 27, 44, 0.08); border-color: var(--blue-bright); }
-    .industry-card .mono { font-size: 0.7rem; color: var(--blue-bright); letter-spacing: 0.06em; }
-    .industry-card h3 { margin-top: 12px; font-size: 0.98rem; }
-    .industry-card p { margin-top: 8px; font-size: 0.82rem; line-height: 1.5; color: var(--sub); }
-
-    /* ===== AUTOMATE GRID ===== */
-    .automate-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .automate-card { border: 1px solid var(--line); border-radius: 14px; padding: 26px 22px; background: var(--surface); transition: transform .18s ease, box-shadow .18s ease; }
-    .automate-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(14, 27, 44, 0.08); }
-    .automate-card .icon { width: 38px; height: 38px; border-radius: 10px; background: var(--blue-soft); color: var(--blue-bright); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-bottom: 16px; font-size: 0.78rem; }
-    .automate-card h3 { font-size: 0.98rem; }
-    .automate-card p { margin-top: 9px; font-size: 0.83rem; line-height: 1.5; color: var(--sub); }
+    /* NOTE: .industry-grid/.industry-card and .automation-grid/.automation-card
+       are defined once, in the "PHASE 2: INDUSTRIES + AUTOMATION" block below —
+       this is the single source of truth for those layouts. (Previously this
+       spot also had a duplicate .industry-grid rule and an entirely unused
+       .automate-grid/.automate-card block — the HTML uses .automation-grid/
+       .automation-card, not .automate-*. Both were removed as dead code.) */
 
     /* ===== PREMIUM SUPPORTED PLATFORMS ===== */
     .platforms-strip {
@@ -1121,12 +1142,13 @@
       position: fixed; bottom: 0; left: 0; width: 100%; z-index: 90;
       background: var(--surface); border-top: 1px solid var(--line);
       padding: 16px 24px; box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-      display: none; align-items: center; justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       gap: 16px; flex-wrap: wrap;
       transform: translateY(100%);
+      pointer-events: none;
       transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .sticky-cta.visible { transform: translateY(0); }
+    .sticky-cta.visible { transform: translateY(0); pointer-events: auto; }
     .sticky-cta .sticky-text { font-size: 0.9rem; font-weight: 500; color: var(--ink); }
     .sticky-cta .btn { font-size: 0.85rem; padding: 10px 24px; white-space: nowrap; flex-shrink: 0; }
 
@@ -1151,7 +1173,7 @@
     @media (max-width: 900px) {
       .hero-grid { grid-template-columns: 1fr; }
       .steps { grid-template-columns: 1fr; }
-      .automate-grid, .pricing-grid, .industry-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid, .industry-grid, .automation-grid { grid-template-columns: repeat(2, 1fr); }
       .step-flow-arrow { padding: 8px 0; }
       .platforms-strip { flex-wrap: wrap; }
       .platform-strip-item { flex: 1 1 calc(33.333% - 0px); min-width: 140px; }
@@ -1173,7 +1195,7 @@
       .industry-card { padding: 20px 16px; }
     }
     @media (max-width: 520px) {
-      .automate-grid, .pricing-grid, .industry-grid, .pricing-cta-row { grid-template-columns: 1fr; }
+      .pricing-grid, .industry-grid, .automation-grid, .pricing-cta-row { grid-template-columns: 1fr; }
       .platforms-strip { gap: 0; }
       .platform-strip-item { flex: 1 1 calc(50% - 0px); min-width: 0; padding: 20px 12px 16px; }
       .platform-strip-item:nth-child(even)::after { display: none; }

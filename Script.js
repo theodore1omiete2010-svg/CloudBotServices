@@ -3,9 +3,9 @@
       document.documentElement.setAttribute('data-theme', media.matches ? 'dark' : 'light');
     })();
 
-(function scheduleNonCriticalInit() {
-      const initialize = function() {
-        (function() {
+(function initializeCloudBotServices() {
+      const initialize = async function() {
+        await (async function() {
           "use strict";
 
       // ----- HELPERS -----
@@ -235,12 +235,8 @@
         }
       }
 
-      // The pricing request is non-blocking and never prevents the page from rendering.
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(detectCurrency, { timeout: 2500 });
-      } else {
-        setTimeout(detectCurrency, 500);
-      }
+      // Initial rendering waits for pricing/auth state so the page does not
+      // visibly assemble itself in pieces after the loader disappears.
 
       // ----- AUTH UI -----
       let currentAuthState = 'guest';
@@ -422,7 +418,6 @@
         }
       }
 
-      refreshAuthUI();
       initApiIntegration();
 
       // ----- BILLING -----
@@ -643,14 +638,11 @@
 
       const howCarousel = document.getElementById('howCarousel');
 
-      // Keep the tutorial card exactly the same height as the business-benefit card.
-      // The business-benefit card is the source of truth so the two carousel cards
-      // stay aligned even when a testimonial wraps differently.
+      // Keep both carousels visually balanced without forcing the tutorial
+      // content into the testimonial card's height. Tutorial steps can now be
+      // longer and include a CTA, so the tutorial owns its natural height.
       function syncCarouselCardHeights() {
-        const testimonialHeight = tCarousel.getBoundingClientRect().height;
-        if (testimonialHeight > 0) {
-          howCarousel.style.height = testimonialHeight + 'px';
-        }
+        howCarousel.style.height = '';
       }
 
       renderTestimonials();
@@ -668,10 +660,13 @@
 
       // ===== ENHANCED HOW IT WORKS (COMPACT, CENTERED DOTS, VIEW ALL BOTTOM-RIGHT) =====
       const howSteps = [
-        { icon: '🔌', title: 'Connect your channels', desc: 'Connect WhatsApp, Facebook, Instagram, Telegram, or add a web chat bubble to your website in one click — no coding required.', takeaway: '✅ Customers can reach you anywhere', time: '~2 minutes', cta: false },
-        { icon: '🤖', title: 'Build your bot', desc: 'Set up automated replies for FAQs, order taking, and payment links using our simple drag‑and‑drop builder.', takeaway: '✅ No code, just choices', time: '~5 minutes', cta: false },
-        { icon: '🚀', title: 'Go live', desc: 'Activate your bot — it starts responding to customers instantly, 24/7, so you never miss a conversation.', takeaway: '✅ Never miss a lead', time: '~1 minute', cta: false },
-        { icon: '📊', title: 'Monitor & optimize', desc: 'View analytics, see what questions customers ask, and fine‑tune your bot to improve conversions over time.', takeaway: '✅ Data-driven improvements', time: 'Ongoing' }
+        { icon: '✍️', title: 'Sign up', desc: 'Create your CloudBotServices account with your email and password. No credit card is required to get started.', takeaway: '✅ Your account is ready', time: '~1 minute', ctaLabel: 'Sign up', ctaHref: 'signup.html' },
+        { icon: '🎁', title: 'Start your free trial', desc: 'Choose the 3-day free trial during signup and get access to the core toolkit before committing to a paid plan.', takeaway: '✅ 3 days to test the full experience', time: '~1 minute', ctaLabel: 'Start free trial', ctaHref: 'signup.html?plan=trial' },
+        { icon: '🏢', title: 'Register your business', desc: 'Complete your business profile so your bot has the information it needs to answer customers accurately and represent your brand.', takeaway: '✅ Give your bot the right business context', time: '~3 minutes', ctaLabel: 'Business registration', ctaHref: 'business-registration-page.html' },
+        { icon: '📊', title: 'Open your dashboard', desc: 'Use the dashboard as your control center for your bot, conversations, orders, settings, billing, and available analytics.', takeaway: '✅ Everything in one place', time: 'Instant', ctaLabel: 'Go to dashboard', ctaHref: 'dashboard.html' },
+        { icon: '🔗', title: 'Connect your customer platforms', desc: 'Connect the channels your customers already use. Start with WhatsApp, Telegram, or Bubble-Webchat, then add future channels as they become available.', takeaway: '✅ Meet customers where they already are', time: '~2 minutes', ctaLabel: 'See supported platforms', ctaHref: '#platforms' },
+        { icon: '▶️', title: 'Watch your bot in action', desc: 'Test the bot, review conversations, confirm your automated replies, and make adjustments before sending real customers through the experience.', takeaway: '✅ Test before you go live', time: '~2 minutes', ctaLabel: 'See the product demo', ctaHref: '#product-demo' },
+        { icon: '💳', title: 'Choose a plan after your trial', desc: 'When the 3-day trial ends, choose the plan that fits your usage. Nothing should be charged automatically just because the trial ended; the account can pause until a paid plan is selected.', takeaway: '✅ Upgrade when you are ready', time: 'After trial', ctaLabel: 'View pricing', ctaHref: '#pricing' }
       ];
 
       const howTrack = document.getElementById('howTrack');
@@ -706,6 +701,7 @@
           <p>${step.desc}</p>
           ${step.takeaway ? `<div class="how-takeaway">${step.takeaway}</div>` : ''}
           <div class="how-time">⏱️ ${step.time}</div>
+          ${step.ctaLabel && step.ctaHref ? `<a class="btn btn-ghost how-cta" href="${step.ctaHref}">${step.ctaLabel}</a>` : ''}
         `;
         return slide;
       }
@@ -720,6 +716,7 @@
           <p>${step.desc}</p>
           ${step.takeaway ? `<div class="how-all-takeaway">${step.takeaway}</div>` : ''}
           <div class="how-all-time">⏱️ ${step.time}</div>
+          ${step.ctaLabel && step.ctaHref ? `<a class="btn btn-ghost how-all-cta" href="${step.ctaHref}">${step.ctaLabel}</a>` : ''}
         `;
         return card;
       }
@@ -990,12 +987,41 @@
         updatePaygUI(false);
       })();
 
+      // Resolve the two server-backed pieces together before the page loader
+      // disappears. Both functions have safe fallbacks, so a backend timeout
+      // does not leave the landing page unusable.
+      await Promise.allSettled([
+        refreshAuthUI(),
+        detectCurrency()
+      ]);
+
         })(); // end CBS initialization IIFE
       };
 
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(initialize, { timeout: 2000 });
-      } else {
-        setTimeout(initialize, 0);
-      }
-    })(); // end scheduler
+      // Do not defer the landing page initialization into an idle period.
+      // The loader keeps the first meaningful paint visually consistent while
+      // auth, pricing, fonts, and interactive UI finish initializing.
+      Promise.resolve()
+        .then(() => initialize())
+        .catch((error) => {
+          console.error('CloudBotServices initialization failed:', error);
+        })
+        .finally(async () => {
+          const loader = document.getElementById('pageLoader');
+          const finishLoading = () => {
+            document.body.classList.remove('page-loading');
+            if (loader) {
+              loader.classList.add('is-hidden');
+              window.setTimeout(() => loader.remove(), 450);
+            }
+          };
+
+          try {
+            await Promise.allSettled([
+              document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()
+            ]);
+          } finally {
+            finishLoading();
+          }
+        });
+    })(); // end CBS initialization

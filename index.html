@@ -60,12 +60,21 @@
   <!-- ===== UPDATED CSS REFERENCE ===== -->
   <link rel="stylesheet" href="Style.css">
 </head>
-<body>
+<body class="page-loading">
+
+  <!-- ===== INITIAL PAGE LOADER ===== -->
+  <div id="pageLoader" class="page-loader" role="status" aria-live="polite" aria-label="Loading CloudBotServices">
+    <div class="page-loader-card">
+      <div class="page-loader-spinner" aria-hidden="true"></div>
+      <div class="page-loader-title">Loading</div>
+      <div class="page-loader-subtitle">Preparing CloudBotServices…</div>
+    </div>
+  </div>
 
   <!-- ===== NOSCRIPT WARNING ===== -->
   <noscript>
     <div class="noscript-warning">
-      <strong>⚠️ JavaScript is disabled.</strong> Some interactive features like the theme toggle and pricing calculator may not work. Please enable JavaScript for the full experience.
+      <strong>⚠️ JavaScript is disabled.</strong> Some interactive features like the theme toggle, authentication state, pricing calculator, and tutorial controls may not work. Please enable JavaScript for the full experience.
     </div>
   </noscript>
 
@@ -145,12 +154,12 @@
     <div class="wrap">
       <div class="section-head">
         <div class="eyebrow">How it works</div>
-        <h2>Get your bot running in 4 simple steps</h2>
-        <p>From connecting your channels to going live — you'll be automating conversations in minutes, no code required.</p>
+        <h2>From sign-up to your first automated conversation</h2>
+        <p>Follow the guided path from creating your account to testing your bot and choosing a paid plan when your 3-day trial ends.</p>
       </div>
 
       <!-- Progress Bar -->
-      <div class="how-progress-wrap" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" aria-label="Tutorial progress">
+      <div class="how-progress-wrap" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="7" aria-label="Tutorial progress">
         <div class="how-progress-track">
           <div class="how-progress-fill" id="howProgressFill"></div>
         </div>
@@ -435,6 +444,31 @@ fill="#37aee2"/><path fill="#c8daea" d="M199 404c-11 0-10-4-13-14l-32-105 245-14
         <h2>See CloudBotServices in action</h2>
         <p>Explore the workspace built to help you configure, manage, and monitor customer automation.</p>
       </div>
+
+      <!-- ===== CHAT MOCKUP VIDEO PLACEHOLDER =====
+           Replace the placeholder content with your own <video> element when ready.
+           Keep the .chat-video-placeholder wrapper so the responsive styling remains intact. -->
+      <div class="chat-video-placeholder" id="chatVideoPlaceholder" role="group" aria-label="Chat mockup video placeholder">
+        <div class="chat-video-screen">
+          <div class="chat-video-topbar">
+            <span class="chat-video-dot"></span>
+            <span class="chat-video-dot"></span>
+            <span class="chat-video-dot"></span>
+            <span class="chat-video-topbar-title">CloudBotServices · Chat demo</span>
+          </div>
+          <div class="chat-video-content">
+            <div class="chat-video-play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="8 5 19 12 8 19 8 5"></polygon>
+              </svg>
+            </div>
+            <strong>Chat mockup video goes here</strong>
+            <span>Replace this placeholder with your product demo video.</span>
+            <code>YOUR_CHAT_DEMO_VIDEO.mp4</code>
+          </div>
+        </div>
+      </div>
+
       <div class="product-demo-grid" aria-label="CloudBotServices product views">
         <article class="product-demo-card">
           <div class="product-demo-media" role="img" aria-label="Dashboard product view"></div>
@@ -497,24 +531,60 @@ fill="#37aee2"/><path fill="#c8daea" d="M199 404c-11 0-10-4-13-14l-32-105 245-14
         <p>CloudBotServices is focused on the supported core experience today. These capabilities are planned for future releases and are not included in current plan promises.</p>
       </div>
 
-      <div class="roadmap-grid" aria-label="Coming soon features">
-        <div class="price-card">
-          <div class="tier">Social channels</div>
-          <div class="tier-desc">Coming soon</div>
-          <ul>
-            <li><span class="badge coming">Coming soon</span> Facebook</li>
-            <li><span class="badge coming">Coming soon</span> Messenger</li>
-            <li><span class="badge coming">Coming soon</span> Instagram</li>
+      <div class="roadmap-grid" aria-label="CloudBotServices product roadmap">
+        <article class="roadmap-card roadmap-now">
+          <div class="roadmap-card-top">
+            <div>
+              <span class="roadmap-kicker">AVAILABLE NOW</span>
+              <h3>Core automation</h3>
+            </div>
+            <span class="roadmap-status supported"><span class="status-dot"></span>Supported</span>
+          </div>
+          <p class="roadmap-card-intro">The core experience you can use today to automate customer conversations and move enquiries toward sales.</p>
+          <ul class="roadmap-list">
+            <li><span class="roadmap-check">✓</span>WhatsApp automation</li>
+            <li><span class="roadmap-check">✓</span>Telegram automation</li>
+            <li><span class="roadmap-check">✓</span>Bubble-Webchat</li>
+            <li><span class="roadmap-check">✓</span>FAQs, orders &amp; payment links</li>
+            <li><span class="roadmap-check">✓</span>Human handoff &amp; analytics</li>
           </ul>
-        </div>
-        <div class="price-card">
-          <div class="tier">Creative tools</div>
-          <div class="tier-desc">Coming soon</div>
-          <ul>
-            <li><span class="badge coming">Coming soon</span> Flyer creation</li>
-            <li><span class="badge coming">Coming soon</span> Ads creation</li>
+        </article>
+
+        <article class="roadmap-card roadmap-next">
+          <div class="roadmap-card-top">
+            <div>
+              <span class="roadmap-kicker">NEXT UP</span>
+              <h3>Social channels</h3>
+            </div>
+            <span class="roadmap-status coming"><span class="status-dot"></span>Coming soon</span>
+          </div>
+          <p class="roadmap-card-intro">Expand your automated reach to the social channels customers already use to discover and message businesses.</p>
+          <ul class="roadmap-list">
+            <li><span class="roadmap-icon">→</span>Facebook</li>
+            <li><span class="roadmap-icon">→</span>Messenger</li>
+            <li><span class="roadmap-icon">→</span>Instagram</li>
           </ul>
-        </div>
+        </article>
+
+        <article class="roadmap-card roadmap-next">
+          <div class="roadmap-card-top">
+            <div>
+              <span class="roadmap-kicker">IN DEVELOPMENT</span>
+              <h3>Creative tools</h3>
+            </div>
+            <span class="roadmap-status coming"><span class="status-dot"></span>Coming soon</span>
+          </div>
+          <p class="roadmap-card-intro">Create more of the content that helps your business attract attention and start conversations.</p>
+          <ul class="roadmap-list">
+            <li><span class="roadmap-icon">→</span>Flyer creation</li>
+            <li><span class="roadmap-icon">→</span>Ads creation</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="roadmap-note">
+        <span class="roadmap-note-icon">i</span>
+        <p><strong>Roadmap note:</strong> Planned features can change as we learn from customers. “Coming soon” means planned, not currently available or included in existing plan promises.</p>
       </div>
     </div>
   </section>
@@ -688,7 +758,7 @@ fill="#37aee2"/><path fill="#c8daea" d="M199 404c-11 0-10-4-13-14l-32-105 245-14
     <div class="wrap">
       <div class="section-head"><div class="eyebrow">FAQ</div><h2>Common questions</h2></div>
       <div class="faq-list">
-        <details class="faq-item"><summary>Which channels can I connect?</summary><p>CloudBotServices works with WhatsApp, Facebook, Messenger, Instagram, Telegram, Bubble-Webchat, and other channels your customers already use.</p></details>
+        <details class="faq-item"><summary>Which channels can I connect?</summary><p>CloudBotServices currently supports WhatsApp, Telegram, and Bubble-Webchat. Facebook, Messenger, and Instagram are planned for future releases.</p></details>
         <details class="faq-item"><summary>Can I use my existing phone number?</summary><p>Yes — there's no need to switch to a new number. Connect the number your customers already message you on.</p></details>
         <details class="faq-item"><summary>What payment providers are supported?</summary><p>CloudBotServices integrates with common payment providers to generate and verify payment links, so a customer can pay without ever leaving the conversation.</p></details>
         <details class="faq-item"><summary>Can I take over conversations manually?</summary><p>Any conversation can be handed to a real person at any time, and handed back to the bot once you're done — you're always in control.</p></details>

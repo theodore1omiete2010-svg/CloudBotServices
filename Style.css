@@ -2001,3 +2001,493 @@
 .links-column {
   min-width: 0;
 }
+
+
+/* ==========================================================================
+   CLOUD BOTSERVICES — POLISH / LOADING / DESKTOP-MODE HARDENING
+   This override layer intentionally sits at the end so existing styles remain
+   intact while the requested improvements take precedence.
+   ========================================================================== */
+
+/* ----- INITIAL PAGE LOADER ----- */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(46,100,240,.10), transparent 38%),
+    var(--bg);
+  color: var(--ink);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+.page-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+body.page-loading > *:not(#pageLoader):not(noscript) {
+  visibility: hidden;
+}
+.page-loader-card {
+  width: min(360px, 100%);
+  padding: 30px 28px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: 0 24px 70px rgba(14,27,44,.12);
+  text-align: center;
+}
+.page-loader-spinner {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 18px;
+  border: 4px solid var(--blue-soft);
+  border-top-color: var(--blue-bright);
+  border-radius: 50%;
+  animation: cbsLoaderSpin .8s linear infinite;
+}
+.page-loader-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.page-loader-subtitle {
+  margin-top: 7px;
+  color: var(--sub);
+  font-size: .82rem;
+}
+@keyframes cbsLoaderSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ----- CHAT MOCKUP VIDEO PLACEHOLDER ----- */
+.chat-video-placeholder {
+  width: min(900px, 100%);
+  margin: -12px auto 30px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: 0 18px 50px rgba(14,27,44,.07);
+}
+.chat-video-screen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-height: 280px;
+  overflow: hidden;
+  border: 1px dashed rgba(46,100,240,.35);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(46,100,240,.12), transparent 35%),
+    linear-gradient(145deg, var(--surface), var(--blue-soft));
+}
+.chat-video-topbar {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,.48);
+}
+[data-theme="dark"] .chat-video-topbar {
+  background: rgba(15,22,34,.55);
+}
+.chat-video-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.chat-video-topbar-title {
+  margin-left: 6px;
+  font: 600 .68rem 'JetBrains Mono', monospace;
+  color: var(--sub);
+}
+.chat-video-content {
+  position: absolute;
+  inset: 42px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+}
+.chat-video-play {
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 16px;
+  border: 1px solid rgba(46,100,240,.3);
+  border-radius: 50%;
+  color: #fff;
+  background: var(--blue-bright);
+  box-shadow: 0 12px 30px rgba(46,100,240,.25);
+}
+.chat-video-play svg {
+  width: 25px;
+  height: 25px;
+  margin-left: 3px;
+}
+.chat-video-content strong {
+  font-family: 'Sora', sans-serif;
+  font-size: 1rem;
+}
+.chat-video-content span {
+  margin-top: 7px;
+  color: var(--sub);
+  font-size: .8rem;
+}
+.chat-video-content code {
+  margin-top: 12px;
+  padding: 5px 9px;
+  border-radius: 7px;
+  color: var(--blue-bright);
+  background: var(--blue-soft);
+  font: 600 .68rem 'JetBrains Mono', monospace;
+}
+
+/* ----- ROADMAP ----- */
+.roadmap-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.roadmap-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  padding: 26px 24px 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(46,100,240,.035), transparent 46%),
+    var(--surface);
+  box-shadow: 0 12px 32px rgba(14,27,44,.045);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.roadmap-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--blue-bright);
+}
+.roadmap-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(46,100,240,.28);
+  box-shadow: 0 20px 42px rgba(14,27,44,.09);
+}
+.roadmap-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+.roadmap-kicker {
+  display: block;
+  color: var(--blue-bright);
+  font: 700 .62rem 'JetBrains Mono', monospace;
+  letter-spacing: .10em;
+}
+.roadmap-card h3 {
+  margin-top: 7px;
+  font-size: 1.08rem;
+}
+.roadmap-card-intro {
+  margin-top: 12px;
+  color: var(--sub);
+  font-size: .84rem;
+  line-height: 1.55;
+}
+.roadmap-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font: 700 .61rem 'JetBrains Mono', monospace;
+  white-space: nowrap;
+}
+.roadmap-status.supported {
+  color: var(--good);
+  background: rgba(30,143,99,.08);
+  border-color: rgba(30,143,99,.22);
+}
+.roadmap-status.coming {
+  color: #b8891f;
+  background: rgba(224,167,43,.10);
+  border-color: rgba(224,167,43,.24);
+}
+[data-theme="dark"] .roadmap-status.coming {
+  color: #e0a72b;
+  background: rgba(224,167,43,.16);
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  animation: cbsStatusPulse 1.7s ease-in-out infinite;
+}
+.supported .status-dot {
+  background: #2fbf7b;
+  box-shadow: 0 0 0 0 rgba(47,191,123,.45);
+}
+.coming .status-dot {
+  background: #e0a72b;
+  box-shadow: 0 0 0 0 rgba(224,167,43,.42);
+}
+@keyframes cbsStatusPulse {
+  0%, 100% { transform: scale(.9); box-shadow: 0 0 0 0 currentColor; opacity: .8; }
+  50% { transform: scale(1.15); box-shadow: 0 0 0 5px transparent; opacity: 1; }
+}
+.roadmap-list {
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.roadmap-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-size: .8rem;
+}
+.roadmap-check,
+.roadmap-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-weight: 800;
+}
+.roadmap-check {
+  color: var(--good);
+  background: rgba(30,143,99,.10);
+}
+.roadmap-icon {
+  color: var(--star-color);
+  background: rgba(224,167,43,.10);
+}
+.roadmap-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: min(900px, 100%);
+  margin: 18px auto 0;
+  padding: 13px 15px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.roadmap-note-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--blue-bright);
+  background: var(--blue-soft);
+  font: 700 .7rem 'Sora', sans-serif;
+}
+.roadmap-note p {
+  color: var(--sub);
+  font-size: .75rem;
+  line-height: 1.5;
+}
+
+/* ----- PLATFORM STATUS PULSES ----- */
+.platform-strip-status:not(.coming-soon)::before {
+  background: #2fbf7b;
+  box-shadow: 0 0 0 0 rgba(47,191,123,.45);
+  animation: cbsStatusPulse 1.7s ease-in-out infinite;
+}
+.platform-strip-status.coming-soon::before {
+  background: #e0a72b;
+  box-shadow: 0 0 0 0 rgba(224,167,43,.42);
+  animation: cbsStatusPulse 1.7s ease-in-out infinite;
+}
+.platform-strip-status:not(.coming-soon) {
+  color: var(--good);
+}
+.platform-strip-status.coming-soon {
+  color: #b8891f;
+}
+[data-theme="dark"] .platform-strip-status.coming-soon {
+  color: #e0a72b;
+}
+
+/* ----- TUTORIAL IMPROVEMENTS ----- */
+.how-carousel {
+  box-shadow: 0 14px 36px rgba(14,27,44,.06);
+}
+.how-slide {
+  padding-left: clamp(48px, 7vw, 72px);
+  padding-right: clamp(48px, 7vw, 72px);
+}
+.how-slide .how-cta {
+  margin-top: 12px;
+  min-height: 40px;
+  padding: 8px 14px;
+  font-size: .76rem;
+}
+.how-all-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.how-all-card {
+  min-width: 0;
+  min-height: 100%;
+}
+.how-all-cta {
+  align-self: flex-start;
+  margin-top: 12px;
+  padding: 7px 12px;
+  font-size: .72rem;
+}
+
+/* ----- DESKTOP-SITE / TOUCH-VIEWPORT HARDENING -----
+   Android browsers can expose a wider CSS viewport when "Desktop site" is
+   enabled while the physical screen remains narrow. Use touch capability as
+   a second responsive signal so the layout never depends on pinch-zoom. */
+@media (pointer: coarse) and (max-width: 1199px) {
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .wrap {
+    width: 100%;
+    max-width: 100%;
+    padding-left: clamp(18px, 3vw, 28px);
+    padding-right: clamp(18px, 3vw, 28px);
+  }
+  nav {
+    height: 62px;
+  }
+  nav .wrap {
+    height: 62px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: 10px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .nav-logo {
+    width: clamp(132px, 23vw, 190px);
+    max-width: 32%;
+    height: auto;
+    flex: 0 1 auto;
+  }
+  .navlinks {
+    display: flex;
+    min-width: 0;
+    flex: 1 1 auto;
+    justify-content: center;
+    gap: clamp(7px, 1.3vw, 14px);
+    overflow: hidden;
+  }
+  .navlinks a {
+    min-width: 0;
+    flex: 0 1 auto;
+    font-size: clamp(.58rem, .82vw, .72rem);
+    white-space: nowrap;
+  }
+  .nav-actions {
+    min-width: 0;
+    flex: 0 0 auto;
+  }
+  .auth-buttons {
+    gap: 5px;
+  }
+  .auth-buttons .btn {
+    min-width: 0;
+    min-height: 38px;
+    padding: 7px 9px;
+    font-size: .68rem;
+  }
+  header.hero {
+    padding-top: 90px;
+  }
+  .hero-grid {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .hero h1 {
+    max-width: 24ch;
+    font-size: clamp(2rem, 4.8vw, 3rem);
+  }
+  .hero p.sub {
+    max-width: 58ch;
+  }
+  .section-head {
+    max-width: 64ch;
+  }
+  .roadmap-grid,
+  .product-demo-grid,
+  .pricing-grid {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+@media (pointer: coarse) and (max-width: 900px) {
+  .navlinks {
+    display: none;
+  }
+  .nav-logo {
+    max-width: 48%;
+  }
+  .hero h1 {
+    max-width: 20ch;
+  }
+  .roadmap-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .how-all-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (pointer: coarse) and (max-width: 640px) {
+  .hero h1 {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+    max-width: none;
+  }
+  .hero p.sub {
+    font-size: .98rem;
+  }
+  .chat-video-screen {
+    min-height: 220px;
+  }
+  .roadmap-grid,
+  .how-all-grid {
+    grid-template-columns: 1fr;
+  }
+  .roadmap-card {
+    padding: 22px 20px;
+  }
+  .roadmap-card-top {
+    flex-direction: column;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-loader-spinner,
+  .status-dot,
+  .platform-strip-status::before {
+    animation: none;
+  }
+}

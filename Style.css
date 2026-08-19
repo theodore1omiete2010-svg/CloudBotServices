@@ -1102,8 +1102,10 @@
     .fade-section.is-visible { opacity: 1; transform: translateY(0); }
 
     /* ===== THEME TOGGLE ===== */
-    .floating-theme-toggle { position: fixed; bottom: 24px; right: 24px; z-index: 60; display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px 12px; box-shadow: 0 8px 24px rgba(14, 27, 44, 0.12); backdrop-filter: blur(8px); cursor: pointer; border: none; outline: none; color: var(--sub); transition: background .15s ease, color .15s ease; }
+    .floating-theme-toggle { position: fixed; bottom: 24px; right: 24px; z-index: 60; display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px 12px; box-shadow: 0 8px 24px rgba(14, 27, 44, 0.12); backdrop-filter: blur(8px); cursor: pointer; border: none; outline: none; color: var(--sub); transition: background .15s ease, color .15s ease, bottom .3s cubic-bezier(0.22, 1, 0.36, 1); }
     .floating-theme-toggle:hover, .floating-theme-toggle:focus-visible { background: var(--blue-soft); color: var(--blue-bright); }
+    /* Lift the toggle above the sticky CTA bar whenever it's visible, so the two never overlap. */
+    .sticky-cta.visible ~ .floating-theme-toggle { bottom: 90px; }
     .ftt-icons { display: flex; align-items: center; justify-content: center; position: relative; width: 20px; height: 20px; }
     .ftt-icons svg { position: absolute; transition: opacity .15s ease; }
     .ftt-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; }
@@ -1235,6 +1237,7 @@
       .links-inner { display: flex; flex-direction: column; gap: 0; padding-bottom: 6px; }
       .links-inner a { font-size: 0.84rem; color: var(--sub); padding: 0; line-height:1.25; min-height:32px; }
       .floating-theme-toggle { bottom: 16px; right: 16px; }
+      .sticky-cta.visible ~ .floating-theme-toggle { bottom: 78px; }
       section { padding: 48px 0; }
       .section-head h2 { font-size: 1.7rem; }
       .payg-expand-content { padding: 1.2rem 1rem; }

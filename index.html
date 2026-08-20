@@ -3,18 +3,7 @@
 <head>
   
   <meta charset="UTF-8">
-  <meta name="viewport" id="viewportMeta" content="width=device-width, initial-scale=1.0">
-  <!-- ===== DESKTOP-SITE VIEWPORT GUARD =====
-       Mobile browsers that expose a "Desktop site" toggle (Chrome/Safari on
-       Android and iOS) ignore the width=device-width meta tag once enabled
-       and force a wide layout viewport (usually 980–1024px), even though the
-       physical screen is still narrow. That mismatch is what makes the page
-       render as a shrunk-down desktop layout that needs pinch-zooming to
-       read. viewport-guard.js runs before first paint (not deferred, no
-       async) and re-locks the viewport to the true device width whenever it
-       detects that mismatch — external file because the page's CSP is
-       script-src 'self' and blocks inline scripts. -->
-  <script src="viewport-guard.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="">
   <title>CloudBotServices — Automate customer conversations & orders</title>
   <meta name="description" content="CloudBotServices automates customer conversations, order taking, payment links, and FAQs on WhatsApp and web chat. Start your 3-day free trial — no credit card required.">

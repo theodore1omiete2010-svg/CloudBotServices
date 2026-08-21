@@ -1,0 +1,55 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+
+enum UserStatus { ACTIVE PENDING SUSPENDED }
+enum MembershipRole { OWNER ADMIN AGENT STAFF }
+enum SubscriptionStatus { TRIAL ACTIVE PAST_DUE CANCELLED EXPIRED }
+enum SubscriptionInterval { MONTHLY YEARLY PAYG }
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  phone String? @unique
+  password String?
+  name String
+  country String?
+  status UserStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  memberships BusinessMembership[]
+  sessions Session[]
+  verificationCodes VerificationCode[]
+  resetTokens PasswordResetToken[]
+}
+model Business {
+  id String @id @default(cuid())
+  name String
+  email String @unique
+  phone String?
+  address String?
+  businessType String?
+  logoUrl String?
+  currency String @default("NGN")
+  timezone String @default("Africa/Lagos")
+  bankName String?
+  accountNumber String?
+  accountName String?
+  subscriptionStatus SubscriptionStatus @default(TRIAL)
+  trialEndsAt DateTime?
+  activeChannels String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  memberships BusinessMembership[]
+  subscription Subscription?
+  settings BusinessSettings?
+  botConfiguration BotConfiguration?
+  createdChallenges VerificationChallenge[]
+}
+model BusinessMembership { id String @id @default(cuid()); role MembershipRole @default(STAFF); status UserStatus @default(ACTIVE); userId String; user User @relation(fields:[userId],references:[id],onDelete:Cascade); businessId String; business Business @relation(fields:[businessId],references:[id],onDelete:Cascade); createdAt DateTime @default(now()); updatedAt DateTime @updatedAt; @@unique([userId,businessId]); @@index([businessId]) }
+model Session { id String @id @default(cuid()); token String @unique; expiresAt DateTime; ipAddress String?; userAgent String?; userId String; user User @relation(fields:[userId],references:[id],onDelete:Cascade); createdAt DateTime @default(now()); @@index([userId]); @@index([expiresAt]) }
+model VerificationCode { id String @id @default(cuid()); codeHash String; purpose String; expiresAt DateTime; usedAt DateTime?; attempts Int @default(0); userId String; user User @relation(fields:[userId],references:[id],onDelete:Cascade); createdAt DateTime @default(now()); @@index([userId,purpose]) }
+model VerificationChallenge { id String @id; field String; value String; purpose String; codeHash String; expiresAt DateTime; usedAt DateTime?; attempts Int @default(0); metadata Json?; businessId String?; business Business? @relation(fields:[businessId],references:[id],onDelete:SetNull); createdAt DateTime @default(now()); @@index([value,purpose]); @@index([expiresAt]) }
+model PasswordResetToken { id String @id @default(cuid()); token String @unique; expiresAt DateTime; usedAt DateTime?; userId String; user User @relation(fields:[userId],references:[id],onDelete:Cascade); createdAt DateTime @default(now()); @@index([userId]) }
+model Subscription { id String @id @default(cuid()); planCode String; status SubscriptionStatus @default(TRIAL); interval SubscriptionInterval @default(MONTHLY); amount Decimal @db.Decimal(12,2); currency String @default("NGN"); provider String?; externalSubscriptionId String? @unique; startedAt DateTime?; currentPeriodStart DateTime?; currentPeriodEnd DateTime?; trialEndsAt DateTime?; cancelledAt DateTime?; businessId String @unique; business Business @relation(fields:[businessId],references:[id],onDelete:Cascade); createdAt DateTime @default(now()); updatedAt DateTime @updatedAt }
+model BusinessSettings { id String @id @default(cuid()); notificationsEnabled Boolean @default(true); emailNotifications Boolean @default(true); orderNotifications Boolean @default(true); paymentNotifications Boolean @default(true); leadNotifications Boolean @default(true); autoReplyEnabled Boolean @default(true); humanHandoffEnabled Boolean @default(true); settings Json?; businessId String @unique; business Business @relation(fields:[businessId],references:[id],onDelete:Cascade); createdAt DateTime @default(now()); updatedAt DateTime @updatedAt }
+model BotConfiguration { id String @id @default(cuid()); enabled Boolean @default(true); botName String?; greetingMessage String?; fallbackMessage String?; handoffMessage String?; averageResponseTimeMs Int?; csatScore Float?; settings Json?; businessId String @unique; business Business @relation(fields:[businessId],references:[id],onDelete:Cascade); createdAt DateTime @default(now()); updatedAt DateTime @updatedAt }

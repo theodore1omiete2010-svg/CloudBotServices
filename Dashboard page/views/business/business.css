@@ -1,0 +1,91 @@
+/* Business-specific styles.
+   Uses global CSS variables from base.css for theme support. */
+
+/* ── revenue card ── */
+.revenue-card .summary-value {
+  color: var(--success);
+}
+
+/* ── business list row ── */
+.business-list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.business-list-row:last-child {
+  border-bottom: none;
+}
+
+.business-logo {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 13px;
+  flex: none;
+}
+
+.business-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.business-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.business-meta {
+  font-size: 10px;
+  color: var(--text-soft);
+  margin-top: 3px;
+}
+
+.business-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.business-actions .mini-button {
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.business-actions .mini-button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.business-actions .mini-button.danger {
+  color: var(--danger);
+  border-color: rgba(220, 38, 38, 0.2);
+}
+
+.business-actions .mini-button.danger:hover {
+  border-color: var(--danger);
+  background: rgba(220, 38, 38, 0.05);
+}
+
+.business-actions .status-pill {
+  font-size: 10px;
+  padding: 3px 12px;
+}
+
+

@@ -1,0 +1,38 @@
+<div class="workspace-view" id="view-broadcasts">
+<div class="page-header">
+<div>
+<div class="eyebrow">CUSTOMER ENGAGEMENT</div>
+<h1>Broadcasts</h1>
+<p>Send targeted messages to customer segments across connected channels.</p>
+</div>
+<div class="header-actions">
+<button class="button primary" id="createBroadcastBtn">+ New Broadcast</button>
+</div>
+</div>
+
+<!-- Metrics Strip -->
+<div class="metric-strip">
+<div class="metric-box"><div class="label">Sent</div><div class="value">14</div><div class="meta">This month</div></div>
+<div class="metric-box"><div class="label">Recipients</div><div class="value">4,820</div><div class="meta">Across campaigns</div></div>
+<div class="metric-box"><div class="label">Open rate</div><div class="value">82%</div><div class="meta">Average</div></div>
+<div class="metric-box"><div class="label">Replies</div><div class="value">18.4%</div><div class="meta">Average</div></div>
+</div>
+
+<div class="card surface-card">
+<!-- Search & Filters -->
+<div class="page-search-row">
+<input id="broadcastSearch" placeholder="Search broadcasts..."/>
+</div>
+<div class="filter-group">
+<span class="filter-pill active" data-filter="all">All</span>
+<span class="filter-pill" data-filter="sent">Sent</span>
+<span class="filter-pill" data-filter="draft">Draft</span>
+<span class="filter-pill" data-filter="scheduled">Scheduled</span>
+</div>
+
+<!-- Data List (Dynamic) -->
+<div id="broadcastList" class="data-list"></div>
+</div>
+</div>
+
+

@@ -1,0 +1,39 @@
+<div class="workspace-view" id="view-leads">
+<div class="page-header">
+<div>
+<div class="eyebrow">SALES PIPELINE</div>
+<h1>Leads</h1>
+<p>Capture, qualify and follow up with potential customers.</p>
+</div>
+<div class="header-actions">
+<button class="button primary" id="addLeadBtn">+ Add Lead</button>
+</div>
+</div>
+
+<!-- Metrics Strip -->
+<div class="metric-strip">
+<div class="metric-box"><div class="label">New leads</div><div class="value" id="leadsNew">0</div><div class="meta">This month</div></div>
+<div class="metric-box"><div class="label">Qualified</div><div class="value" id="leadsQualified">0</div><div class="meta">55% of new leads</div></div>
+<div class="metric-box"><div class="label">Converted</div><div class="value" id="leadsConverted">0</div><div class="meta">31.6% conversion</div></div>
+<div class="metric-box"><div class="label">Pipeline</div><div class="value">₦412K</div><div class="meta">Estimated value</div></div>
+</div>
+
+<div class="card surface-card">
+<!-- Search & Filters -->
+<div class="page-search-row">
+<input id="leadSearch" placeholder="Search leads..."/>
+</div>
+<div class="filter-group">
+<span class="filter-pill active" data-filter="all">All</span>
+<span class="filter-pill" data-filter="new">New</span>
+<span class="filter-pill" data-filter="contacted">Contacted</span>
+<span class="filter-pill" data-filter="converted">Converted</span>
+<span class="filter-pill" data-filter="lost">Lost</span>
+</div>
+
+<!-- Data List (Dynamic) -->
+<div id="leadList" class="data-list"></div>
+</div>
+</div>
+
+

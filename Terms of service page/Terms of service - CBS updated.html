@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<script>
+  try {
+    var savedTheme = localStorage.getItem('cbs-theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  } catch (e) {}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — CloudBotServices</title>
+<meta name="description" content="CloudBotServices Terms of Service for its digital automation, chatbot, AI, messaging, and business tools.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#F5F8FC">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F8FC;
+    --surface:#FFFFFF;
+    --ink:#0E1B2C;
+    --sub:#4C5C70;
+    --line:rgba(14,27,44,0.10);
+    --blue:#1F3E8C;
+    --blue-bright:#2E64F0;
+    --blue-soft:rgba(46,100,240,0.10);
+    --nav-bg:rgba(245,248,252,0.88);
+    
+            /* Logo colors - Light mode */
+    --logo-primary: #0055d4;
+    --logo-accent: #2E64F0;
+    --logo-fill: #0E1B2C;
+  }
+  [data-theme="dark"]{
+    --bg:#0A0F17;
+    --surface:#0F1622;
+    --ink:#F2F6FC;
+    --sub:#93A3B8;
+    --line:rgba(242,246,252,0.10);
+    --blue:#4C7EFF;
+    --blue-bright:#5B8DFF;
+    --blue-soft:rgba(76,126,255,0.14);
+    --nav-bg:rgba(10,15,23,0.88);
+    
+            /* Logo colors - Dark mode */
+    --logo-primary: #4C7EFF;
+    --logo-accent: #5B8DFF;
+    --logo-fill: #F2F6FC;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;transition:background .25s ease, color .25s ease;}
+  h1,h2,h3{font-family:'Sora',sans-serif;font-weight:600;letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 32px;}
+
+  .skip-link{position:absolute;top:-100px;left:16px;background:var(--blue-bright);color:#fff;padding:12px 20px;border-radius:8px;font-size:0.9rem;font-weight:600;z-index:100;transition:top .2s ease;}
+  .skip-link:focus{top:16px;}
+
+  nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:65px;}
+.logo{display:flex;align-items:center;}
+  .logo svg{display:block;height:80px;width:auto;}
+  .nav-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;border:1px solid transparent;transition:transform .15s ease, background .2s ease;text-decoration:none;text-align:center;}
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--blue-bright);color:#fff;}
+  .btn-primary:hover{background:var(--blue);}
+  .btn-ghost{background:transparent;color:var(--blue-bright);border-color:var(--blue-bright);}
+  .btn-ghost:hover{background:var(--blue-soft);border-color:var(--blue);color:var(--blue);}
+
+  .user-chip{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:0.85rem;cursor:pointer;text-align:center;}
+  .user-chip .avatar{width:24px;height:24px;border-radius:50%;background:var(--blue-soft);color:var(--blue-bright);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:600;}
+
+  section{padding:80px 0;}
+  .content{max-width:800px;margin:0 auto;}
+  .content h1{font-size:2.2rem;margin-bottom:8px;}
+  .content .last-updated{color:var(--sub);font-size:0.9rem;margin-bottom:40px;}
+  .content h2{font-size:1.3rem;margin-top:36px;margin-bottom:12px;color:var(--blue-bright);scroll-margin-top:90px;}
+  .content h3{font-size:1.05rem;margin-top:22px;margin-bottom:10px;color:var(--ink);}
+  .content a{color:var(--blue-bright);text-underline-offset:3px;}
+  .legal-note,.toc,.contact-box{border:1px solid var(--line);border-radius:12px;background:var(--surface);}
+  .legal-note{padding:16px 18px;margin:0 0 28px;color:var(--sub);font-size:.92rem;line-height:1.65;}
+  .toc{padding:18px 20px;margin:0 0 32px;}
+  .toc h2{margin:0 0 10px;font-size:1rem;color:var(--ink);}
+  .toc ol{margin:0;padding-left:22px;}
+  .toc li{margin:5px 0;line-height:1.45;}
+  .plan-table-wrap{overflow-x:auto;margin:18px 0 24px;border:1px solid var(--line);border-radius:12px;background:var(--surface);}
+  .plan-table{width:100%;border-collapse:collapse;min-width:680px;font-size:.9rem;}
+  .plan-table th,.plan-table td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;}
+  .plan-table th{font-family:'Sora',sans-serif;color:var(--ink);background:var(--blue-soft);}
+  .plan-table tr:last-child td{border-bottom:none;}
+  .contact-box{padding:18px 20px;}
+  .content p{line-height:1.7;color:var(--sub);margin-bottom:16px;}
+  .content ul{margin-bottom:16px;padding-left:24px;}
+  .content li{line-height:1.7;color:var(--sub);margin-bottom:8px;}
+
+  .floating-theme-toggle{
+    position:fixed;bottom:24px;right:24px;z-index:60;
+    display:flex;align-items:center;gap:8px;
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:16px;padding:8px 12px;
+    box-shadow:0 8px 24px rgba(14,27,44,0.12);
+    backdrop-filter:blur(8px);
+    cursor:pointer;border:none;outline:none;
+    color:var(--sub);transition:background .15s ease, color .15s ease;
+  }
+  .floating-theme-toggle:hover,
+  .floating-theme-toggle:focus-visible{
+    background:var(--blue-soft);color:var(--blue-bright);
+  }
+  .ftt-icons{display:flex;align-items:center;justify-content:center;position:relative;width:20px;height:20px;}
+  .ftt-icons svg{position:absolute;transition:opacity .15s ease;}
+  .ftt-label{font-size:0.72rem;font-weight:600;letter-spacing:0.03em;text-transform:uppercase;}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;background:var(--surface);text-align:center;}
+  footer .wrap{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  footer .copyright{font-size:0.8rem;color:var(--sub);}
+  footer .built-with{font-size:0.75rem;color:var(--sub);}
+  footer .secured-by{font-size:0.72rem;color:var(--sub);}
+
+  /* ----- GHOST LINKS (blue) ----- */
+  .legal-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px 28px;
+    max-width: 100%;
+    margin: 12px 0 8px;
+    padding: 0;
+  }
+  .legal-footer-links a {
+    display: inline-block;
+    color: var(--blue-bright);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+  .legal-footer-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--blue-bright);
+    transition: width 0.25s ease;
+  }
+  .legal-footer-links a:hover,
+  .legal-footer-links a:focus-visible {
+    color: var(--blue);
+  }
+  .legal-footer-links a:hover::after,
+  .legal-footer-links a:focus-visible::after {
+    width: 100%;
+  }
+  .secured-by {
+    font-size: 0.72rem;
+    color: var(--sub);
+    display: inline-flex;
+    align-items: center;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 520px) {
+    .btn {
+      padding: 9px 16px;
+      font-size: 0.84rem;
+    }
+    .nav-actions {
+      gap: 8px;
+    }
+  }
+
+  @media (max-width:768px){
+    .wrap{padding:0 20px;}
+    .content h1{font-size:1.8rem;}
+    section{padding:48px 0;}
+    .floating-theme-toggle{bottom:16px;right:16px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    body,.skip-link,.floating-theme-toggle,.ftt-icons svg,.btn{transition:none!important;}
+  }
+  :focus-visible{outline:2px solid var(--blue-bright);outline-offset:3px;}
+</style>
+</head>
+<body>
+<nav aria-label="Main navigation">
+  <div class="wrap">
+   <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox="280 300 700 150"
+        role="img"
+        aria-label="CloudBotServices"
+        style="height:auto;width:233px;"
+      >
+        <!-- Primary color (blue) -->
+        <g fill="var(--logo-primary)">
+          <path d="M359.1 322c-2.4.5-6.2 1.9-8.5 3.1-7.8 3.9-19.6 17.3-19.6 22.1 0 .7.9-.5 2-2.7s2.7-4.3 3.5-4.8c.8-.4 1.5-1.4 1.5-2 0-2.4 8.5-9.6 14.5-12.3 5.2-2.3 7.4-2.7 16.1-2.8 10.4-.1 10.3-.1 21.4 5.5 1.9.9 4 2.7 4.6 3.9s1.5 2.1 1.9 2c1-.2 8.5 8.9 8.5 10.4 0 2.5 4.5 10.2 6 10.2 6.1.2 13.6 3 17.1 6.5 1 1 2.2 1.9 2.7 1.9.4 0 1.6 1.6 2.6 3.5 1.1 1.9 2.3 3.5 2.8 3.5.4 0 .8.8.9 1.7 0 1.1.3 1.3.6.6.7-1.9-5.4-9.7-10.4-13.3-3.4-2.5-12.2-6.2-14-6-3.3.3-4.2-.4-5.8-4.8-3.9-10.6-10.8-18.2-20.7-23.1-5.6-2.8-8.1-3.4-15-3.7-4.6-.1-10.3.1-12.7.6"/>
+          <path d="M364 327.7c-4.9.9-11.2 3.4-14.4 5.8-1.8 1.4-3.8 2.5-4.4 2.5s-1.4.9-1.7 2-1 2-1.4 2c-.5 0-1.4 1.3-2.1 3-.7 1.6-1.6 3-2.1 3s-.9 1.2-.9 2.7c0 2.3.4 1.9 2.6-2.5 5.2-10.5 17.4-17.6 29.6-17.3 3.4.1 5.9-.2 5.5-.5-.8-.8-7.4-1.2-10.7-.7m16.6 3.1c9 3.7 14.1 8.7 19.3 18.7 1.1 2.2 2 3.4 2.1 2.7 0-1.3-.9-3.1-5.3-10.4-3.2-5.2-13.8-12.8-17.8-12.7-1.9 0-1.6.3 1.7 1.7m-51 19.7c-.9 2.6-.7 3.2.5 1.2.6-1 .9-2.1.6-2.3-.2-.3-.7.2-1.1 1.1m5.8 3.2c-.8 2-1.1 2.9-1.3 4.2 0 .5-2.6 1.3-5.6 1.6-3 .4-6.9 1.3-8.7 1.9-3.2 1.1-11.8 8.2-11.8 9.6 0 .4 1.7-.8 3.7-2.8 4.9-4.6 10.7-7.2 16.4-7.2 5.4 0 7.5-1.4 8.3-5.8.6-3.5.2-4.2-1-1.5"/>
+          <path d="M323.9 353.4c-.3.3-2 .8-3.8 1.1-4.9.8-8.4 2.9-13.1 7.7s-9.3 14-8.7 17.2q.45 2.55.6-.6c0-1.5.6-3 1.1-3.3.6-.3 1-1.5 1-2.6 0-1 .5-1.9 1-1.9.6 0 1-.8 1-1.8 0-2 6.3-8.2 11.5-11.4 1.7-1 5.1-2.1 7.8-2.4 4.7-.7 7.6-2.4 3.9-2.4-1 0-2.1.2-2.3.4m78.1 4.4c0 1.3 2.7 3.5 3.9 3 .5-.1-.2-1.1-1.5-2.1s-2.4-1.4-2.4-.9m7.2 2c-1 .7-.5.9 1.5.9 1.5 0 4.5.7 6.6 1.6 3 1.4 3.7 1.5 3.7.3 0-.7-1.2-1.6-2.7-1.9-1.6-.3-3.9-.8-5.3-1.2-1.4-.3-3.1-.1-3.8.3m189.5 3.9c-.4.3-.7 1.8-.6 3.2l.1 2.6.7-2.5c.6-2.3 1.2-2.5 6.5-2.7 8-.2 8.4-1.3.4-1.3-3.5 0-6.8.3-7.1.7"/>
+          <path d="M615.6 364.4c1.8.7 3.5 1.9 3.8 2.5.4.6 1.2 1.1 1.9 1.1 2.2 0-2.8-3.9-5.8-4.5l-3-.6zm-190.3 2.9c4.8 4.5 7.6 10.9 7.7 17.2 0 3.7.3 4.6 1 3.5 2.2-3.2-1.8-15.7-6.2-19.6-4.3-3.8-6.3-4.7-2.5-1.1m235.6-.2c-1.1.7-.9.9.8.9 1.2 0 2.4.6 2.6 1.2q.6 1.2.6-.3c.1-2.1-2.1-3-4-1.8m-50 1.9c3.3.8 5.1 2.4 5.1 4.7 0 2.1-4.7 4.5-8.2 4.1-2.9-.3-3.4-.7-4-3.8l-.6-3.5.1 4c.2 3.9.3 4 3.9 4.3 2 .2 5.1-.4 6.8-1.3 2.9-1.5 3.1-2 2.6-4.8-.7-3.7-2.1-4.7-6.1-4.6l-3 .1zm10.9 3.2c-.3 1.8-.8 4.2-1.2 5.3-.8 2-.7 2 .8.1.9-1.1 1.6-3.5 1.6-5.3 0-4.2-.6-4.2-1.2-.1"/>
+          <path d="M598.2 383.7 598 398l9.3-.2 9.2-.2-8.7-.3-8.7-.4-.4-13.7-.3-13.7zm-291.8-9.9c-1.7 1.1-3.8 15.2-2.5 16.5.6.6 1.1 2.1 1.1 3.4s.4 2.3.9 2.3 1.2.8 1.6 1.9c.7 2.2 5 7.1 6.3 7.1.5 0 1.5.6 2.1 1.3 1.6 2 8.7 3.9 15.5 4.2 6.2.3 8.2 1.4 7.3 3.9-.8 2.1-12.4 2.2-17.2.2-1.9-.8-3.5-1.2-3.5-.8 0-.3-.5.1-1.2-.6s-1.9-1.2-2.7-1.2c-1.4 0-1.4.1-.1 1 3.5 2.3 12.4 4.1 18.8 3.8 6.1-.3 6.7-.5 7-2.6.6-4-1.4-5.2-8.8-5.2-18.5 0-30.5-15.7-24.6-32.3.8-2 1.3-3.7 1.2-3.7zm358.6.9c0 1 .6 1.4 2 1 2.5-.6 2.7 1.8.3 3.2-1.5.9-1.5 1-.2 1.1 1.8 0 3.9-1.9 3.9-3.6 0-.7-1.3-1.7-3-2.3-2.5-.8-3-.7-3 .6m-226.2 9.2c.3 9.6.3 9.9-3.2 15.7-6.2 10.6-17.1 16.4-30.8 16.4-5.1 0-5.8-.2-5.8-1.9 0-1.1 1-2.7 2.2-3.5 1.2-.9 1.8-1.6 1.3-1.6-.6 0-2.1.9-3.5 2-2.1 1.6-2.3 2.2-1.4 3.7 1 1.5 2.5 1.8 10 1.7 7.4 0 9.9-.5 14.4-2.6 7-3.3 12.2-8.2 15.4-14.6 2.3-4.4 2.6-6.4 2.6-14.6 0-5.2-.3-9.7-.7-9.9-.5-.3-.7 3.9-.5 9.2m192.8-6.7c-1.9 1.8-3.7 4.4-4.1 5.8-.6 2.4-.5 2.4.7.4 2.7-4.3 5.5-7.2 7.4-7.6 1.3-.2 1.5-.6.7-1.1s-2.6.5-4.7 2.5m9.8-2.5c2.1.3 4.9 1.1 6.1 1.9 5.6 3.7 5.9 13.2.6 18.3-1.8 1.7-2.8 3.1-2.3 3.1.4 0 2.1-1.3 3.7-3 2.2-2.3 2.9-4.1 3.3-8.5.4-5.2.3-5.6-3.1-9-3-3-4.1-3.5-7.8-3.3l-4.4.1zm14.3 0c-1.3 1.2-.7 4.4.8 4.9 1.1.5 1.5 2.2 1.5 6.6 0 5.4 1.9 11.6 3.8 11.9 3.3.7 8.4.4 8.9-.4.4-.6-.6-.8-2.8-.5-1.9.3-4 .3-4.7.1-2.4-.9-4.2-6.2-4.2-12.3 0-4.5-.4-6.2-1.5-6.6-1-.4-1.3-1.3-1-2.5.7-2 .3-2.4-.8-1.2"/>
+          <path d="M642.8 379.7c2 .8 4.4 6.2 3.7 8.4-.4 1.1-2.1 2.9-3.8 4-1.8 1-2.7 1.9-2 1.9s2.7-1 4.6-2.3l3.3-2.3-1.5-5.2c-1.2-4.1-2-5.2-3.6-5.1-1.1 0-1.4.3-.7.6m-8.9 2.1-2.6 1.5 2.4 4.9c1.5 3.2 2.9 4.8 4.1 4.7 1.4-.1 1.5-.2.1-.6-1.7-.4-3.9-4.4-3.9-7 0-.9.7-2.5 1.7-3.5 1.9-2.1 1.7-2.1-1.8 0m-12.4 1.2c1 1.1 2 1.8 2.3 1.5.7-.6-1.8-3.5-3.1-3.5-.5 0-.2.9.8 2m42 1.1c-.4 1.8-.3 3.5.4 4.2.8.8 1.1 0 1.1-3.1 0-5-.6-5.4-1.5-1.1M297 385c0 1.6.4 3 .8 3 .5 0 .7-1.4.4-3-.2-1.7-.6-3-.8-3s-.4 1.3-.4 3m309.5-2c-.4.6 1.1 1 3.8 1 3.1 0 4.9.6 6.1 1.9 1.7 1.9 1.7 2.1-.9 4.6-1.8 1.9-3.3 2.6-5.1 2.2-1.3-.2-2.4 0-2.4.6 0 1.8 7-.1 9-2.5 2.6-3.1 2.5-4.1-1-6.6-3-2.3-8.4-2.9-9.5-1.2m17.6 4.1c-.2 2.8-3.2 7.9-4.6 7.9-.7 0-1.5.7-1.9 1.5-.4 1.3-.2 1.3 1.4.5 3-1.6 6.2-6.8 5.7-9.3-.2-1.2-.5-1.5-.6-.6m-20.7 3.4c.1 1.2.9 2.1 2.1 2.2q2.1.15.3-.3c-.9-.3-1.9-1.3-2.1-2.2q-.45-1.8-.3.3m23.6-1.8c0 1.6 4.1 7.5 4.8 6.9.3-.4.2-1-.4-1.4s-1.4-1.9-1.8-3.5c-.6-2.4-2.6-3.9-2.6-2m-328.8 2.8c0 1.6.2 2.2.5 1.2.2-.9.2-2.3 0-3-.3-.6-.5.1-.5 1.8m133.6 1.1c-1 4.7-7.6 11.9-12.8 14-2.5 1-7 2.1-10 2.5l-5.5.6 5.9.2c6.4.1 15.2-3.1 16.1-6 .3-.9 1.7-2.2 3-2.9 1.4-.7 2.3-1.6 2-1.8-.3-.3.2-1.6 1.1-2.9.8-1.3 1.4-3.4 1.2-4.6-.3-1.8-.5-1.6-1 .9m233.2-2.1c0 .5.4 1.5.8 2.1.9 1.4 5.2 2.5 5.2 1.3 0-.5-.9-.9-2-.9-1 0-2.4-.8-2.9-1.8-.6-.9-1-1.3-1.1-.7m-366 4.9c0 .5 1.3 3 2.9 5.5 3.3 5 10.1 12.1 10.1 10.4 0-.5-1.3-2-2.9-3.2-1.6-1.3-3.2-3.4-3.6-4.8-.3-1.4-.9-2.2-1.3-1.9-.3.4-1.6-1-2.9-3.1s-2.3-3.4-2.3-2.9m334 1.6c0 1.2 6 2.3 9.1 1.7 1.9-.3 1.8-.5-.8-.6-1.7 0-4.3-.5-5.7-1.1-1.6-.6-2.6-.6-2.6 0m-278.7 16.9c-2.9.4-6 1.4-6.9 2.3-1.5 1.5-1.4 1.8 1.7 3.4 2.6 1.4 6.3 1.9 16.2 2.2 15 .5 20.7-.2 23.9-2.8 2.8-2.3 1.5-4.1-3.4-4.8-5.8-.8-26.1-1-31.5-.3m27.2 1.2c4.1.6 7.5 1.5 7.5 2 0 2.1-5.4 3.3-16.4 3.7-11.6.4-21.9-.9-23.2-3-.9-1.4-.2-1.7 5.7-2.7 7.8-1.3 17.7-1.3 26.4 0"/>
+        </g>
+
+        <!-- Accent color (bright blue) -->
+        <g fill="var(--logo-accent)">
+          <path d="M360.5 322.9c-6.5 1.2-13.7 4.9-18.2 9.4-2.4 2.2-4.3 4.6-4.3 5.2 0 .5-1.1 2-2.5 3.3-1.3 1.3-3.1 4.4-4 7.1-1.7 5.2-3.5 6.6-10 7.6-2.2.4-5.3 1.4-7 2.4-5 2.9-11.5 9.3-11.5 11.3 0 1-.4 1.8-1 1.8-.5 0-1 .8-1 1.8s-.5 2.3-1.1 2.9c-2.1 2.1-1.8 20 .4 18.6.6-.4.8 0 .5.9-.7 1.6 2.5 7.2 3.4 6.2.4-.3.9.5 1.3 1.8.9 2.6 7 8.8 8.9 8.8.6 0 1.7.5 2.4 1.2s1.2.9 1.2.6c0-.4 1.6 0 3.5.8 4.8 2 16.4 1.9 17.2-.2.9-2.5-1.1-3.6-7.3-3.9-6.8-.3-13.9-2.2-15.5-4.2-.6-.7-1.6-1.3-2.1-1.3-1.3 0-5.6-4.9-6.3-7.1-.4-1.1-1.1-1.9-1.6-1.9s-.9-1-.9-2.3-.5-2.8-1.1-3.4c-1.5-1.5.9-15.5 2.8-16.6.7-.4 1.3-1.4 1.3-2.1 0-1.9 8-8.9 11.8-10.2 1.8-.6 5.7-1.5 8.7-1.9 3-.3 5.5-1.1 5.5-1.6 0-1.7.2-2.4 1.6-4.4.8-1.1 1.4-3.2 1.4-4.7 0-1.6.4-2.8.9-2.8s1.4-1.4 2.1-3c.7-1.7 1.6-3 2.1-3 .4 0 1.1-.9 1.4-2s1.1-2 1.7-2 2.6-1.1 4.4-2.5c10-7.6 27.2-7.7 38.6-.1 6.6 4.4 13.8 14.7 13.8 19.8 0 1.9.2 2 1 .8s1-1 1 .8c0 1.6-.4 2.1-1.2 1.6-.7-.4-.5.2.6 1.4 1.4 1.7 3 2.1 6.5 2.1 5.9-.1 11.1 1 11.2 2.5 0 .6 1.9 2.5 4.2 4.1 8.7 6.4 11.7 21.4 5.9 30.2-.8 1.3-1.2 2.3-.9 2.3s-1 1.5-2.9 3.4c-5.4 5.4-10.9 7.6-19 7.6-7.2 0-9.4 1-9.4 4.2 0 1.5.9 1.8 5.8 1.8 13.6 0 24.6-5.8 30.8-16.3 3.2-5.4 3.4-6.4 3.4-14.7 0-9-1-12.9-4.2-16.4-1-1.1-2-2.8-2.4-3.8-.3-1-1-1.8-1.5-1.8s-1.8-.9-2.8-1.9c-3.5-3.5-11-6.3-17.1-6.5-1.5 0-6-7.7-6-10.2 0-1.5-7.5-10.6-8.5-10.4-.4.1-1.3-.8-1.9-2-1-2-2.9-3.2-11.9-7.6-3.4-1.6-16.6-2.6-22.2-1.5m251.2 40.8c-.3.2-3.1.5-6.3.6-7.2.2-7-.2-6.6 18.7l.3 13.9 9.1.3c6.6.2 9.2 0 9.5-1 .3-.6 1.1-1.2 1.8-1.2 1.5 0 4.5-5.4 4.5-8 0-.9-.9-2.5-2.1-3.6-1.6-1.4-1.9-2.6-1.4-4.9 1.8-8.9 1.8-9.4-.6-11.5-2.7-2.1-7.5-4.1-8.2-3.3m3 5.1c.7.4 1.6 2.2 1.9 3.9.5 2.8.3 3.3-2.6 4.8-1.7.9-4.8 1.5-6.8 1.3-3.6-.3-3.7-.4-3.7-4.3 0-3.2.5-4.2 2.5-5.2 2.8-1.4 6.9-1.7 8.7-.5m1.3 15.4c3.5 2.6 3.6 3.5.9 6.8-1.7 1.9-3.1 2.5-6.3 2.5-6.6-.1-7.6-.8-7.6-5.9 0-3.5.3-4.4 1.4-4 .8.3 1.7.1 2.1-.5 1.1-1.8 6.4-1.2 9.5 1.1m43.3-14.8c.3.7-.3 2.6-1.4 4.2-2.2 3.4-2.4 4.8-.5 4.1 1-.4 1.3 1.1 1.5 6.5.2 7.2 1.9 12.1 4.4 13.1 2.2.8 6.7-.4 6.7-1.9 0-.8-.8-1.4-1.8-1.4-2.4 0-5.5-7-4.6-10.5.3-1.4 1.7-3.3 3-4.2 3-1.9 3.2-4.3.4-3.6-1.6.4-2 0-2-2 0-4.1-1-5.7-3.7-5.7-1.7 0-2.3.4-2 1.4m-23.7 6.3c-2.5.6-5.7 4.6-7.2 8.6-.9 2.5-.8 3.4.2 4.5.8.7 1.4 2.1 1.4 3.1 0 2.4 6.9 6.1 11.4 6.1 9.5 0 14.2-13.9 6.9-20.6-2.6-2.4-7.5-3-12.7-1.7m11.5 8.5 1.5 5.2-3.3 2.3c-5.1 3.5-8.8 2.3-11.7-3.7l-2.3-4.7 3.1-1.6c2.8-1.5 5.6-2.2 9.6-2.6 1.1-.1 2.1 1.6 3.1 5.1"/>
+          <path d="M355.1 415.1c-5.9 1-6.6 1.3-5.7 2.7 2.8 4.6 39.6 3.9 39.6-.7 0-2.4-23.2-3.8-33.9-2"/>
+        </g>
+
+        <!-- Fill color - Dark in light mode, light in dark mode -->
+        <path fill="var(--logo-fill)" d="M365.3 345.2c-5 2.4-2.6 9.8 3.4 10 5.9.2 8.3-5.2 4.1-9.2-2.4-2.2-4.2-2.4-7.5-.8m.7 16.4c0 1.9.5 2.4 2.5 2.4 1.8 0 2.5-.5 2.5-1.9 0-1.2-.9-2-2.5-2.3-2.1-.4-2.5-.1-2.5 1.8m102.8 2.1c-1 .2-1.8.8-1.8 1.2s-1.1 1.3-2.5 1.9c-3 1.4-7.5 10-7.5 14.4 0 4.2 3.5 10.3 8 13.9 3 2.4 4.5 2.9 10.2 3 6 .2 7.3-.2 10.8-2.6l4.1-2.8-2.8-2.3c-2.4-1.9-3-2-4.4-.8-3.2 2.8-7.4 3.6-11.2 2-4.7-1.9-7-5.7-7-11.3 0-4 .4-5 3.6-8 4.3-3.9 8.5-4.3 13.6-1.2 3 1.8 3.5 1.9 5.7.4 2.5-1.6 2.3-3.9-.4-4.9-.9-.4-2.8-1.3-4.2-2.1-2.3-1.4-10.3-1.8-14.2-.8m25.2 16.8V398h7v-16.9c0-16.6 0-16.9-2.2-17.5-4.9-1.3-4.8-1.6-4.8 16.9m187.5-16.3c-4.4 2.6-5.8 4.7-5.8 8.8 0 3.5.6 4.6 3.4 7 1.9 1.5 3.7 2.6 4 2.4 1-.6 7.2 1.7 9.2 3.4 5.1 4.4-3 9.5-9.6 6.1-1.2-.7-2.4-1.5-2.7-2-.3-.4-1.5.3-2.6 1.6l-2.1 2.3 2.8 2.1c3.9 2.9 15.3 2.9 18.7.1 2.8-2.3 4.4-7.4 3.2-10.3-1.2-3.1-4.8-6.7-6.8-6.7-.9 0-3.6-.7-5.9-1.6-3.2-1.3-4.3-2.2-4.3-3.8 0-4.5 4.8-6 10.2-3.2 2.5 1.3 2.8 1.3 4.3-1.1.9-1.3 1.5-2.5 1.3-2.6s-1.7-1-3.5-2c-3.5-1.9-10.8-2.2-13.8-.5m93.2-.6c-.4.4-.7 2-.7 3.5 0 2 .6 2.8 2.5 3.1 3.3.7 6.4-2.6 4.9-5-1.2-1.8-5.5-2.8-6.7-1.6M582 370v6.2l-2.7-.8c-10.5-3.1-18.3 3.1-16.4 13.1.5 2.6 1.8 5.7 2.9 6.8 2.7 2.6 9.8 3.7 13.2 2 1.5-.8 2.6-.9 2.8-.3s1.6 1 3.1 1c2.7 0 2.8-.2 3.3-5.8.3-3.1.5-10.7.4-16.7l-.1-11-3.2-.3-3.3-.3zm-2.2 10.6c3.3 2.3 3.1 8.6-.5 11.3-3 2.4-5.8 2-8.6-1.2-2-2.3-1.8-7.6.4-10.3 1.5-1.9 5.9-1.8 8.7.2m-230.3-10.4c-5.3 1.7-7 5.2-7.4 15.1-.5 13.9 1 18.3 7.3 20.7 1.5.5 10.4 1 19.7 1 18.9 0 21.5-.6 24.9-6.3 2.7-4.3 2.8-19.5.2-24.7-2.9-6-6.3-6.9-25.2-6.8-9.1 0-17.8.4-19.5 1m9.6 13.5c2 1.2 2.9 2.4 2.7 3.7-.4 2.6-2.5 3.2-3.2.8-.5-1.4-1.3-1.8-3.1-1.4-1.4.2-2.5 1.1-2.5 1.9 0 2.2-2.5 1-2.8-1.4-.2-1.3.6-2.7 2-3.7 2.8-2 3.3-2 6.9.1m27.5.7c1.6 2.2 1.9 5.6.5 5.6-.5 0-1.1-.7-1.5-1.5-.3-.9-1.8-1.5-3.6-1.5s-3.3.6-3.6 1.5c-.4.8-1 1.5-1.5 1.5-1.2 0-1.1-2.2 0-5.2.7-1.9 1.6-2.4 4.6-2.3 2.4 0 4.1.7 5.1 1.9m-9.6 11.2c0 1.6-.8 2.3-3.1 2.8-7.5 1.5-13.9-.3-12.7-3.5.4-1 2.6-1.4 8.2-1.4 7.1 0 7.6.1 7.6 2.1m133.3-19.3c-6.8 5.4-6.9 13.7-.4 19.1 2.6 2.1 3.4 2.4 9.1 2.7 9.6.6 15.7-11.6 9.4-19-4.2-5-13.5-6.4-18.1-2.8m11.5 3.6c1.9 1.1 2.7 8.3 1.3 11-1.8 3.2-7.3 2.9-10.1-.6-4.6-5.9 2.5-14.4 8.8-10.4m189.5-4.9c-4.5 1-6.1 2.6-7.3 7.1-1.4 5.1-.4 10.2 2.6 13 3.1 2.9 11.4 4.1 15.2 2.2 3.5-1.9 3.5-1.8 2.2-4.2-1-2-1.3-2-3.3-.6-2.9 2-7 1.9-9-.3-3.2-3.5-2.1-4.2 6.8-4.2 8 0 8.5-.1 8.5-2.1 0-2.9-2.9-8.8-4.9-9.8-2.7-1.4-7.4-1.9-10.8-1.1m6.9 4.7c3.3 2.9 2.2 4.3-3.2 4.3s-6.2-1-3.3-4.2c2-2.2 4.1-2.3 6.5-.1m21.6-4.3c-1.6.8-2.8 1.1-2.8.5 0-.5-1.6-.9-3.5-.9H730v23h7.1l-.3-7.1c-.3-6.4-.1-7.3 2.1-9 1.3-1 3.2-1.9 4.3-1.9 1.5 0 1.9-.6 1.6-2.7-.4-3.3-1.5-3.7-5-1.9m53.6-.5c-6.6 1.6-10 8.9-7.5 16.3 1.5 4.4 5.6 6.8 11.8 6.8 6.9-.1 10.3-3.1 6.8-6-1.2-1-1.9-1-2.7-.2-.7.7-2.6 1.2-4.4 1.2-5.8 0-8.5-7.7-4.1-11.7 2.4-2.3 5-2.4 8.3-.6 2.3 1.3 4.4.1 4.4-2.4 0-2.6-7.4-4.6-12.6-3.4m23.9.1c-4.5 1-6.1 2.6-7.4 7-1.6 5.4-.4 10.4 3.2 13.4 5.8 4.9 19.7 2.8 16.8-2.6-1-1.8-1.2-1.8-3.5-.3-3.9 2.5-10.4.6-10.4-3.1 0-1.1 1.9-1.4 8.5-1.4 9.6 0 10.1-.6 6.9-7.3-2.5-5.2-7.6-7.3-14.1-5.7m7.1 5.2c2.4 3.4 2 3.8-3.4 3.8s-6.5-1.4-3.4-4.4c2.2-2.2 5-2 6.8.6m16-5.1c-2.1.6-3.6 1.9-4.4 3.8-1.6 4 .2 6.7 6.5 9 3.5 1.3 5 2.4 5 3.7 0 2.5-4.8 3.1-8 1-2-1.3-2.5-1.4-3.5 0-1 1.2-.9 1.8.5 3.4s3.1 2 7.6 2c5.1 0 6-.3 7.9-2.7 3.6-4.6 1.4-9-6-11.4-4.6-1.5-5.6-2.5-4.1-4.3 1.3-1.6 5.6-1.5 7.3.2.8.8 1.5.6 2.6-.4 1.3-1.3 1.3-1.7.1-2.9-1.9-1.8-7.8-2.5-11.5-1.4M535 384.2c.1 11.5 1.4 13.8 8.1 13.8 2.5 0 5-.7 6.1-1.7 1.7-1.5 1.8-1.5 1.8 0 0 1.3.9 1.7 3.5 1.7h3.5v-23h-7v7.8c0 8.2-.9 10.2-4.5 10.2s-4.5-2-4.5-10.2V375h-7zm212-8.3c0 1.1 6.3 17.1 7.9 20.1.8 1.4 4.3 2.1 6.8 1.2.7-.2 2.1-2.9 3.3-5.9 1.1-3 2.6-6.7 3.4-8.1.7-1.5 1.6-3.9 2-5.5.6-2.5.4-2.7-2.7-2.7-3.3 0-3.4.1-5.6 7.5-1.3 4.1-2.7 7.5-3.1 7.5s-1.8-3.4-3.1-7.5c-2.3-7.3-2.5-7.5-5.6-7.5-1.8 0-3.3.4-3.3.9m27 10.6V398h7v-23h-7zm-440.8-4.9c-1.8 1.2-2.2 2.5-2.2 6.9 0 5.4 1.6 8.5 4.5 8.5 1.7 0 2.5-3.2 2.5-10.8 0-6.7-.8-7.5-4.8-4.6m66.8 6.8c0 7.5.2 8.6 1.8 8.6 3.7 0 4.7-1.7 4.7-7.9 0-6.3-.6-7.4-4.2-8.6-2.3-.6-2.3-.5-2.3 7.9"/>
+      </svg>
+      
+  </div>
+</nav>  
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<main id="main-content" tabindex="-1">
+  <div class="wrap">
+    <div class="content">
+      <h1>Terms of Service</h1>
+      <p class="last-updated">Last updated: August 12, 2026</p>
+      <div class="legal-note"><strong>About CloudBotServices:</strong> CloudBotServices (CBS) is currently a digitally operated startup project based in Nigeria and serving customers internationally. CBS is not currently presented as a registered company or as having a public physical office address. These Terms are a practical starting document and should be reviewed by qualified legal counsel before commercial launch or when the business is formally registered.</div>
+      <div class="toc"><h2>Contents</h2><ol>
+        <li><a href="#acceptance">Acceptance of Terms</a></li><li><a href="#service">About the Service</a></li><li><a href="#accounts">Accounts and Security</a></li><li><a href="#billing">Plans, Usage and Billing</a></li><li><a href="#trials">Free Trials</a></li><li><a href="#payg">Pay As You Go</a></li><li><a href="#ai">Automation and AI</a></li><li><a href="#integrations">Third-Party Platforms</a></li><li><a href="#use">Acceptable Use</a></li><li><a href="#data">Customer Content and Data</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#ip">Intellectual Property</a></li><li><a href="#availability">Service Availability</a></li><li><a href="#termination">Suspension and Termination</a></li><li><a href="#disclaimers">Disclaimers and Liability</a></li><li><a href="#international">International Use</a></li><li><a href="#changes">Changes to Terms</a></li><li><a href="#law">Governing Law and Disputes</a></li><li><a href="#general">General Provisions</a></li><li><a href="#contact">Contact</a></li>
+      </ol></div>
+
+      <h2 id="acceptance">1. Acceptance of Terms</h2><p>By accessing or using CloudBotServices ("CBS," "the Service," "we," "us," or "our"), you agree to these Terms. If you do not agree, do not use the Service. If you use CBS for a business or organization, you represent that you have authority to bind it to these Terms.</p>
+      <h2 id="service">2. About the Service</h2><p>CBS provides digital business automation tools, including bots, customer-conversation automation, order and payment workflows, FAQs, offerings, analytics, and connections to supported messaging and third-party platforms. Features vary by plan and configuration.</p>
+      <h2 id="accounts">3. Accounts and Security</h2><p>You must provide accurate information and protect your credentials. You are responsible for activity under your account and for team-member permissions you create. Notify CBS promptly of suspected unauthorized access.</p>
+      <h2 id="billing">4. Plans, Usage and Billing</h2><p>CBS currently offers the following structure. Prices and features may change as the Service evolves:</p>
+      <div class="plan-table-wrap"><table class="plan-table"><thead><tr><th>Plan</th><th>Price</th><th>Conversations / month</th><th>Other limits</th><th>Trial</th></tr></thead><tbody>
+      <tr><td>Starter</td><td>$19/month or $182.40/year</td><td>1,000</td><td>1 bot; 50 offerings</td><td>3 days</td></tr>
+      <tr><td>Growth</td><td>$49/month or $470.40/year</td><td>5,000</td><td>Up to 3 bots; 250 offerings</td><td>3 days</td></tr>
+      <tr><td>Business</td><td>$99/month or $950.40/year</td><td>20,000</td><td>Up to 10 bots; unlimited offerings</td><td>3 days</td></tr>
+      <tr><td>Pay As You Go</td><td>$0.02/conversation</td><td>No fixed limit</td><td>Usage-based</td><td>Not applicable</td></tr>
+      <tr><td>Enterprise</td><td>Custom</td><td>Unlimited</td><td>Unlimited bots; custom arrangement</td><td>Custom</td></tr>
+      </tbody></table></div>
+      <p>Annual subscription prices represent a 20% saving against twelve monthly payments at the listed monthly price. Subscription fees are billed in advance for the selected period unless checkout says otherwise. Monthly plans renew automatically unless cancelled before renewal.</p>
+      <p><strong>Conversation:</strong> a customer interaction counted by CBS's usage system. A conversation may contain multiple messages. CBS may publish additional counting rules, exclusions, or usage details in the Service. Monthly conversation allowances do not roll over unless expressly stated.</p>
+      <p>Payments are processed through Stripe or another payment provider made available by CBS. Payment providers may apply their own terms, verification requirements, taxes, or fees. CBS may change prices or features with reasonable advance notice where required by applicable law.</p>
+      <h2 id="trials">5. Free Trials</h2><p>Starter, Growth, and Business may include a three-day trial. Enterprise trials may be arranged individually. Pay As You Go has no standard free trial. Where a trial converts to a paid plan, the signup flow will state the applicable billing terms; you are responsible for cancelling before conversion if you do not want the paid subscription.</p>
+      <h2 id="payg">6. Pay As You Go</h2><p>Pay As You Go currently charges $0.02 per conversation and has no monthly or annual subscription commitment. You are responsible for valid usage generated through your account, including usage caused by your automation configurations.</p>
+      <h2 id="ai">7. Automation and AI</h2><p>CBS may combine rule-based automation with AI. AI output can be inaccurate, incomplete, outdated, or unsuitable. You are responsible for reviewing configurations and communications sent through your account. CBS is not a substitute for legal, medical, financial, accounting, or other professional advice.</p>
+      <h2 id="integrations">8. Third-Party Platforms and Integrations</h2><p>CBS may integrate with WhatsApp, Telegram, Instagram, Facebook Messenger, payment providers, APIs, hosting services, and other platforms. Your use of each third-party service remains subject to its own terms and policies. You are responsible for required permissions, verification, customer consent, and compliance. Third parties may change or discontinue integrations.</p>
+      <h2 id="use">9. Acceptable Use</h2><p>You must not use CBS to violate law or third-party rights, send spam or unlawful unsolicited communications, harass or deceive people, commit fraud, distribute malware, gain unauthorized access, infringe intellectual property, bypass limits or billing, or violate the policies of connected messaging platforms.</p>
+      <h2 id="data">10. Customer Content and Data</h2><p>You retain ownership of content and data you submit. You grant CBS the limited rights reasonably necessary to host, process, transmit, store, secure, maintain, and provide the Service. You are responsible for having the necessary rights, notices, consents, and lawful bases for customer information you process through CBS.</p>
+      <h2 id="privacy">11. Privacy</h2><p>CBS's handling of personal information should be described in a separate Privacy Policy that operates alongside these Terms. Nothing here removes rights that cannot lawfully be excluded under applicable privacy or consumer-protection law.</p>
+      <h2 id="ip">12. Intellectual Property</h2><p>Except for customer content and third-party materials, CBS software, interface, branding, documentation, designs, features, and technology are owned by or licensed to CloudBotServices. These Terms grant only a limited right to use the Service during your permitted usage period.</p>
+      <h2 id="availability">13. Service Availability and Changes</h2><p>CBS is an evolving startup service. We may add, modify, suspend, or remove features, integrations, plans, or limits. We aim for reliable availability but do not promise uninterrupted or error-free operation. Maintenance, infrastructure failures, internet issues, third-party outages, platform restrictions, and events outside our control may affect availability.</p>
+      <h2 id="termination">14. Suspension and Termination</h2><p>You may cancel your subscription or stop using CBS through available account controls or by contacting us. CBS may suspend or terminate access for material breaches, unlawful or harmful use, payment failure, security risks, abuse, or third-party/platform requirements. Provisions that should survive termination, including payment, intellectual property, disclaimers, liability, indemnification, and dispute provisions, survive.</p>
+      <h2 id="disclaimers">15. Disclaimers and Limitation of Liability</h2><p>To the maximum extent permitted by law, the Service is provided "as is" and "as available." CBS does not guarantee AI accuracy, message delivery, third-party availability, or that the Service will meet every business requirement.</p><p>To the maximum extent permitted by law, CBS will not be liable for indirect, incidental, special, consequential, exemplary, or punitive damages, or loss of profits, revenue, goodwill, opportunities, or data. CBS's aggregate liability will not exceed the fees you paid to CBS during the twelve months preceding the event giving rise to the claim. Nothing excludes liability that cannot legally be excluded.</p>
+      <h2 id="international">16. International Use and Indemnification</h2><p>CBS serves customers internationally. You are responsible for complying with laws applicable to your business, customers, communications, and personal-data processing. To the extent permitted by law, you agree to indemnify and hold harmless CloudBotServices from claims and reasonable expenses arising from your unlawful use, violation of these Terms, customer content, or infringement of third-party rights.</p>
+      <h2 id="changes">17. Changes to These Terms</h2><p>We may update these Terms as CBS evolves, laws change, or new features are introduced. Material changes will receive reasonable notice where required. The updated document will state its revised date.</p>
+      <h2 id="law">18. Governing Law and Disputes</h2><p>CBS is currently operated as a digital-first startup from Nigeria and is not represented by these Terms as a registered Nigerian company. Subject to mandatory laws and consumer protections, these Terms are intended to be governed by the laws of the Federal Republic of Nigeria. The appropriate dispute forum should be confirmed by qualified Nigerian legal counsel before these Terms become the final commercial agreement, particularly because CBS serves international customers.</p>
+      <h2 id="general">19. General Provisions</h2><h3>Severability</h3><p>If a provision is unenforceable, the remaining provisions remain effective to the extent permitted by law.</p><h3>Waiver</h3><p>Failure to enforce a provision is not a waiver of future enforcement.</p><h3>Assignment</h3><p>You may not transfer your rights or obligations without consent except as permitted by law. CBS may transfer these Terms as part of a lawful reorganization, merger, acquisition, or service transfer.</p><h3>Entire Agreement</h3><p>These Terms and policies expressly incorporated into them form the agreement governing use of CBS, subject to any separate written agreement.</p><h3>Force Majeure</h3><p>CBS is not responsible for delay or failure caused by circumstances reasonably outside its control, including major internet/infrastructure failures, natural disasters, government actions, widespread third-party outages, or civil unrest.</p>
+      <h2 id="contact">20. Contact Information</h2><div class="contact-box"><p>For questions about these Terms, contact CloudBotServices:</p><p><strong>Email:</strong> <a href="mailto:cloudbotservices159357@gmail.com">cloudbotservices159357@gmail.com</a><br><strong>Business location:</strong> Nigeria — digitally operated; CBS does not currently maintain a public physical office address.</p></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="copyright mono">© 2026 CloudBotServices. All rights reserved.</div>
+
+    <!-- Ghost links — now includes "About us" -->
+    <div class="legal-footer-links">
+      <a href="About us.html">About us</a>          <!-- ← added -->
+      <a href="Privacy policy.html">Privacy policy</a>
+      <a href="mailto:cloudbotservices159357@gmail.com">Contact us</a>
+    </div>
+
+    <div class="built-with">Built with love ❤️</div>
+
+    <!-- Secured by WebShield -->
+    <div class="secured-by mono">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;vertical-align:middle;margin-right:4px;">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      Secured by WebShield
+    </div>
+  </div>
+</footer>
+
+<!-- Floating theme toggle -->
+<button class="floating-theme-toggle" id="themeToggleFloating" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+  <div class="ftt-icons">
+    <svg class="ftt-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4"/><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="4" y1="12" x2="1.5" y2="12"/><line x1="22.5" y1="12" x2="20" y2="12"/><line x1="5.1" y1="5.1" x2="3.4" y2="3.4"/><line x1="20.6" y1="20.6" x2="18.9" y2="18.9"/><line x1="5.1" y1="18.9" x2="3.4" y2="20.6"/><line x1="20.6" y1="3.4" x2="18.9" y2="5.1"/>
+    </svg>
+    <svg class="ftt-moon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="opacity:0;">
+      <path d="M20.5 15.2A9 9 0 0 1 8.8 3.5a9 9 0 1 0 11.7 11.7z"/>
+    </svg>
+  </div>
+  <span class="ftt-label" id="themeLabel">Light</span>
+</button>
+
+<script>
+(function(){'use strict';var html=document.documentElement,btn=document.getElementById('themeToggleFloating'),label=document.getElementById('themeLabel'),sun=btn.querySelector('.ftt-sun'),moon=btn.querySelector('.ftt-moon'),media=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;function saved(){try{var v=localStorage.getItem('cbs-theme');return v==='light'||v==='dark'?v:null}catch(e){return null}}function setTheme(theme,persist){var dark=theme==='dark';html.setAttribute('data-theme',dark?'dark':'light');label.textContent=dark?'Dark':'Light';btn.setAttribute('aria-pressed',dark?'true':'false');btn.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');sun.style.opacity=dark?'0':'1';moon.style.opacity=dark?'1':'0';if(persist){try{localStorage.setItem('cbs-theme',dark?'dark':'light')}catch(e){}}}setTheme(saved()||(media&&media.matches?'dark':'light'),false);btn.addEventListener('click',function(){setTheme(html.getAttribute('data-theme')==='dark'?'light':'dark',true)});if(media&&media.addEventListener)media.addEventListener('change',function(){if(!saved())setTheme(media.matches?'dark':'light',false)});})();
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+
+/* Shared component extensions. */
+.cbs-toast{will-change:transform,opacity}
+[hidden]{display:none!important}
+
+
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}

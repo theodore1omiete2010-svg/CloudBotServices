@@ -1,0 +1,120 @@
+<div class="workspace-view" id="view-faqs">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <div class="eyebrow">BOT KNOWLEDGE</div>
+      <h1>FAQs</h1>
+      <p>Manage common questions and approved answers for your bot.</p>
+    </div>
+    <div class="header-actions">
+      <button class="button primary" id="addFaqBtn">+ Create FAQ</button>
+    </div>
+  </div>
+
+  <!-- Summary Metrics -->
+  <div class="management-summary">
+    <div class="card summary-card">
+      <div class="summary-label">Total FAQs</div>
+      <div class="summary-value" id="faqTotal">0</div>
+      <div class="summary-meta">All questions</div>
+    </div>
+    <div class="card summary-card">
+      <div class="summary-label">Categories</div>
+      <div class="summary-value" id="faqCategories">0</div>
+      <div class="summary-meta">Unique topics</div>
+    </div>
+    <div class="card summary-card">
+      <div class="summary-label">Most Used</div>
+      <div class="summary-value" id="faqTopCategory">—</div>
+      <div class="summary-meta">Top category</div>
+    </div>
+    <div class="card summary-card">
+      <div class="summary-label">Last Updated</div>
+      <div class="summary-value" id="faqLastUpdated">—</div>
+      <div class="summary-meta">Recent change</div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="management-toolbar">
+    <div class="management-toolbar-left">
+      <input aria-label="Search FAQs" class="management-search" id="faqSearch" placeholder="Search questions or answers..." type="search" />
+      <div class="filter-pills" id="faqCategoryPills">
+        <button class="filter-pill active" data-category="all">All</button>
+        <button class="filter-pill" data-category="Orders">Orders</button>
+        <button class="filter-pill" data-category="Delivery">Delivery</button>
+        <button class="filter-pill" data-category="Payments">Payments</button>
+        <button class="filter-pill" data-category="General">General</button>
+      </div>
+    </div>
+    <div class="management-toolbar-right">
+      <button class="button" id="clearFaqFilter">Clear filters</button>
+    </div>
+  </div>
+
+  <!-- FAQ Cards Container -->
+  <div class="card surface-card">
+    <div id="faqList"></div>
+    <div class="empty-state" id="faqEmpty" style="display:none;">
+      <div class="empty-icon">❓</div>
+      <h3>No FAQs found</h3>
+      <p>Try changing your search or category filter. You can also create a new FAQ.</p>
+      <button class="button" id="resetFaqEmpty">Reset filters</button>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- ADD / EDIT FAQ MODAL                       -->
+  <!-- ========================================== -->
+  <div id="faqModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <div class="modal-eyebrow">FAQ</div>
+          <div class="modal-title" id="faqModalTitle">Add FAQ</div>
+        </div>
+        <button class="modal-close" id="closeFaqModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="faqQuestion">Question</label>
+          <input type="text" id="faqQuestion" placeholder="e.g. Do you deliver to Lekki?" />
+        </div>
+        <div class="form-group">
+          <label for="faqAnswer">Answer</label>
+          <textarea id="faqAnswer" placeholder="Write a clear, concise answer..." rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="faqCategory">Category</label>
+          <input type="text" id="faqCategory" placeholder="e.g. Delivery, Payments, Orders" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="button" id="cancelFaqModalBtn">Cancel</button>
+        <button class="button primary" id="saveFaqModalBtn">Save FAQ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- CONFIRM DELETE MODAL                       -->
+  <!-- ========================================== -->
+  <div id="deleteFaqModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box" style="max-width: 400px; text-align: center;">
+      <div class="modal-header" style="border: none; padding-bottom: 0;">
+        <div class="modal-title" style="width: 100%;">Delete FAQ?</div>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-muted); font-size: 14px; margin: 10px 0 20px 0;">
+          Are you sure you want to permanently delete <strong id="deleteFaqName">this FAQ</strong>? This action cannot be undone.
+        </p>
+        <div class="modal-footer" style="justify-content: center; gap: 16px; margin-top: 0;">
+          <button class="button" id="cancelDeleteFaqBtn">Cancel</button>
+          <button class="button" style="background: #e53e3e; border: none; color: #fff; padding: 10px 24px; border-radius: 8px; cursor: pointer;" id="confirmDeleteFaqBtn">Yes, Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

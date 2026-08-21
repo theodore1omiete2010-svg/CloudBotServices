@@ -8,6 +8,76 @@
         await (async function() {
           "use strict";
 
+      // ----- TOAST SYSTEM (replaces alert) -----
+      function createToastContainer() {
+        let container = document.getElementById('toastContainer');
+        if (!container) {
+          container = document.createElement('div');
+          container.id = 'toastContainer';
+          container.setAttribute('aria-live', 'polite');
+          container.setAttribute('aria-atomic', 'true');
+          container.style.cssText = `
+            position: fixed; bottom: 90px; right: 24px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 10px;
+            max-width: 380px; width: 100%;
+            pointer-events: none;
+          `;
+          document.body.appendChild(container);
+        }
+        return container;
+      }
+
+      function showToast(message, type = 'info', duration = 4500) {
+        const container = createToastContainer();
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.setAttribute('role', 'alert');
+        toast.style.cssText = `
+          pointer-events: auto;
+          background: var(--surface, #fff);
+          color: var(--ink, #0E1B2C);
+          border: 1px solid var(--line, rgba(14,27,44,.10));
+          border-radius: 12px;
+          padding: 14px 18px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          box-shadow: 0 12px 30px rgba(14,27,44,.15);
+          transform: translateX(120%);
+          transition: transform .35s cubic-bezier(0.22, 1, 0.36, 1), opacity .3s ease;
+          opacity: 0;
+          border-left: 4px solid ${type === 'error' ? '#e74c3c' : type === 'success' ? '#2ecc71' : '#2E64F0'};
+        `;
+        toast.textContent = message;
+        container.appendChild(toast);
+
+        // Trigger entrance
+        requestAnimationFrame(() => {
+          toast.style.transform = 'translateX(0)';
+          toast.style.opacity = '1';
+        });
+
+        // Auto-remove
+        const timer = setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(120%)';
+          setTimeout(() => {
+            if (toast.parentNode) toast.remove();
+          }, 400);
+        }, duration);
+
+        // Click to dismiss early
+        toast.addEventListener('click', () => {
+          clearTimeout(timer);
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(120%)';
+          setTimeout(() => {
+            if (toast.parentNode) toast.remove();
+          }, 400);
+        });
+
+        return toast;
+      }
+
       // ----- HELPERS -----
       async function fetchWithRetry(fn, retries = 3, delay = 1000) {
         let lastError;
@@ -25,11 +95,16 @@
       }
 
       // ----- BACKEND API CLIENT -----
-      // All application API calls are same-origin and credentialed. Authentication,
-      // plan eligibility and final pricing must always be enforced by the backend.
       function getCsrfToken() {
         const meta = document.querySelector('meta[name="csrf-token"]');
-        return meta ? meta.getAttribute('content') || '' : '';
+        if (meta && meta.getAttribute('content')) return meta.getAttribute('content');
+        // Fallback: read from cookie if present (typical for many frameworks)
+        const cookies = document.cookie.split('; ');
+        for (let cookie of cookies) {
+          const [name, value] = cookie.split('=');
+          if (name === 'csrf_token' || name === 'XSRF-TOKEN') return decodeURIComponent(value || '');
+        }
+        return '';
       }
 
       async function apiRequest(url, data, options = {}) {
@@ -104,9 +179,11 @@
       let themeManuallySet = false;
       const systemThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
       setTheme(systemThemeMedia.matches ? 'dark' : 'light');
-      systemThemeMedia.addEventListener?.('change', function(event) {
-        if (!themeManuallySet) setTheme(event.matches ? 'dark' : 'light');
-      });
+      if (systemThemeMedia.addEventListener) {
+        systemThemeMedia.addEventListener('change', function(event) {
+          if (!themeManuallySet) setTheme(event.matches ? 'dark' : 'light');
+        });
+      }
       themeBtn.addEventListener('click', function() {
         themeManuallySet = true;
         const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -128,6 +205,21 @@
         progressBar.style.width = progress + '%';
       });
 
+      // ----- BACK TO TOP BUTTON (updated with .visible class) -----
+      const backToTopBtn = document.getElementById('backToTopBtn');
+      if (backToTopBtn) {
+        window.addEventListener('scroll', function() {
+          if (window.scrollY > 400) {
+            backToTopBtn.classList.add('visible');
+          } else {
+            backToTopBtn.classList.remove('visible');
+          }
+        });
+        backToTopBtn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
       // ----- STICKY CTA -----
       const stickyCta = document.getElementById('stickyCta');
       const stickyCtaFooter = document.querySelector('footer');
@@ -146,8 +238,6 @@
       });
 
       // ----- CURRENCY / PRICING -----
-      // Currency and exchange rates are server-controlled. The browser only sends
-      // its locale as a hint; the backend decides the actual currency/rate.
       const defaultCurrency = { currency: 'USD', symbol: '$', rate: 1, locale: 'en-US' };
       let detectedCurrency = defaultCurrency;
       const pricingEndpoint = '/api/pricing';
@@ -178,7 +268,6 @@
         const safeLocale = info && info.locale ? String(info.locale) : (navigator.language || 'en-US');
         const safeRate = safeCurrency === 'USD' ? 1 : Number(info && info.rate);
 
-        // Never display a non-USD symbol with an unconverted USD rate.
         if (!Number.isFinite(safeRate) || safeRate <= 0) {
           detectedCurrency = defaultCurrency;
           setBilling('monthly', defaultCurrency.symbol, defaultCurrency.rate);
@@ -200,9 +289,9 @@
         const safeRate = Number(rate);
         const effectiveRate = Number.isFinite(safeRate) && safeRate > 0 ? safeRate : 1;
         const paygEl = document.getElementById('paygPrice');
-        if (paygEl) paygEl.textContent = formatAmount(0.01 * effectiveRate, symbol) + ' per conversation';
+if (paygEl) paygEl.textContent = formatAmount(0.02 * effectiveRate, symbol) + ' per conversation';
         document.querySelectorAll('.payg-expand-content .rate').forEach(function(el) {
-          el.textContent = formatAmount(0.01 * effectiveRate, symbol) + ' per conversation';
+el.textContent = formatAmount(0.02 * effectiveRate, symbol) + ' per conversation';
         });
         document.querySelectorAll('.payg-expand-content .examples').forEach(function(el) {
           const rate = 0.01 * effectiveRate;
@@ -234,9 +323,6 @@
           applyCurrency(defaultCurrency);
         }
       }
-
-      // Initial rendering waits for pricing/auth state so the page does not
-      // visibly assemble itself in pieces after the loader disappears.
 
       // ----- AUTH UI -----
       let currentAuthState = 'guest';
@@ -324,8 +410,10 @@
                 button.disabled = true;
                 try {
                   await apiRequest('/api/logout', {}, { method: 'POST', timeoutMs: 8000 });
+                  showToast('Logged out successfully', 'success');
                 } catch (error) {
                   console.error('Logout failed:', error);
+                  showToast('Logout failed. Please try again.', 'error');
                 } finally {
                   button.disabled = false;
                   await refreshAuthUI();
@@ -335,6 +423,7 @@
           }, 0);
         }
       }
+
       // ----- SIGNUP / CHECKOUT API HANDLERS -----
       const pendingApiElements = new WeakSet();
 
@@ -353,8 +442,6 @@
         const el = event.currentTarget;
         const isCheckout = el.hasAttribute('data-api-checkout');
 
-        // Authenticated/registered users should follow the server-rendered route
-        // rather than starting a new signup flow from the landing page.
         if (!isCheckout && currentAuthState !== 'guest') return;
         if (pendingApiElements.has(el)) {
           event.preventDefault();
@@ -392,7 +479,7 @@
           const message = error && error.payload && typeof error.payload === 'object' && error.payload.message
             ? error.payload.message
             : 'Something went wrong while processing your request. Please try again.';
-          alert(message);
+          showToast(message, 'error');
         } finally {
           pendingApiElements.delete(el);
           el.textContent = originalText;
@@ -407,14 +494,21 @@
         });
       }
 
-      async function refreshAuthUI() {
-        try {
-          const session = await apiRequest('/api/session', null, { method: 'GET', timeoutMs: 5000, cache: 'no-store' });
-          const state = session && (session.state || (session.user && session.user.state));
-          renderAuthUI(['guest', 'registered', 'active'].includes(state) ? state : (session && session.authenticated ? 'active' : 'guest'));
-        } catch (error) {
-          console.warn('Session API unavailable; rendering signed-out navigation.', error);
-          renderAuthUI('guest');
+      async function refreshAuthUI(retries = 2) {
+        for (let attempt = 0; attempt <= retries; attempt++) {
+          try {
+            const session = await apiRequest('/api/session', null, { method: 'GET', timeoutMs: 5000, cache: 'no-store' });
+            const state = session && (session.state || (session.user && session.user.state));
+            renderAuthUI(['guest', 'registered', 'active'].includes(state) ? state : (session && session.authenticated ? 'active' : 'guest'));
+            return;
+          } catch (error) {
+            if (attempt === retries) {
+              console.warn('Session API unavailable after retries; rendering signed-out navigation.', error);
+              renderAuthUI('guest');
+            } else {
+              await new Promise(r => setTimeout(r, 600 * (attempt + 1)));
+            }
+          }
         }
       }
 
@@ -465,7 +559,7 @@
       billMonthly?.addEventListener('click', function() { setBilling('monthly', detectedCurrency.symbol, detectedCurrency.rate); });
       billYearly?.addEventListener('click', function() { setBilling('yearly', detectedCurrency.symbol, detectedCurrency.rate); });
 
-      // ===== BUSINESS BENEFITS CAROUSEL (CENTERED DOTS, VIEW ALL BOTTOM-RIGHT) =====
+      // ===== BUSINESS BENEFITS CAROUSEL =====
       const testimonialsData = [
         { title: 'Respond faster', icon: '⚡', desc: 'Automate routine customer questions and replies so your business can respond quickly without manually handling every conversation.' },
         { title: 'Automate repetitive conversations', icon: '🤖', desc: 'Use configurable rules and AI-assisted automation for FAQs, customer requests, order flows, and other repetitive interactions.' },
@@ -496,7 +590,6 @@
         slide.setAttribute('role', 'group');
         slide.setAttribute('aria-label', 'Benefit ' + (i + 1) + ' of ' + totalSlides);
         slide.setAttribute('aria-current', i === tCurrent ? 'step' : 'false');
-
         slide.innerHTML = `
           <div class="benefit-icon" aria-hidden="true">${t.icon}</div>
           <h3 class="benefit-title">${t.title}</h3>
@@ -615,6 +708,15 @@
         if (!tCarousel.contains(e.relatedTarget) && !isPaused) startBenefitAuto();
       });
 
+      // Pause when tab is hidden (improves performance)
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          if (autoSlideInterval) clearInterval(autoSlideInterval);
+        } else {
+          if (!isPaused) startBenefitAuto();
+        }
+      });
+
       tViewAllBtn.addEventListener('click', function() {
         const expanded = this.getAttribute('aria-expanded') === 'true';
         this.setAttribute('aria-expanded', !expanded);
@@ -638,9 +740,6 @@
 
       const howCarousel = document.getElementById('howCarousel');
 
-      // Keep both carousels visually balanced without forcing the tutorial
-      // content into the testimonial card's height. Tutorial steps can now be
-      // longer and include a CTA, so the tutorial owns its natural height.
       function syncCarouselCardHeights() {
         howCarousel.style.height = '';
       }
@@ -658,7 +757,7 @@
 
       startBenefitAuto();
 
-      // ===== ENHANCED HOW IT WORKS (COMPACT, CENTERED DOTS, VIEW ALL BOTTOM-RIGHT) =====
+      // ===== ENHANCED HOW IT WORKS =====
       const howSteps = [
         { icon: '✍️', title: 'Sign up', desc: 'Create your CloudBotServices account with your email and password. No credit card is required to get started.', takeaway: '✅ Your account is ready', time: '~1 minute', ctaLabel: 'Sign up', ctaHref: 'signup.html' },
         { icon: '🎁', title: 'Start your free trial', desc: 'Choose the 3-day free trial during signup and get access to the core toolkit before committing to a paid plan.', takeaway: '✅ 3 days to test the full experience', time: '~1 minute', ctaLabel: 'Start free trial', ctaHref: 'signup.html?plan=trial' },
@@ -819,6 +918,15 @@
         if (!howCarousel.contains(e.relatedTarget) && !howPaused) startHowAuto();
       });
 
+      // Pause when tab is hidden
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          if (howAutoInterval) clearInterval(howAutoInterval);
+        } else {
+          if (!howPaused) startHowAuto();
+        }
+      });
+
       howViewAllBtn.addEventListener('click', function() {
         const expanded = this.getAttribute('aria-expanded') === 'true';
         this.setAttribute('aria-expanded', !expanded);
@@ -845,28 +953,40 @@
       syncCarouselCardHeights();
       startHowAuto();
 
-      // ----- FADE SECTIONS -----
-      const fadeSections = document.querySelectorAll('.fade-section');
-      if ('IntersectionObserver' in window) {
-        const fadeObserver = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              fadeObserver.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.1 });
-        fadeSections.forEach(function(el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight && rect.bottom > 0) {
-            el.classList.add('is-visible');
-          } else {
-            fadeObserver.observe(el);
-          }
-        });
-      } else {
-        fadeSections.forEach(function(el) { el.classList.add('is-visible'); });
+// ----- FADE SECTIONS -----
+const fadeSections = document.querySelectorAll('.fade-section');
+function makeAllVisible() {
+  fadeSections.forEach(el => el.classList.add('is-visible'));
+}
+
+if ('IntersectionObserver' in window) {
+  const fadeObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        fadeObserver.unobserve(entry.target);
       }
+    });
+  }, { threshold: 0.1 });
+  fadeSections.forEach(function(el) {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add('is-visible');
+    } else {
+      fadeObserver.observe(el);
+    }
+  });
+  // Fallback: after 2 seconds, show any still-hidden sections
+  setTimeout(function() {
+    fadeSections.forEach(el => {
+      if (!el.classList.contains('is-visible')) {
+        el.classList.add('is-visible');
+      }
+    });
+  }, 2000);
+} else {
+  makeAllVisible();
+}
 
       // ----- PRICING FEATURE TOGGLE -----
       document.querySelectorAll('.show-all-btn').forEach(function(btn) {
@@ -987,9 +1107,7 @@
         updatePaygUI(false);
       })();
 
-      // Resolve the two server-backed pieces together before the page loader
-      // disappears. Both functions have safe fallbacks, so a backend timeout
-      // does not leave the landing page unusable.
+      // ----- FINAL INITIALIZATION (with retries) -----
       await Promise.allSettled([
         refreshAuthUI(),
         detectCurrency()
@@ -998,9 +1116,7 @@
         })(); // end CBS initialization IIFE
       };
 
-      // Do not defer the landing page initialization into an idle period.
-      // The loader keeps the first meaningful paint visually consistent while
-      // auth, pricing, fonts, and interactive UI finish initializing.
+      // Startup
       Promise.resolve()
         .then(() => initialize())
         .catch((error) => {
@@ -1024,4 +1140,11 @@
             finishLoading();
           }
         });
-    })(); // end CBS initialization
+
+      // Clear intervals on page unload
+      window.addEventListener('beforeunload', function() {
+        if (autoSlideInterval) clearInterval(autoSlideInterval);
+        if (howAutoInterval) clearInterval(howAutoInterval);
+      });
+
+    })();

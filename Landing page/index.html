@@ -4,7 +4,7 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="csrf-token" content="">
+<meta name="csrf-token" content="{{ csrf_token() }}">
   <title>CloudBotServices — Automate customer conversations & orders</title>
   <meta name="description" content="CloudBotServices automates customer conversations, order taking, payment links, and FAQs on WhatsApp and web chat. Start your 3-day free trial — no credit card required.">
   <meta property="og:title" content="CloudBotServices">
@@ -12,8 +12,6 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://cloudbotservices.com/og-image.jpg">
   <meta property="og:url" content="https://cloudbotservices.com/index.html">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@cloudbotservices">
   <link rel="canonical" href="https://cloudbotservices.com/index.html" />
   <link rel="sitemap" href="/sitemap.xml" type="application/xml" title="Sitemap">
   <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
@@ -21,21 +19,20 @@
   <!-- Security: Content Security Policy (currency detection domains removed) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; upgrade-insecure-requests">
 
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "CloudBotServices",
-      "url": "https://cloudbotservices.com",
-      "logo": "https://cloudbotservices.com/logo.png",
-      "description": "Automate customer conversations, orders, payments, and FAQs on WhatsApp and web chat.",
-      "sameAs": [
-        "https://twitter.com/cloudbotservices",
-        "https://linkedin.com/company/cloudbotservices",
-        "https://youtube.com/@cloudbotservices"
-      ]
-    }
-  </script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "CloudBotServices",
+    "url": "https://cloudbotservices.com",
+    "logo": "https://cloudbotservices.com/logo.png",
+    "description": "Automate customer conversations, orders, payments, and FAQs on WhatsApp and web chat.",
+    "sameAs": [
+      "https://tiktok.com/@cloudbotservices",
+      "https://instagram.com/cloudbotservices"
+    ]
+  }
+</script>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -464,10 +461,10 @@ fill="#37aee2"/><path fill="#c8daea" d="M199 404c-11 0-10-4-13-14l-32-105 245-14
             </div>
             <strong>Chat mockup video goes here</strong>
             <span>Replace this placeholder with your product demo video.</span>
-            <code>YOUR_CHAT_DEMO_VIDEO.mp4</code>
+            <code>video.mp4</code>
           </div>
         </div>
-      </div>
+      </div>   
 
       <div class="product-demo-grid" aria-label="CloudBotServices product views">
         <article class="product-demo-card">
@@ -601,106 +598,123 @@ fill="#37aee2"/><path fill="#c8daea" d="M199 404c-11 0-10-4-13-14l-32-105 245-14
           <button class="billing-tab" id="billYearly" data-billing="yearly" role="tab" aria-selected="false">Yearly <span class="save-tag">Save 20%</span></button>
         </div>
       </div>
+      
+      <!-- ===== TRIAL BANNER ===== -->
+<div class="trial-banner" role="banner" aria-label="Free trial offer">
+  <span class="trial-banner-icon">⚡</span>
+  <span class="trial-banner-text"><strong>Start free:</strong> 3-day trial with full Growth features. No credit card required.</span>
+  <a href="signup.html?plan=trial" class="btn btn-primary trial-banner-btn">Start free trial →</a>
+</div>
 
       <p class="pricing-note"><strong>Available channels</strong> — WhatsApp, Telegram &amp; Bubble-Webchat.</p>
 
-      <div class="pricing-grid">
-        <div class="price-card"><div class="tier">Trial</div><div class="tier-desc">Try the core toolkit, risk-free</div><div class="amount"><span class="amount-figure">Free</span><span class="amount-suffix">/3 days</span></div><div class="amount-note">&nbsp;</div><ul><li><span class="check">✓</span>1 bot</li><li><span class="check">✓</span>500 conversations</li><li><span class="check">✓</span>20 offerings</li><li><span class="check">✓</span>Payment link generation</li><li><span class="check">✓</span>Basic analytics</li><li><span class="check">✓</span>3-day full access</li></ul><a href="signup.html?plan=trial" class="btn btn-ghost" data-plan="Trial" data-guest-label="Start trial" data-registered-label="Start trial" data-api-signup="/api/signup">Start trial</a></div>
+<div class="pricing-grid">
 
-        <div class="price-card" data-monthly="19">
-          <div class="tier">Starter</div><div class="tier-desc">For getting started</div>
-          <div class="amount" aria-live="polite" aria-atomic="true">
-            <span class="amount-old" hidden>$19</span>
-            <span class="amount-figure">$19</span>
-            <span class="amount-suffix">/mo</span>
-          </div>
-          <div class="amount-note">&nbsp;</div>
-          <ul id="starterList">
-            <li><span class="check">✓</span>1 bot</li>
-            <li><span class="check">✓</span>1,000 conversations/month</li>
-            <li><span class="check">✓</span>50 offerings</li>
-            <li><span class="check">✓</span>Payment link generation</li>
-            <li class="addon-feature"><span class="addon-tag">Add‑on</span> Extra 500 conversations <span class="addon-price">$3</span></li>
-            <li class="hidden-feature"><span class="check">✓</span>Basic analytics</li>
-            <li class="hidden-feature"><span class="check">✓</span>Email support</li>
-          </ul>
-          <button class="show-all-btn" data-target="starterList">See all features <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-          <a href="signup.html?plan=starter" class="btn btn-ghost" data-plan="Starter" data-guest-label="Choose Starter" data-registered-label="Choose Starter" data-api-signup="/api/signup">Choose Starter</a>
-        </div>
+  <!-- STARTER -->
+  <div class="price-card" data-monthly="19">
+    <div class="tier">Starter</div>
+    <div class="tier-desc">Testing the waters</div>
+    <div class="amount" aria-live="polite" aria-atomic="true">
+      <span class="amount-old" hidden>$19</span>
+      <span class="amount-figure">$19</span>
+      <span class="amount-suffix">/mo</span>
+    </div>
+    <div class="amount-note">&nbsp;</div>
+    <ul id="starterList">
+      <li><span class="check">✓</span>1 bot</li>
+      <li><span class="check">✓</span>1,000 sessions/month</li>
+      <li><span class="check">✓</span>50 offerings</li>
+      <li><span class="check">✓</span>Payment link generation</li>
+      <li><span class="check">✓</span>Human handoff</li>
+      <li><span class="check">✓</span>Standard analytics</li>
+      <li><span class="check">✓</span>Email support</li>
+      <li class="addon-feature"><span class="addon-tag">Add‑on</span> Extra 1,000 sessions <span class="addon-price">$5</span></li>
+    </ul>
+    <button class="show-all-btn" data-target="starterList">See all features <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <a href="signup.html?plan=starter" class="btn btn-ghost" data-plan="Starter" data-guest-label="Choose Starter" data-registered-label="Choose Starter" data-api-signup="/api/signup">Choose Starter</a>
+  </div>
 
-        <div class="price-card featured" data-monthly="49">
-          <div class="popular-badge">Most popular</div>
-          <div class="tier">Growth</div><div class="tier-desc">For growing businesses</div>
-          <div class="amount" aria-live="polite" aria-atomic="true">
-            <span class="amount-old" hidden>$49</span>
-            <span class="amount-figure">$49</span>
-            <span class="amount-suffix">/month</span>
-          </div>
-          <div class="amount-note">&nbsp;</div>
-          <ul id="growthList">
-            <li><span class="check">✓</span>Up to 3 bots</li>
-            <li><span class="check">✓</span>3,000 conversations/month</li>
-            <li><span class="check">✓</span>250 offerings</li>
-            <li><span class="check">✓</span>Payment link generation</li>
-            <li><span class="check">✓</span>Advanced automation rules <span class="info-tip" tabindex="0" aria-label="Set up conditional workflows, multi-step replies, and smart handoff rules.">ℹ️<span class="tip-text">Conditional workflows, multi-step replies &amp; smart handoff rules</span></span></li>
-            <li class="addon-feature"><span class="addon-tag">Add‑on</span> Extra 500 conversations <span class="addon-price">$3</span></li>
-            <li class="hidden-feature"><span class="check">✓</span>Full analytics dashboard</li>
-            <li class="hidden-feature"><span class="check">✓</span>Priority email support</li>
-            <li class="hidden-feature"><span class="check">✓</span>Custom bot name & branding</li>
-          </ul>
-          <button class="show-all-btn" data-target="growthList">See all features <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-          <a href="signup.html?plan=growth" class="btn btn-primary" data-plan="Growth" data-guest-label="Choose Growth" data-registered-label="Choose Growth" data-api-signup="/api/signup">Choose Growth</a>
-        </div>
+  <!-- GROWTH (Most popular) -->
+  <div class="price-card featured" data-monthly="49">
+    <div class="popular-badge">Most popular</div>
+    <div class="tier">Growth</div>
+    <div class="tier-desc">Growing teams</div>
+    <div class="amount" aria-live="polite" aria-atomic="true">
+      <span class="amount-old" hidden>$49</span>
+      <span class="amount-figure">$49</span>
+      <span class="amount-suffix">/mo</span>
+    </div>
+    <div class="amount-note">&nbsp;</div>
+    <ul id="growthList">
+      <li><span class="check">✓</span>Up to 3 bots</li>
+      <li><span class="check">✓</span>3,000 sessions/month</li>
+      <li><span class="check">✓</span>250 offerings</li>
+      <li><span class="check">✓</span>Payment link generation</li>
+      <li><span class="check">✓</span>Human handoff</li>
+      <li><span class="check">✓</span>Advanced automation rules <span class="info-tip" tabindex="0" aria-label="Set up conditional workflows, multi-step replies, and smart handoff rules.">ℹ️<span class="tip-text">Conditional workflows, multi‑step replies &amp; smart handoff rules</span></span></li>
+      <li><span class="check">✓</span>Full analytics dashboard</li>
+      <li><span class="check">✓</span>Priority email support</li>
+      <li><span class="check">✓</span>Custom bot name &amp; branding</li>
+      <li class="addon-feature"><span class="addon-tag">Add‑on</span> Extra 1,000 sessions <span class="addon-price">$5</span></li>
+    </ul>
+    <button class="show-all-btn" data-target="growthList">See all features <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <a href="signup.html?plan=growth" class="btn btn-primary" data-plan="Growth" data-guest-label="Choose Growth" data-registered-label="Choose Growth" data-api-signup="/api/signup">Choose Growth</a>
+  </div>
 
-        <div class="price-card" data-monthly="99">
-          <div class="tier">Business</div><div class="tier-desc">For teams at scale</div>
-          <div class="amount" aria-live="polite" aria-atomic="true">
-            <span class="amount-old" hidden>$99</span>
-            <span class="amount-figure">$99</span>
-            <span class="amount-suffix">/month</span>
-          </div>
-          <div class="amount-note">&nbsp;</div>
-          <ul id="businessList">
-            <li><span class="check">✓</span>Up to 10 bots</li>
-            <li><span class="check">✓</span>7,000 conversations/month</li>
-            <li><span class="check">✓</span>Unlimited offerings</li>
-            <li><span class="check">✓</span>Payment link generation</li>
-            <li><span class="check">✓</span>Advanced automation rules <span class="info-tip" tabindex="0" aria-label="Set up conditional workflows, multi-step replies, and smart handoff rules.">ℹ️<span class="tip-text">Conditional workflows, multi-step replies &amp; smart handoff rules</span></span></li>
-            <li class="addon-feature"><span class="addon-tag">Add‑on</span> Extra 500 conversations <span class="addon-price">$3</span></li>
-            <li class="hidden-feature"><span class="check">✓</span>Full analytics dashboard</li>
-            <li class="hidden-feature"><span class="check">✓</span>Priority support (email + chat)</li>
-            <li class="hidden-feature"><span class="check">✓</span>Custom bot name & branding</li>
-            <li class="hidden-feature"><span class="check">✓</span>Team members & roles</li>
-            <li class="hidden-feature"><span class="check">✓</span>Bulk messaging</li>
-            <li class="hidden-feature"><span class="check">✓</span>Dedicated account manager</li>
-          </ul>
-          <button class="show-all-btn" data-target="businessList">See all features <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-          <a href="signup.html?plan=business" class="btn btn-ghost" data-plan="Business" data-guest-label="Choose Business" data-registered-label="Choose Business" data-api-signup="/api/signup">Choose Business</a>
-        </div>
-      </div>
+  <!-- BUSINESS -->
+  <div class="price-card" data-monthly="99">
+    <div class="tier">Business</div>
+    <div class="tier-desc">Full‑scale operations</div>
+    <div class="amount" aria-live="polite" aria-atomic="true">
+      <span class="amount-old" hidden>$99</span>
+      <span class="amount-figure">$99</span>
+      <span class="amount-suffix">/mo</span>
+    </div>
+    <div class="amount-note">&nbsp;</div>
+    <ul id="businessList">
+      <li><span class="check">✓</span>Up to 10 bots</li>
+      <li><span class="check">✓</span>7,000 sessions/month</li>
+      <li><span class="check">✓</span>Unlimited offerings</li>
+      <li><span class="check">✓</span>Payment link generation</li>
+      <li><span class="check">✓</span>Human handoff</li>
+      <li><span class="check">✓</span>Advanced automation rules <span class="info-tip" tabindex="0" aria-label="Set up conditional workflows, multi-step replies, and smart handoff rules.">ℹ️<span class="tip-text">Conditional workflows, multi‑step replies &amp; smart handoff rules</span></span></li>
+      <li><span class="check">✓</span>Full analytics dashboard</li>
+      <li><span class="check">✓</span>Priority support (email + live chat)</li>
+      <li><span class="check">✓</span>Custom bot name &amp; branding</li>
+      <li><span class="check">✓</span>Team members &amp; roles</li>
+      <li><span class="check">✓</span>Bulk messaging</li>
+      <li><span class="check">✓</span>API access</li>
+      <li><span class="check">✓</span>Dedicated account manager</li>
+      <li class="addon-feature"><span class="addon-tag">Add‑on</span> Extra 1,000 sessions <span class="addon-price">$5</span></li>
+    </ul>
+    <button class="show-all-btn" data-target="businessList">See all features <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <a href="signup.html?plan=business" class="btn btn-ghost" data-plan="Business" data-guest-label="Choose Business" data-registered-label="Choose Business" data-api-signup="/api/signup">Choose Business</a>
+  </div>
+
+</div>
 
       <div class="pricing-cta-row">
-        <div class="pricing-cta-card" id="paygCard">
-          <div class="pricing-cta-tag mono">PAY-AS-YOU-GO</div>
-          <div class="pricing-cta-title">Not ready for a subscription?</div>
-          <p>Only pay for what you use — from just <strong id="paygPrice">$0.01 per conversation</strong>, with no monthly commitment.</p>
-          <button class="toggle-btn" id="paygToggleBtn" aria-expanded="false" aria-controls="paygExpandWrap">
-            <span id="paygToggleLabel">See pay‑as‑you‑go pricing</span>
-            <span class="arrow" id="paygArrowIcon">→</span>
-          </button>
-          <div class="payg-expand-wrap" id="paygExpandWrap">
-            <div class="payg-expand-content">
-              <p class="intro"><strong>How PAYG works</strong> — you're charged per conversation (each message sent <em>or</em> received). No monthly commitment, cancel anytime.</p>
-              <div class="price-breakdown">
-                <div class="rate">$0.01 per conversation</div>
-                <div class="examples">100 conv. = $1.00 &nbsp;·&nbsp; 1,000 conv. = $10.00</div>
-              </div>
-              <div class="note">⏳ No monthly commitment. Only pay for what you use.</div>
-              <a href="checkout.html?plan=payg" class="cta-payg" id="paygCta" data-api-checkout="/api/checkout">Get started with PAYG <span class="arrow-symbol">→</span></a>
-              <div class="checkout-note">Secure checkout · no hidden fees</div>
-            </div>
-          </div>
-        </div>
+<div class="pricing-cta-card" id="paygCard">
+  <div class="pricing-cta-tag mono">PAY-AS-YOU-GO</div>
+  <div class="pricing-cta-title">Not ready for a subscription?</div>
+  <p>Only pay for what you use — from just <strong id="paygPrice">$0.02 per conversation</strong>, with no monthly commitment.</p>
+  <button class="toggle-btn" id="paygToggleBtn" aria-expanded="false" aria-controls="paygExpandWrap">
+    <span id="paygToggleLabel">See pay‑as‑you‑go pricing</span>
+    <span class="arrow" id="paygArrowIcon">→</span>
+  </button>
+  <div class="payg-expand-wrap" id="paygExpandWrap">
+    <div class="payg-expand-content">
+      <p class="intro"><strong>How PAYG works</strong> — you're charged per conversation (each message sent <em>or</em> received). No monthly commitment, cancel anytime.</p>
+      <div class="price-breakdown">
+        <div class="rate">$0.02 per conversation</div>
+        <div class="examples">100 conv. = $2.00 &nbsp;·&nbsp; 1,000 conv. = $20.00</div>
+      </div>
+      <div class="note">⏳ No monthly commitment. Only pay for what you use.</div>
+      <a href="checkout.html?plan=payg" class="cta-payg" id="paygCta" data-api-checkout="/api/checkout">Get started with PAYG <span class="arrow-symbol">→</span></a>
+      <div class="checkout-note">Secure checkout · no hidden fees</div>
+    </div>
+  </div>
+</div>
         <div class="pricing-cta-card">
           <div class="pricing-cta-tag mono">FOR LARGER TEAMS</div>
           <div class="pricing-cta-title">Need something bigger than these plans?</div>
@@ -779,14 +793,53 @@ fill="#37aee2"/><path fill="#c8daea" d="M199 404c-11 0-10-4-13-14l-32-105 245-14
   </section>
 
   <!-- ===== LINKS ===== -->
-  <div class="links-section">
-    <div class="wrap">
-      <div class="links-column" data-accordion><h4 class="links-heading">Product</h4><button class="links-accordion-btn" aria-expanded="false" aria-controls="linksProduct">Product<span class="accordion-icon" aria-hidden="true">+</span></button><div class="links-wrapper" id="linksProduct"><div class="links-inner"><a href="#how-it-works">How it works</a><a href="#how-it-works">Get started</a><a href="#who-its-for">Who it's for</a><a href="#pricing">Pricing</a><a href="#how-it-works">Features</a></div></div></div>
-      <div class="links-column" data-accordion><h4 class="links-heading">Company</h4><button class="links-accordion-btn" aria-expanded="false" aria-controls="linksCompany">Company<span class="accordion-icon" aria-hidden="true">+</span></button><div class="links-wrapper" id="linksCompany"><div class="links-inner"><a href="about.html">About us</a><a href="careers.html">Careers</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div></div></div>
-      <div class="links-column" data-accordion><h4 class="links-heading">Support</h4><button class="links-accordion-btn" aria-expanded="false" aria-controls="linksSupport">Support<span class="accordion-icon" aria-hidden="true">+</span></button><div class="links-wrapper" id="linksSupport"><div class="links-inner"><a href="help.html">Help Center</a><a href="Privacy.html">Privacy Policy</a><a href="Terms of service.html">Terms of Service</a><a href="status.html">Status</a></div></div></div>
-      <div class="links-column" data-accordion><h4 class="links-heading">Connect</h4><button class="links-accordion-btn" aria-expanded="false" aria-controls="linksConnect">Connect<span class="accordion-icon" aria-hidden="true">+</span></button><div class="links-wrapper" id="linksConnect"><div class="links-inner"><a href="https://twitter.com/cloudbotservices" target="_blank" rel="noopener noreferrer">Twitter</a><a href="https://linkedin.com/company/cloudbotservices" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://youtube.com/@cloudbotservices" target="_blank" rel="noopener noreferrer">YouTube</a><a href="community.html">Community</a></div></div></div>
+<div class="links-section">
+  <div class="wrap">
+    <div class="links-column" data-accordion>
+      <h4 class="links-heading">Product</h4>
+      <button class="links-accordion-btn" aria-expanded="false" aria-controls="linksProduct">Product<span class="accordion-icon" aria-hidden="true">+</span></button>
+      <div class="links-wrapper" id="linksProduct">
+        <div class="links-inner">
+          <a href="#how-it-works">How it works</a>
+          <a href="#how-it-works">Get started</a>
+          <a href="#who-its-for">Who it's for</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#how-it-works">Features</a>
+        </div>
+      </div>
+    </div>
+    <div class="links-column" data-accordion>
+      <h4 class="links-heading">Company</h4>
+      <button class="links-accordion-btn" aria-expanded="false" aria-controls="linksCompany">Company<span class="accordion-icon" aria-hidden="true">+</span></button>
+      <div class="links-wrapper" id="linksCompany">
+        <div class="links-inner">
+          <a href="about.html">About us</a>
+          <a href="mailto:cloudbotservices159357@gmail.com">Contact us</a>
+        </div>
+      </div>
+    </div>
+    <div class="links-column" data-accordion>
+      <h4 class="links-heading">Support</h4>
+      <button class="links-accordion-btn" aria-expanded="false" aria-controls="linksSupport">Support<span class="accordion-icon" aria-hidden="true">+</span></button>
+      <div class="links-wrapper" id="linksSupport">
+        <div class="links-inner">
+          <a href="Privacy.html">Privacy Policy</a>
+          <a href="Terms of service.html">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+    <div class="links-column" data-accordion>
+      <h4 class="links-heading">Connect</h4>
+      <button class="links-accordion-btn" aria-expanded="false" aria-controls="linksConnect">Connect<span class="accordion-icon" aria-hidden="true">+</span></button>
+      <div class="links-wrapper" id="linksConnect">
+        <div class="links-inner">
+          <a href="https://tiktok.com/@cloudbotservices" target="_blank" rel="noopener noreferrer">TikTok</a>
+          <a href="https://instagram.com/cloudbotservices" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
   <!-- ===== FOOTER ===== -->
   <footer>
@@ -800,14 +853,41 @@ fill="#37aee2"/><path fill="#c8daea" d="M199 404c-11 0-10-4-13-14l-32-105 245-14
     </div>
   </footer>
 
-  <!-- ===== THEME TOGGLE ===== -->
+<!-- ===== FLOATING CONTROLS (Back to Top + Theme Toggle) ===== -->
+<div class="floating-controls" role="group" aria-label="Page controls">
+
+  <!-- Back to Top -->
+  <button id="backToTopBtn" class="back-to-top" aria-label="Back to top" title="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- Theme Toggle -->
   <button class="floating-theme-toggle" id="themeToggleFloating" aria-label="Toggle between light and dark theme">
     <div class="ftt-icons">
-      <svg class="ftt-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="4" y1="12" x2="1.5" y2="12"/><line x1="22.5" y1="12" x2="20" y2="12"/><line x1="5.1" y1="5.1" x2="3.4" y2="3.4"/><line x1="20.6" y1="20.6" x2="18.9" y2="18.9"/><line x1="5.1" y1="18.9" x2="3.4" y2="20.6"/><line x1="20.6" y1="3.4" x2="18.9" y2="5.1"/></svg>
-      <svg class="ftt-moon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 15.2A9 9 0 0 1 8.8 3.5a9 9 0 1 0 11.7 11.7z"/></svg>
+      <svg class="ftt-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4"/>
+        <line x1="12" y1="1.5" x2="12" y2="4"/>
+        <line x1="12" y1="20" x2="12" y2="22.5"/>
+        <line x1="4" y1="12" x2="1.5" y2="12"/>
+        <line x1="22.5" y1="12" x2="20" y2="12"/>
+        <line x1="5.1" y1="5.1" x2="3.4" y2="3.4"/>
+        <line x1="20.6" y1="20.6" x2="18.9" y2="18.9"/>
+        <line x1="5.1" y1="18.9" x2="3.4" y2="20.6"/>
+        <line x1="20.6" y1="3.4" x2="18.9" y2="5.1"/>
+      </svg>
+      <svg class="ftt-moon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20.5 15.2A9 9 0 0 1 8.8 3.5a9 9 0 1 0 11.7 11.7z"/>
+      </svg>
     </div>
-    <span class="ftt-label" id="themeLabel">Light</span>
+    <span class="ftt-label visually-hidden" id="themeLabel">Light</span>
   </button>
+
+</div>
+
+<!-- ===== TOAST CONTAINER (dynamically filled by JS) ===== -->
+<div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
   <!-- ===== UPDATED JS REFERENCE ===== -->
   <script src="Script.js" defer></script>

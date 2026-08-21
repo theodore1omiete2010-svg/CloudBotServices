@@ -1,0 +1,170 @@
+/* --- Variables for Theme Adaptation --- */
+:root {
+  --bg-card: #ffffff;
+  --text-primary: #1a202c;
+  --text-muted: #718096;
+  --border-card: #e2e8f0;
+  
+  /* Pills */
+  --pill-bg-green: #c6f6d5;
+  --pill-text-green: #22543d;
+  --dot-green: #48bb78;
+  
+  --pill-bg-grey: #edf2f7;
+  --pill-text-grey: #4a5568;
+  --dot-grey: #a0aec0;
+  
+  --pill-bg-orange: #feebc8;
+  --pill-text-orange: #9c4221;
+  --dot-orange: #ed8936;
+  
+  --pill-bg-red: #fed7d7;
+  --pill-text-red: #9b2c2c;
+  --dot-red: #f56565;
+  
+  --btn-action-border: #e2e8f0;
+  --btn-action-text: #4a5568;
+}
+
+/* Dark Mode Overrides */
+[data-theme="dark"] {
+  --bg-card: #151b26;
+  --text-primary: #ffffff;
+  --text-muted: #7a8599;
+  --border-card: #1f2738;
+  
+  --pill-bg-green: #1c4532;
+  --pill-text-green: #68d391;
+  --dot-green: #48bb78;
+  
+  --pill-bg-grey: #2d3748;
+  --pill-text-grey: #cbd5e0;
+  --dot-grey: #718096;
+  
+  --pill-bg-orange: #4a2c1a;
+  --pill-text-orange: #fbd38d;
+  --dot-orange: #ed8936;
+  
+  --pill-bg-red: #3b1c1c;
+  --pill-text-red: #fc8181;
+  --dot-red: #f56565;
+  
+  --btn-action-border: #2d3748;
+  --btn-action-text: #a0aec0;
+}
+
+/* --- Conversation Card Styles --- */
+.conversation-card {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  padding: 18px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid var(--border-card);
+}
+
+.kv-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.kv-row .label {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 400;
+  min-width: 80px;
+  margin-right: 10px;
+}
+.kv-row .value {
+  color: var(--text-primary);
+  font-size: 14px;
+  text-align: right;
+  font-weight: 400;
+  max-width: 70%;
+  word-break: break-word;
+}
+
+/* --- Status Pills --- */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Pill Variants */
+.pill-green { background-color: var(--pill-bg-green); color: var(--pill-text-green); }
+.pill-grey { background-color: var(--pill-bg-grey); color: var(--pill-text-grey); }
+.pill-orange { background-color: var(--pill-bg-orange); color: var(--pill-text-orange); }
+.pill-red { background-color: var(--pill-bg-red); color: var(--pill-text-red); }
+
+/* Dot Variants */
+.dot-green { background-color: var(--dot-green); }
+.dot-grey { background-color: var(--dot-grey); }
+.dot-orange { background-color: var(--dot-orange); }
+.dot-red { background-color: var(--dot-red); }
+
+/* --- PING Animation --- */
+@keyframes ping {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0.8; }
+}
+.ping { animation: ping 1.5s ease-in-out infinite; }
+
+/* --- Action Buttons --- */
+.action-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-card);
+}
+.btn-action {
+  background: transparent;
+  border: 1px solid var(--btn-action-border);
+  color: var(--btn-action-text);
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-action:hover { background: var(--btn-action-border); color: var(--text-primary); }
+.btn-view { border-color: var(--btn-action-border); }
+.btn-handover { border-color: #4a7cf7; color: #4a7cf7; }
+.btn-handover:hover { background: #4a7cf7; color: #fff; }
+.btn-takeover { border-color: #e53e3e; color: #e53e3e; }
+.btn-takeover:hover { background: #e53e3e; color: #fff; }
+
+/* --- Filters --- */
+.filter-group { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+.filter-pill {
+  background: transparent;
+  border: 1px solid var(--border-card);
+  color: var(--text-muted);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.filter-pill.active { background: #4a7cf7; border-color: #4a7cf7; color: #fff; }
+
+

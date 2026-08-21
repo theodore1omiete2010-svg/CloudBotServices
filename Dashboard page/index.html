@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudBotServices — Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <!-- View CSS files -->
+  <link rel="stylesheet" href="views/overview/overview.css">
+  <link rel="stylesheet" href="views/business/business.css">
+  <link rel="stylesheet" href="views/customers/customers.css">
+  <link rel="stylesheet" href="views/catalogue/catalogue.css">
+  <link rel="stylesheet" href="views/conversations/conversations.css">
+  <link rel="stylesheet" href="views/orders/orders.css">
+  <link rel="stylesheet" href="views/faqs/faqs.css">
+  <link rel="stylesheet" href="views/payments/payments.css">
+  <link rel="stylesheet" href="views/leads/leads.css">
+  <link rel="stylesheet" href="views/broadcasts/broadcasts.css">
+  <link rel="stylesheet" href="views/analytics/analytics.css">
+  <link rel="stylesheet" href="views/team/team.css">
+  <link rel="stylesheet" href="views/settings/settings.css">
+  <link rel="stylesheet" href="views/bot/bot.css">
+  <link rel="stylesheet" href="views/profile/profile.css">
+  <!-- New Notification View CSS -->
+  <link rel="stylesheet" href="views/notifications/notifications.css">
+</head>
+<body>
+  <div class="app">
+    <div id="sidebarMount"></div>
+    <main class="main">
+      <div id="headerMount"></div>
+      <section id="viewContainer" class="content" aria-live="polite"></section>
+    </main>
+  </div>
+  <div class="overlay" id="overlay"></div>
+  <div id="bottomNavMount"></div>
+  <script type="module" src="js/app.js"></script>
+  
+  <!-- Floating theme toggle -->
+<button class="floating-theme-toggle" id="themeToggleFloating" aria-label="Toggle between light and dark theme">
+  <div class="ftt-icons">
+    <svg class="ftt-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4"/><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="4" y1="12" x2="1.5" y2="12"/><line x1="22.5" y1="12" x2="20" y2="12"/><line x1="5.1" y1="5.1" x2="3.4" y2="3.4"/><line x1="20.6" y1="20.6" x2="18.9" y2="18.9"/><line x1="5.1" y1="18.9" x2="3.4" y2="20.6"/><line x1="20.6" y1="3.4" x2="18.9" y2="5.1"/>
+    </svg>
+    <svg class="ftt-moon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="opacity:0;">
+      <path d="M20.5 15.2A9 9 0 0 1 8.8 3.5a9 9 0 1 0 11.7 11.7z"/>
+    </svg>
+  </div>
+  <span class="ftt-label" id="themeLabel">Light</span>
+</button>
+
+<!-- Inside <head> or before </body> -->
+<script>
+  // Check if Chart.js loaded, if not, define a dummy to prevent crashes
+  window.addEventListener('load', function() {
+    if (typeof Chart === 'undefined') {
+      console.warn('Chart.js failed to load – using fallback.');
+      // Define a placeholder so other code doesn't break
+      window.Chart = function() { 
+        console.warn('Chart not available.'); 
+      };
+      // Also show a message in the chart canvas
+      document.querySelectorAll('#revenueChart, #analyticsChart').forEach(canvas => {
+        canvas.parentElement.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-soft);font-size:14px;">⚠️ Chart library unavailable. Please check your internet connection.</div>`;
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
+
+

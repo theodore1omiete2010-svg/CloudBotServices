@@ -1,0 +1,58 @@
+/* Analytics-specific styles.
+   Uses global CSS variables from base.css for theme support. */
+
+/* ── override metric box highlight for revenue ── */
+.metric-box.highlight .value {
+  color: var(--success);
+}
+
+/* ── ensure chart container works in dark/light ── */
+#analyticsChart {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ── list rows ── */
+.list-row b {
+  color: var(--text);
+  font-size: 14px;
+}
+
+/* ── tag styling (reuse from base) ── */
+.tag {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── responsive ── */
+@media (max-width: 900px) {
+  .page-grid {
+    grid-template-columns: 1fr;
+  }
+  .span-8, .span-6, .span-4 {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .metric-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+  .page-grid {
+    gap: 12px;
+  }
+  .list-row {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .list-row b {
+    margin-left: auto;
+  }
+}
+
+

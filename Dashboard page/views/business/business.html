@@ -1,0 +1,62 @@
+<div class="management-view" id="view-business">
+  <div class="page-header">
+    <div>
+      <div class="eyebrow">BUSINESS MANAGEMENT</div>
+      <h1>Business</h1>
+      <p>Manage the business currently connected to CloudBotServices.</p>
+    </div>
+    <div class="header-actions">
+      <!-- Edit button removed from here -->
+      <button class="button primary" id="managementAddBusinessBtn">+ Add Business</button>
+    </div>
+  </div>
+
+  <div class="card business-profile-card">
+    <div class="business-profile-logo" id="managementBusinessLogo">CG</div>
+    <div>
+      <div class="business-profile-name" id="managementBusinessName">Chawntee's Grill</div>
+      <div class="business-profile-meta" id="managementBusinessMeta">Food &amp; Restaurant · Connected to CBS</div>
+    </div>
+    <div class="business-profile-actions">
+      <button class="button" id="managementSwitchBtn">Switch Business</button>
+      <!-- Add Business already in header, but keep if needed -->
+    </div>
+  </div>
+
+  <div class="management-summary">
+    <div class="card summary-card">
+      <div class="summary-label">Customers</div>
+      <div class="summary-value" id="businessCustomersSummary">1,248</div>
+      <div class="summary-meta">Total customer records</div>
+    </div>
+    <div class="card summary-card">
+      <div class="summary-label">Orders</div>
+      <div class="summary-value" id="businessOrdersSummary">86</div>
+      <div class="summary-meta">Orders recorded</div>
+    </div>
+    <div class="card summary-card revenue-card">
+      <div class="summary-label">Revenue</div>
+      <div class="summary-value" id="businessRevenueSummary">₦485K</div>
+      <div class="summary-meta">Current dashboard period</div>
+    </div>
+    <div class="card summary-card">
+      <div class="summary-label">Automation</div>
+      <div class="summary-value" id="businessAutomationSummary">85.8%</div>
+      <div class="summary-meta">Bot automation rate</div>
+    </div>
+  </div>
+
+  <div class="card section-card">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Connected Businesses</div>
+        <div class="section-subtitle">Switch between businesses without leaving the dashboard.</div>
+      </div>
+    </div>
+    <div id="businessList"></div>
+  </div>
+
+  <div class="management-note">Batch 4A is intentionally limited to the business-management foundation. Editing and backend persistence will be connected later.</div>
+</div>
+
+

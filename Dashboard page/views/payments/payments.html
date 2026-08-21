@@ -1,0 +1,105 @@
+<div class="workspace-view" id="view-payments">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <div class="eyebrow">FINANCE</div>
+      <h1>Payments</h1>
+      <p>Monitor payment requests, successful transactions and outstanding balances.</p>
+    </div>
+    <div class="header-actions">
+      <button class="button" data-action="export">Export</button>
+    </div>
+  </div>
+
+  <!-- METRIC STRIP (4 cards) -->
+  <div class="metric-strip">
+    <div class="metric-box highlight">
+      <div class="label">Collected</div>
+      <div class="value">₦485K</div>
+      <div class="meta">Current period</div>
+    </div>
+    <div class="metric-box">
+      <div class="label">Successful</div>
+      <div class="value">81</div>
+      <div class="meta">Transactions</div>
+    </div>
+    <div class="metric-box warn">
+      <div class="label">Pending</div>
+      <div class="value">7</div>
+      <div class="meta">Awaiting payment</div>
+    </div>
+    <div class="metric-box danger">
+      <div class="label">Failed</div>
+      <div class="value">2</div>
+      <div class="meta">Needs review</div>
+    </div>
+  </div>
+
+  <!-- TRANSACTION CARDS -->
+  <div class="transaction-list">
+    <div class="section-title">
+      <h2>Recent transactions</h2>
+      <span class="count">9 total</span>
+    </div>
+
+    <!-- Card 1 -->
+    <div class="transaction-card" data-tx="PAY-1048">
+      <div class="tx-row">
+        <span class="tx-label">Reference</span>
+        <span class="tx-value"><b>PAY-1048</b></span>
+      </div>
+      <div class="tx-row">
+        <span class="tx-label">Customer</span>
+        <span class="tx-value">Sarah Johnson</span>
+      </div>
+      <div class="tx-row">
+        <span class="tx-label">Amount</span>
+        <span class="tx-value amount">₦18,500</span>
+      </div>
+      <div class="tx-row">
+        <span class="tx-label">Method</span>
+        <span class="tx-value">Payment Link</span>
+      </div>
+      <div class="tx-row">
+        <span class="tx-label">Status</span>
+        <span class="tx-value"><span class="status-pill success">● Successful</span></span>
+      </div>
+      <div class="tx-row">
+        <span class="tx-label">Date</span>
+        <span class="tx-value">Today</span>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="transaction-card" data-tx="PAY-1047">
+      <div class="tx-row">
+        <span class="tx-label">Reference</span>
+        <span class="tx-value"><b>PAY-1047</b></span>
+      </div>
+      <div class="tx-row">
+        <span class="tx-label">Customer</span>
+        <span class="tx-value">David Okoro</span>
+      </div>
+      <div class="tx-row">
+        <span class="tx-label">Amount</span>
+        <span class="tx-value amount">₦12,000</span>
+      </div>
+      <div class="tx-row">
+        <span class="tx-label">Method</span>
+        <span class="tx-value">Payment Link</span>
+      </div>
+      <div class="tx-row">
+        <span class="tx-label">Status</span>
+        <span class="tx-value"><span class="status-pill pending">● Pending</span></span>
+      </div>
+      <div class="tx-row">
+        <span class="tx-label">Date</span>
+        <span class="tx-value">Today</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

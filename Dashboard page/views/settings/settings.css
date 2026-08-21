@@ -1,0 +1,89 @@
+/* settings.css – fully theme‑aware */
+.coming-soon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 420px;
+    padding: 2rem 1.5rem;
+}
+
+.coming-soon-card {
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+    padding: 3rem 2.5rem;
+    background: var(--surface);          /* adapts to theme */
+    border-radius: var(--radius);        /* 14px */
+    box-shadow: var(--shadow);           /* soft shadow */
+    border: 1px solid var(--border);     /* theme border */
+    transition: transform 0.2s ease;
+}
+.coming-soon-card:hover {
+    transform: translateY(-2px);
+}
+
+.coming-soon-icon {
+    font-size: 3.4rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.coming-soon-card h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: var(--text);                  /* primary text */
+    letter-spacing: -0.01em;
+}
+
+.coming-soon-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-soft);             /* secondary text */
+    margin: 0 0 1.5rem 0;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.coming-soon-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1.2rem;
+    background: var(--surface-2);        /* subtle background */
+    border-radius: 40px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-soft);
+    letter-spacing: 0.01em;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f5a623;                 /* accent, stays visible */
+    animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.75); }
+}
+
+@media (max-width: 640px) {
+    .coming-soon-card {
+        padding: 2rem 1.25rem;
+    }
+    .coming-soon-card h2 {
+        font-size: 1.3rem;
+    }
+    .coming-soon-icon {
+        font-size: 2.6rem;
+    }
+}
+
+

@@ -1,0 +1,328 @@
+<div class="dashboard-container" id="dashboardRoot">
+
+  <!-- ====== TOP GREETING + ACTIONS ====== -->
+  <header class="dash-header">
+    <div class="dash-greeting">
+      <span class="greeting-icon">👋</span>
+      <div>
+        <h1 id="greetingTitle">Good Morning</h1>
+        <p id="greetingSubtext">Business Owner · <span id="liveClock">--:--</span></p>
+      </div>
+    </div>
+    <div class="dash-actions">
+      <button class="dash-date-btn" id="dateRangeBtn">📅 This Week <span>▾</span></button>
+      <button class="dash-export-btn" id="exportDashboardBtn">📤 Export</button>
+    </div>
+  </header>
+
+  <!-- ====== KPI GRID (5 CARDS) ====== -->
+  <section class="kpi-grid" id="kpiGrid">
+    <div class="kpi-card" data-kpi="customers">
+      <div class="kpi-icon">👥</div>
+      <div class="kpi-content">
+        <span class="kpi-label">Customers</span>
+        <span class="kpi-value" id="kpiCustomers">0</span>
+        <span class="kpi-trend" id="kpiTrendCustomers">↑ 0%</span>
+        <div class="kpi-progress"><div class="kpi-progress-bar" style="width: 0%;"></div></div>
+      </div>
+    </div>
+    <div class="kpi-card" data-kpi="conversations">
+      <div class="kpi-icon">💬</div>
+      <div class="kpi-content">
+        <span class="kpi-label">Conversations</span>
+        <span class="kpi-value" id="kpiConversations">0</span>
+        <span class="kpi-trend" id="kpiTrendConversations">↑ 0%</span>
+        <div class="kpi-progress"><div class="kpi-progress-bar" style="width: 0%;"></div></div>
+      </div>
+    </div>
+    <div class="kpi-card" data-kpi="orders">
+      <div class="kpi-icon">📦</div>
+      <div class="kpi-content">
+        <span class="kpi-label">Orders</span>
+        <span class="kpi-value" id="kpiOrders">0</span>
+        <span class="kpi-trend" id="kpiTrendOrders">↑ 0%</span>
+        <div class="kpi-progress"><div class="kpi-progress-bar" style="width: 0%;"></div></div>
+      </div>
+    </div>
+    <div class="kpi-card" data-kpi="revenue">
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-content">
+        <span class="kpi-label">Revenue</span>
+        <span class="kpi-value" id="kpiRevenue">₦0</span>
+        <span class="kpi-trend" id="kpiTrendRevenue">↑ 0%</span>
+        <div class="kpi-progress"><div class="kpi-progress-bar" style="width: 0%;"></div></div>
+      </div>
+    </div>
+    <div class="kpi-card" data-kpi="automation">
+      <div class="kpi-icon">🤖</div>
+      <div class="kpi-content">
+        <span class="kpi-label">Automation</span>
+        <span class="kpi-value" id="kpiAutomation">0%</span>
+        <span class="kpi-trend" id="kpiTrendAutomation">↑ 0%</span>
+        <div class="kpi-progress"><div class="kpi-progress-bar" style="width: 0%;"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CHART + BOT STATUS ====== -->
+  <section class="middle-grid">
+    <div class="card chart-card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">📈 Revenue & Orders</span>
+          <span class="card-subtitle">Performance overview</span>
+        </div>
+        <div class="chart-time-filters">
+          <button class="filter-chip active" data-range="today">Today</button>
+          <button class="filter-chip" data-range="week">Week</button>
+          <button class="filter-chip" data-range="month">Month</button>
+        </div>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="revenueChart"></canvas>
+      </div>
+    </div>
+    <div class="card bot-status-card">
+      <div class="card-header">
+        <span class="card-title">🤖 Bot Status</span>
+        <div class="bot-toggle-wrapper">
+          <span class="bot-live-dot" id="botLiveDot"></span>
+          <button class="bot-toggle-btn" id="botToggleBtn">Pause</button>
+        </div>
+      </div>
+      <div class="bot-body">
+        <div class="bot-channels">
+          <div class="channel-item"><span>WhatsApp</span> <span class="channel-badge connected">✓</span></div>
+          <div class="channel-item"><span>Telegram</span> <span class="channel-badge connected">✓</span></div>
+          <div class="channel-item"><span>Web Chat</span> <span class="channel-badge connected">✓</span></div>
+        </div>
+        <div class="bot-stats-grid">
+          <div><span class="stat-label">Handled</span><span class="stat-value" id="botHandled">293</span></div>
+          <div><span class="stat-label">Handoffs</span><span class="stat-value" id="botHandoffs">49</span></div>
+          <div><span class="stat-label">Avg Resp</span><span class="stat-value" id="botAvgResp">1.2s</span></div>
+          <div><span class="stat-label">CSAT</span><span class="stat-value" id="botCsat">94%</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SECTION PREVIEWS GRID (12 CARDS: 4x3) ====== -->
+  <section class="previews-grid" id="previewsGrid">
+
+    <!-- 1. CUSTOMERS -->
+    <div class="preview-card" data-view="customers">
+      <div class="preview-header">
+        <span class="preview-icon">👥</span>
+        <span class="preview-title">Customers</span>
+        <button class="preview-viewall" data-route="customers">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvCustomersTotal">0</span><span class="pm-label">Total</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvCustomersActive">0</span><span class="pm-label">Active</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvCustomersFollowup">0</span><span class="pm-label">Follow-up</span></div>
+      </div>
+      <div class="preview-list" id="pvCustomersList"></div>
+    </div>
+
+    <!-- 2. ORDERS (NEW) -->
+    <div class="preview-card" data-view="orders">
+      <div class="preview-header">
+        <span class="preview-icon">🛒</span>
+        <span class="preview-title">Orders</span>
+        <button class="preview-viewall" data-route="orders">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvOrdersTotal">0</span><span class="pm-label">Total</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvOrdersPending">0</span><span class="pm-label">Pending</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvOrdersFulfilled">0</span><span class="pm-label">Fulfilled</span></div>
+      </div>
+      <div class="preview-list" id="pvOrdersList"></div>
+    </div>
+
+    <!-- 3. CATALOGUE -->
+    <div class="preview-card" data-view="catalogue">
+      <div class="preview-header">
+        <span class="preview-icon">📦</span>
+        <span class="preview-title">Catalogue</span>
+        <button class="preview-viewall" data-route="catalogue">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvCatalogueTotal">0</span><span class="pm-label">Total</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvCatalogueLow">0</span><span class="pm-label">Low Stock</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvCatalogueOut">0</span><span class="pm-label">Out of Stock</span></div>
+      </div>
+      <div class="preview-list" id="pvCatalogueList"></div>
+    </div>
+
+    <!-- 4. PAYMENTS -->
+    <div class="preview-card" data-view="payments">
+      <div class="preview-header">
+        <span class="preview-icon">💳</span>
+        <span class="preview-title">Payments</span>
+        <button class="preview-viewall" data-route="payments">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvPaymentsCollected">₦0</span><span class="pm-label">Collected</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvPaymentsPending">0</span><span class="pm-label">Pending</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvPaymentsFailed">0</span><span class="pm-label">Failed</span></div>
+      </div>
+      <div class="preview-list" id="pvPaymentsList"></div>
+    </div>
+
+    <!-- 5. CONVERSATIONS -->
+    <div class="preview-card" data-view="conversations">
+      <div class="preview-header">
+        <span class="preview-icon">💬</span>
+        <span class="preview-title">Conversations</span>
+        <button class="preview-viewall" data-route="conversations">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvConversationsTotal">0</span><span class="pm-label">Total</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvConversationsOpen">0</span><span class="pm-label">Open</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvConversationsBot">0</span><span class="pm-label">Bot Handled</span></div>
+      </div>
+      <div class="preview-list" id="pvConversationsList"></div>
+    </div>
+
+    <!-- 6. LEADS -->
+    <div class="preview-card" data-view="leads">
+      <div class="preview-header">
+        <span class="preview-icon">🎯</span>
+        <span class="preview-title">Leads</span>
+        <button class="preview-viewall" data-route="leads">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvLeadsNew">0</span><span class="pm-label">New</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvLeadsContacted">0</span><span class="pm-label">Contacted</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvLeadsConverted">0</span><span class="pm-label">Converted</span></div>
+      </div>
+      <div class="preview-list" id="pvLeadsList"></div>
+    </div>
+
+    <!-- 7. BROADCASTS -->
+    <div class="preview-card" data-view="broadcasts">
+      <div class="preview-header">
+        <span class="preview-icon">📢</span>
+        <span class="preview-title">Broadcasts</span>
+        <button class="preview-viewall" data-route="broadcasts">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvBroadcastsSent">0</span><span class="pm-label">Sent</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvBroadcastsScheduled">0</span><span class="pm-label">Scheduled</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvBroadcastsDraft">0</span><span class="pm-label">Draft</span></div>
+      </div>
+      <div class="preview-list" id="pvBroadcastsList"></div>
+    </div>
+
+    <!-- 8. ANALYTICS -->
+    <div class="preview-card" data-view="analytics">
+      <div class="preview-header">
+        <span class="preview-icon">📊</span>
+        <span class="preview-title">Analytics</span>
+        <button class="preview-viewall" data-route="analytics">View All →</button>
+      </div>
+      <div class="preview-analytics-grid">
+        <div class="pa-item"><span class="pa-value" id="pvAnalyticsRevenue">₦0</span><span class="pa-label">Revenue</span></div>
+        <div class="pa-item"><span class="pa-value" id="pvAnalyticsOrders">0</span><span class="pa-label">Orders</span></div>
+        <div class="pa-item"><span class="pa-value" id="pvAnalyticsAutomation">0%</span><span class="pa-label">Automation</span></div>
+        <div class="pa-item"><span class="pa-value" id="pvAnalyticsCustomers">0</span><span class="pa-label">Customers</span></div>
+      </div>
+    </div>
+
+    <!-- 9. FAQs -->
+    <div class="preview-card" data-view="faqs">
+      <div class="preview-header">
+        <span class="preview-icon">❓</span>
+        <span class="preview-title">FAQs</span>
+        <button class="preview-viewall" data-route="faqs">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvFaqsTotal">0</span><span class="pm-label">Total</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvFaqsCategories">0</span><span class="pm-label">Categories</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvFaqsTop">—</span><span class="pm-label">Top Category</span></div>
+      </div>
+      <div class="preview-list" id="pvFaqsList"></div>
+    </div>
+
+    <!-- 10. TEAM -->
+    <div class="preview-card" data-view="team">
+      <div class="preview-header">
+        <span class="preview-icon">👥</span>
+        <span class="preview-title">Team</span>
+        <button class="preview-viewall" data-route="team">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvTeamTotal">0</span><span class="pm-label">Members</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvTeamOnline">0</span><span class="pm-label">Online</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvTeamPending">0</span><span class="pm-label">Pending</span></div>
+      </div>
+      <div class="preview-list" id="pvTeamList"></div>
+    </div>
+
+    <!-- 11. BUSINESS -->
+    <div class="preview-card" data-view="business">
+      <div class="preview-header">
+        <span class="preview-icon">🏢</span>
+        <span class="preview-title">Business</span>
+        <button class="preview-viewall" data-route="business">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvBusinessName">—</span><span class="pm-label">Current</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvBusinessCategory">—</span><span class="pm-label">Category</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvBusinessConnected">0</span><span class="pm-label">Connected</span></div>
+      </div>
+      <div class="preview-list" id="pvBusinessList"></div>
+    </div>
+
+    <!-- 12. NOTIFICATIONS -->
+    <div class="preview-card" data-view="notifications">
+      <div class="preview-header">
+        <span class="preview-icon">🔔</span>
+        <span class="preview-title">Notifications</span>
+        <button class="preview-viewall" data-route="notifications">View All →</button>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric"><span class="pm-value" id="pvNotifTotal">0</span><span class="pm-label">Total</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvNotifUnread">0</span><span class="pm-label">Unread</span></div>
+        <div class="preview-metric"><span class="pm-value" id="pvNotifRead">0</span><span class="pm-label">Read</span></div>
+      </div>
+      <div class="preview-list" id="pvNotifList"></div>
+    </div>
+
+  </section>
+
+  <!-- ====== LIVE ACTIVITY FEED + QUICK ACTIONS ====== -->
+  <section class="bottom-grid">
+    <div class="card feed-card">
+      <div class="card-header">
+        <span class="card-title">⚡ Live Activity</span>
+        <div class="feed-tabs">
+          <button class="feed-tab active" data-feed="all">All</button>
+          <button class="feed-tab" data-feed="orders">Orders</button>
+          <button class="feed-tab" data-feed="chats">Chats</button>
+          <button class="feed-tab" data-feed="alerts">Alerts</button>
+        </div>
+      </div>
+      <div class="feed-list" id="feedList">
+        <div class="feed-empty">Loading feed...</div>
+      </div>
+    </div>
+
+    <div class="card quick-actions-card">
+      <div class="card-header">
+        <span class="card-title">⚡ Quick Actions</span>
+      </div>
+      <div class="quick-actions-grid">
+        <button class="qa-item" data-route="catalogue"><span class="qa-icon">📦</span> Add Catalogue</button>
+        <button class="qa-item" data-route="faqs"><span class="qa-icon">❓</span> Create FAQ</button>
+        <button class="qa-item" data-route="bot"><span class="qa-icon">⚡</span> Automate</button>
+        <button class="qa-item" data-route="customers"><span class="qa-icon">👤</span> Add Customer</button>
+        <button class="qa-item" data-route="orders"><span class="qa-icon">🛒</span> New Order</button>
+        <button class="qa-item" data-route="broadcasts"><span class="qa-icon">📢</span> Broadcast</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+

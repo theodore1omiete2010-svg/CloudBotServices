@@ -1,0 +1,147 @@
+<div class="workspace-view" id="view-analytics">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <div class="eyebrow">BUSINESS INTELLIGENCE</div>
+      <h1>Analytics</h1>
+      <p>Understand customers, automation, orders and revenue performance.</p>
+    </div>
+    <div class="header-actions">
+      <button class="button" id="analyticsPeriodBtn">Last 30 Days ▾</button>
+      <button class="button primary" id="analyticsExportBtn">Export</button>
+    </div>
+  </div>
+
+  <!-- Metric Strip -->
+  <div class="metric-strip">
+    <div class="metric-box highlight">
+      <div class="label">Revenue</div>
+      <div class="value" id="analyticsRevenue">₦485K</div>
+      <div class="meta">↑ 15.7%</div>
+    </div>
+    <div class="metric-box">
+      <div class="label">Orders</div>
+      <div class="value" id="analyticsOrders">86</div>
+      <div class="meta">↑ 8.2%</div>
+    </div>
+    <div class="metric-box">
+      <div class="label">Automation</div>
+      <div class="value" id="analyticsAutomation">85.8%</div>
+      <div class="meta">↑ 4.2%</div>
+    </div>
+    <div class="metric-box">
+      <div class="label">Customers</div>
+      <div class="value" id="analyticsCustomers">1,248</div>
+      <div class="meta">↑ 12.4%</div>
+    </div>
+  </div>
+
+  <!-- Chart & Top Items Grid -->
+  <div class="page-grid">
+    <div class="card surface-card span-8">
+      <div class="section-title">Revenue trend</div>
+      <div class="section-subtitle">Performance overview</div>
+      <div style="height:300px;margin-top:15px;position:relative;">
+        <canvas id="analyticsChart"></canvas>
+      </div>
+    </div>
+    <div class="card surface-card span-4">
+      <div class="section-title">Top catalogue items</div>
+      <div class="data-list" style="margin-top:8px">
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">Chicken Shawarma</div>
+            <div class="list-sub">42 orders</div>
+          </div>
+          <b>₦189K</b>
+        </div>
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">Jollof Rice &amp; Chicken</div>
+            <div class="list-sub">31 orders</div>
+          </div>
+          <b>₦201K</b>
+        </div>
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">Beef Burger</div>
+            <div class="list-sub">26 orders</div>
+          </div>
+          <b>₦130K</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional Metrics -->
+  <div class="page-grid" style="margin-top:16px;">
+    <div class="card surface-card span-6">
+      <div class="section-title">Orders by category</div>
+      <div class="data-list" style="margin-top:8px">
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">Meals</div>
+            <div class="list-sub">45% of orders</div>
+          </div>
+          <span class="tag">45%</span>
+        </div>
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">Burgers</div>
+            <div class="list-sub">25% of orders</div>
+          </div>
+          <span class="tag">25%</span>
+        </div>
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">Shawarma</div>
+            <div class="list-sub">18% of orders</div>
+          </div>
+          <span class="tag">18%</span>
+        </div>
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">Drinks</div>
+            <div class="list-sub">12% of orders</div>
+          </div>
+          <span class="tag">12%</span>
+        </div>
+      </div>
+    </div>
+    <div class="card surface-card span-6">
+      <div class="section-title">Customer insights</div>
+      <div class="data-list" style="margin-top:8px">
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">New customers</div>
+            <div class="list-sub">Last 30 days</div>
+          </div>
+          <b>247</b>
+        </div>
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">Returning customers</div>
+            <div class="list-sub">Repeat orders</div>
+          </div>
+          <b>68%</b>
+        </div>
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">Avg. order value</div>
+            <div class="list-sub">Per transaction</div>
+          </div>
+          <b>₦5,640</b>
+        </div>
+        <div class="list-row">
+          <div class="list-main">
+            <div class="list-title">Bot engagement</div>
+            <div class="list-sub">Orders via bot</div>
+          </div>
+          <b>92%</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,15 @@
+
+/* Layout layer for the modular CBS dashboard.
+   Original layout rules remain in base.css to preserve Batch 5 rendering. */
+#viewContainer { width:100%; }
+.main { min-width:0; }
+@media (max-width: 900px) {
+  .main { width:100%; }
+}
+
+/* Fix for bottom nav overlap */
+.content, #viewContainer, .main {
+  padding-bottom: 50px; /* Adjust 80px to whatever your bottom nav height is */
+}
+
+

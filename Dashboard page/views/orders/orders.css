@@ -1,0 +1,222 @@
+/* --- Orders Card Styles --- */
+.order-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 18px 16px;
+  margin-bottom: 14px;
+}
+
+.kv-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+
+.kv-row .label {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 400;
+  min-width: 80px;
+}
+
+.kv-row .value {
+  color: var(--text-primary);
+  font-size: 14px;
+  text-align: right;
+  font-weight: 400;
+  word-break: break-word;
+  max-width: 70%;
+}
+
+/* --- GUARANTEED PILL STYLES --- */
+.status-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 4px 14px !important;
+  border-radius: 50px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+.status-pill .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* --- Status Colors (Light Mode Default) --- */
+.status-pill.pending { background: #fefcbf; color: #975a16; }
+.status-pill.pending .dot { background: #975a16; }
+
+.status-pill.paid { background: #c6f6d5; color: #22543d; }
+.status-pill.paid .dot { background: #22543d; }
+
+.status-pill.fulfilled { background: #dbeafe; color: #1e40af; }
+.status-pill.fulfilled .dot { background: #1e40af; }
+
+.status-pill.cancelled { background: #fed7d7; color: #9b2c2c; }
+.status-pill.cancelled .dot { background: #9b2c2c; }
+
+/* --- Status Colors (Dark Mode Overrides) --- */
+[data-theme="dark"] .status-pill.pending { background: #3b3b1a; color: #f6e05e; }
+[data-theme="dark"] .status-pill.pending .dot { background: #f6e05e; }
+
+[data-theme="dark"] .status-pill.paid { background: #1c4532; color: #68d391; }
+[data-theme="dark"] .status-pill.paid .dot { background: #68d391; }
+
+[data-theme="dark"] .status-pill.fulfilled { background: #1a365d; color: #63b3ed; }
+[data-theme="dark"] .status-pill.fulfilled .dot { background: #63b3ed; }
+
+[data-theme="dark"] .status-pill.cancelled { background: #3b1c1c; color: #fc8181; }
+[data-theme="dark"] .status-pill.cancelled .dot { background: #fc8181; }
+
+/* --- Action Button --- */
+.action-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-card);
+}
+
+.btn-action-view {
+  background: transparent;
+  border: 1px solid var(--btn-action-border);
+  color: var(--btn-action-text);
+  border-radius: 50px;
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-action-view:hover {
+  background: var(--btn-action-border);
+  color: var(--text-primary);
+}
+
+/* --- Modal Overlay --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 20px;
+  max-width: 480px;
+  width: 100%;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* --- Modal Header --- */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.modal-eyebrow {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-title {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+}
+.modal-close:hover { color: var(--text-primary); }
+
+/* --- Modal Form --- */
+.form-group {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  background: var(--input-bg, #f7fafc);
+  border: 1px solid var(--border-card);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+  box-sizing: border-box;
+}
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select {
+  background: #1c2537;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4a7cf7;
+  box-shadow: 0 0 0 3px rgba(74, 124, 247, 0.15);
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+.form-row .half { flex: 1; }
+
+/* --- Modal Footer --- */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+

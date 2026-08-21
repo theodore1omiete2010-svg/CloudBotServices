@@ -1,0 +1,21 @@
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import { env } from './config/env.js';
+import authRoutes from './routes/auth.routes.js';
+import businessRoutes from './routes/business.routes.js';
+import { errorHandler, notFound } from './middleware/error-handler.js';
+
+const app = express();
+app.set('trust proxy', 1);
+app.use(helmet());
+app.use(cors({ origin: env.frontendOrigin ? env.frontendOrigin.split(',').map(x=>x.trim()) : true, credentials:true }));
+app.use(express.json({ limit:'1mb' }));
+app.use(cookieParser());
+app.get('/health', (req,res)=>res.json({ status:'ok', service:'cbs-backend' }));
+app.use('/api/auth', authRoutes);
+app.use('/api/business', businessRoutes);
+app.use(notFound);
+app.use(errorHandler);
+export default app;

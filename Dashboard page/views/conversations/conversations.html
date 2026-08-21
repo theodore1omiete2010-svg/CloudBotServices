@@ -1,0 +1,23 @@
+<div class="workspace-view" id="view-conversations">
+<div class="page-header"><div><div class="eyebrow">CUSTOMER COMMUNICATION</div><h1>Conversations</h1><p>Monitor customer chats, bot handling and human handoffs.</p></div><div class="header-actions"><button class="button" data-action="filter">Filter</button><button class="button primary" data-action="new-broadcast">New message</button></div></div>
+<div class="metric-strip"><div class="metric-box"><div class="label">Open</div><div class="value">8</div><div class="meta">Need attention</div></div><div class="metric-box"><div class="label">Bot handled</div><div class="value">293</div><div class="meta">Today</div></div><div class="metric-box"><div class="label">Handoffs</div><div class="value">49</div><div class="meta">Human support</div></div><div class="metric-box"><div class="label">Avg response</div><div class="value">1.2s</div><div class="meta">Bot response time</div></div></div>
+<div class="page-grid"><div class="card surface-card span-8"><div class="section-header"><div><div class="section-title">Inbox</div><div class="section-subtitle">Latest customer conversations</div></div><span class="tag">Live</span></div>
+
+<div class="page-search-row"><input placeholder="Search conversations..."/></div>
+
+<!-- Updated Filter Pills (New: Human handled) -->
+<div class="filter-group">
+<span class="filter-pill active">All</span>
+<span class="filter-pill">Needs attention</span>
+<span class="filter-pill">Bot handled</span>
+<span class="filter-pill">Human handled</span>
+</div>
+
+<!-- DATA LIST (Populated by JS) -->
+<div id="conversationList" class="data-list"></div>
+
+</div>
+<div class="card surface-card span-4"><div class="section-title">Conversation health</div><div class="section-subtitle">Automation quality</div><div style="margin-top:20px"><div class="list-sub">Automation rate <b>85.8%</b></div><div class="progress" style="margin-top:7px"><span style="width:85.8%"></span></div></div><div class="toggle-line"><div class="toggle-copy"><strong>Auto handoff</strong><span>Escalate difficult chats</span></div><button class="switch on"></button></div><div class="toggle-line"><div class="toggle-copy"><strong>Typing indicator</strong><span>Show bot activity</span></div><button class="switch on"></button></div></div></div>
+</div>
+
+

@@ -1,0 +1,140 @@
+/* --- Team Card Layout (Horizontal Row) --- */
+.team-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+/* --- Avatar --- */
+.team-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  background-color: var(--primary-soft);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+/* --- Main Info Block --- */
+.team-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0; /* Prevents long emails from breaking the flexbox */
+}
+
+/* --- Name & Pills Row (Sits on top) --- */
+.team-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.team-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* --- Email (Sits below) --- */
+.team-email {
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Role & Status Pills --- */
+.pill-owner { background: #1a365d; color: #63b3ed; padding: 2px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.pill-admin { background: #2d1b4e; color: #b794f4; padding: 2px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.pill-agent { background: #2d3748; color: #cbd5e0; padding: 2px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+
+.status-pill { padding: 2px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.status-pill.active { background: rgba(22,163,74,.10); color: var(--success); }
+.status-pill.pending { background: rgba(217,119,6,.12); color: var(--warning); }
+
+/* --- Action Buttons (Pinned to the far right) --- */
+.team-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0; /* Prevents buttons from squishing */
+}
+
+.btn-team-edit {
+  background: transparent;
+  border: 1px solid var(--btn-action-border);
+  color: var(--btn-action-text);
+  border-radius: 50px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-team-edit:hover { background: var(--btn-action-border); color: var(--text-primary); }
+
+.btn-team-delete {
+  background: transparent;
+  border: 1px solid #e53e3e;
+  color: #e53e3e;
+  border-radius: 50px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-team-delete:hover { background: #e53e3e; color: #fff; }
+
+
+/* --- Mobile Responsive Fixes --- */
+@media (max-width: 600px) {
+  .team-card {
+    flex-wrap: wrap;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .team-info {
+    /* Takes up remaining space next to avatar */
+    flex: 1; 
+    min-width: 0;
+  }
+
+  .team-name-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* Move buttons to a full-width bottom row on mobile */
+  .team-actions {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-card, rgba(255, 255, 255, 0.08));
+  }
+
+  .btn-team-edit,
+  .btn-team-delete {
+    flex: 1;
+    text-align: center;
+    padding: 8px 12px;
+  }
+}
+
+

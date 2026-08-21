@@ -1,0 +1,68 @@
+<div class="management-view" id="view-customers">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <div class="eyebrow">CUSTOMER MANAGEMENT</div>
+      <h1>Customers</h1>
+      <p>Search, filter and review customers for the selected business.</p>
+    </div>
+    <div class="header-actions">
+      <button class="button primary" id="addCustomerBtn">+ Add Customer</button>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="management-summary">
+    <div class="card summary-card">
+      <div class="summary-label">Total Customers</div>
+      <div class="summary-value" id="customerTotal">0</div>
+      <div class="summary-meta">All customer records</div>
+    </div>
+    <div class="card summary-card">
+      <div class="summary-label">Active</div>
+      <div class="summary-value" id="customerActive">0</div>
+      <div class="summary-meta">Recently engaged</div>
+    </div>
+    <div class="card summary-card">
+      <div class="summary-label">New This Month</div>
+      <div class="summary-value" id="customerNew">0</div>
+      <div class="summary-meta">Sample dashboard data</div>
+    </div>
+    <div class="card summary-card">
+      <div class="summary-label">Needs Follow-up</div>
+      <div class="summary-value" id="customerFollowup">0</div>
+      <div class="summary-meta">Requires attention</div>
+    </div>
+  </div>
+
+<!-- Toolbar -->
+<div class="management-toolbar">
+  <div class="management-toolbar-left">
+    <input aria-label="Search customers" class="management-search" id="customerSearch" placeholder="Search name, phone or email..." type="search" />
+    <div class="filter-pills" id="filterPills">
+      <button class="filter-pill active" data-filter="all">All</button>
+      <button class="filter-pill" data-filter="active">Active</button>
+      <button class="filter-pill" data-filter="inactive">Inactive</button>
+      <button class="filter-pill" data-filter="followup">Needs follow-up</button>
+    </div>
+  </div>
+  <div class="management-toolbar-right">
+    <button class="button" id="clearCustomerFilter">Clear</button>
+  </div>
+</div>
+
+  <!-- Customer Cards Container -->
+  <div class="card surface-card">
+    <div id="customersContainer"></div>
+    <div class="empty-state" id="customersEmpty" style="display:none;">
+      <div class="empty-icon">♙</div>
+      <h3>No customers found</h3>
+      <p>Try changing your search or filter. Customer records will eventually come from the CBS database.</p>
+      <button class="button" id="resetCustomersEmpty">Reset filters</button>
+    </div>
+  </div>
+</div>
+
+
+
+
